@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjt.cai.mumschool.dao.WeixinQrMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.WeixinQr">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="type" property="type" />
+		<result column="status" property="status" />
+		<result column="snum" property="snum" />
+		<result column="msg" property="msg" />
+		<result column="qr_data" property="qrData" />
+		<result column="ticket" property="ticket" />
+		<result column="create_date" property="createDate" />
+	</resultMap>
+
+</mapper>

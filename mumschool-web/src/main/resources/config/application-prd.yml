@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/mumschool?characterEncoding=utf8&useSSL=true
+    username: root
+    password: 123456
+weixin:
+  conf:
+    appId: wxd10f48afa0e32070
+    appsecret: 1b9729aac5245443bc9ee8a5437f3cf2
+    base_url: http://mumschool.ngrok.xiaomiqiu.cn/mumschool/sys/handler
+    weixin_token: mummyCathedra
