@@ -1,10 +1,10 @@
 package com.sjt.cai.mumschool.web.interceptor;
 
 import com.sjt.cai.mumschool.biz.service.TUserService;
-import com.sjt.cai.mumschool.common.constant.WeixinFinalValue;
-import com.sjt.cai.mumschool.common.dto.WUser;
-import com.sjt.cai.mumschool.common.dto.WeixinContext;
-import com.sjt.cai.mumschool.common.service.UserService;
+import com.sjt.cai.mumschool.wechat.constant.WeixinFinalValue;
+import com.sjt.cai.mumschool.wechat.dto.WUser;
+import com.sjt.cai.mumschool.wechat.dto.WeixinContext;
+import com.sjt.cai.mumschool.wechat.service.UserService;
 import com.sjt.cai.mumschool.entity.po.TUserPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

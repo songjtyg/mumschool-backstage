@@ -20,6 +20,11 @@
     </dependency>
     <dependency>
         <groupId>com.sjt.cai.mumschool</groupId>
+        <artifactId>mumschool-wechat</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+        <groupId>com.sjt.cai.mumschool</groupId>
         <artifactId>mumschool-dao</artifactId>
         <version>1.0-SNAPSHOT</version>
     </dependency>

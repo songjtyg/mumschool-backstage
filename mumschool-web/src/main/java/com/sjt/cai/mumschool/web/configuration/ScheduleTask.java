@@ -1,7 +1,7 @@
 package com.sjt.cai.mumschool.web.configuration;
 
-import com.sjt.cai.mumschool.common.dto.WeixinContext;
-import com.sjt.cai.mumschool.common.service.impl.RefreshAccessTokenTaskServiceImpl;
+import com.sjt.cai.mumschool.wechat.dto.WeixinContext;
+import com.sjt.cai.mumschool.wechat.service.impl.RefreshAccessTokenTaskServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

@@ -25,12 +25,12 @@
         <mybatisplus.version>2.1.5</mybatisplus.version>
     </properties>
     <modules>
-        <module>mumschool-api</module>
+        <module>mumschool-common</module>
+        <module>mumschool-wechat</module>
         <module>mumschool-entity</module>
         <module>mumschool-dao</module>
         <module>mumschool-biz</module>
         <module>mumschool-web</module>
-        <module>mumschool-common</module>
     </modules>
     <dependencyManagement>
         <dependencies>

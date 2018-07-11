@@ -1,6 +1,6 @@
 package com.sjt.cai.mumschool.biz.service.impl;
 
-import com.sjt.cai.mumschool.common.service.WqrService;
+import com.sjt.cai.mumschool.wechat.service.WqrService;
 import com.sjt.cai.mumschool.entity.po.WeixinQr;
 import com.sjt.cai.mumschool.dao.WeixinQrMapper;
 import com.sjt.cai.mumschool.biz.service.WeixinQrService;

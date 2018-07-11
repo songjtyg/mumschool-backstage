@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
  */
 @SpringBootApplication(excludeName = "*Service",
         scanBasePackages = {"com.sjt.cai",
-        "com.sjt.cai.mumschool.common.service.impl",
+        "com.sjt.cai.mumschool.com.sjt.cai.mumschool.wechat.service.impl",
         "com.sjt.cai.mumschool.biz.service.impl"})
 public class MainApp extends SpringBootServletInitializer {
     public static void main(String[] args) {

@@ -1,18 +1,13 @@
 package com.sjt.cai.mumschool.web.component;
 
-import com.sjt.cai.mumschool.common.dto.WeixinContext;
-import com.sjt.cai.mumschool.common.service.impl.RefreshAccessTokenTaskServiceImpl;
-import com.sjt.cai.mumschool.web.component.WeixinContextProperties;
+import com.sjt.cai.mumschool.wechat.dto.WeixinContext;
+import com.sjt.cai.mumschool.wechat.service.impl.RefreshAccessTokenTaskServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

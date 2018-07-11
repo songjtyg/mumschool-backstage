@@ -3,9 +3,8 @@ package com.sjt.cai.mumschool.web.controler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sjt.cai.mumschool.biz.service.WeixinMenuService;
-import com.sjt.cai.mumschool.common.dto.WeixinMenuDto;
-import com.sjt.cai.mumschool.common.service.MenuService;
-import com.sjt.cai.mumschool.entity.po.TUserPO;
+import com.sjt.cai.mumschool.wechat.dto.WeixinMenuDto;
+import com.sjt.cai.mumschool.wechat.service.MenuService;
 import com.sjt.cai.mumschool.entity.po.WeixinMenuPO;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;

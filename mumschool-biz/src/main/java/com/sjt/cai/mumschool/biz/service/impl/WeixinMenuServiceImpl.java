@@ -3,7 +3,7 @@ package com.sjt.cai.mumschool.biz.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.sjt.cai.mumschool.biz.service.WeixinMenuService;
-import com.sjt.cai.mumschool.common.dto.WeixinMenuDto;
+import com.sjt.cai.mumschool.wechat.dto.WeixinMenuDto;
 import com.sjt.cai.mumschool.dao.WeixinMenuMapper;
 import com.sjt.cai.mumschool.entity.po.WeixinMenuPO;
 import org.springframework.stereotype.Service;

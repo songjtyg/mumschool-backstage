@@ -1,7 +1,6 @@
 package com.sjt.cai.mumschool.biz.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sjt.cai.mumschool.common.dto.WeixinMenuDto;
+import com.sjt.cai.mumschool.wechat.dto.WeixinMenuDto;
 import com.sjt.cai.mumschool.entity.po.WeixinMenuPO;
 import com.baomidou.mybatisplus.service.IService;
 
