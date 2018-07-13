@@ -1,4 +1,4 @@
-package com.sjt.cai.mumschool.web.controller;
+package com.sjt.cai.mumschool.web.controler;
 
 
 import com.sjt.cai.mumschool.biz.service.WeixinQrService;

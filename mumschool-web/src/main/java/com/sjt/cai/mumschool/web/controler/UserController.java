@@ -101,10 +101,6 @@ public class UserController {
             resp.getWriter().println(0);
         }
     }
-
-
-
-
     private WeixinQr generateLoginQr(){
         WeixinQr wq = new WeixinQr();
         wq.setName("扫码登陆");
@@ -113,6 +109,6 @@ public class UserController {
         wq.setStatus(0);
         wq.setType(WeixinQr.TEMP_LOGIN);
         return wq;
-
     }
+
 }

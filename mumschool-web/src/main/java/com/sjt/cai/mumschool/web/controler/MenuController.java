@@ -33,6 +33,11 @@ public class MenuController {
     @Inject
     private MenuService menuService;
 
+    @PostMapping(value="/test")
+    public String test(HttpSession httpSession){
+        System.out.println(httpSession.getId());
+        return "{}";
+    }
     @GetMapping("/publishMenu")
     public void publishMenu() throws JsonProcessingException {
         List<WeixinMenuPO> wmps = weixinMenuService.listAll();
@@ -90,10 +95,5 @@ public class MenuController {
 //        return "weixinMenu/publish";
 //    }
 
-    @PostMapping(value="/login")
-    public String login(HttpSession httpSession){
-        System.out.println(httpSession.getId());
-        return "{}";
-    }
 }
 

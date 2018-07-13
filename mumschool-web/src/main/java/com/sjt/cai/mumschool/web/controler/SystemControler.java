@@ -44,6 +44,13 @@ public class SystemControler {
             resp.getWriter().println(echostr);
         }
     }
+
+    /**
+     * weChat消息接收
+     * @param req
+     * @param resp
+     * @throws IOException
+     */
     @PostMapping(value="/handler")
     public void handlerPost(HttpServletRequest req,HttpServletResponse resp)throws IOException{
         req.setCharacterEncoding("utf-8");
