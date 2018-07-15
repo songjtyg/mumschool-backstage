@@ -1,6 +1,6 @@
 package com.sjt.cai.mumschool.biz.service.impl;
 
-import com.sjt.cai.mumschool.wechat.service.WqrService;
+import com.sjt.cai.mumschool.wechat.service.WeChatWqrService;
 import com.sjt.cai.mumschool.entity.po.WeixinQr;
 import com.sjt.cai.mumschool.dao.WeixinQrMapper;
 import com.sjt.cai.mumschool.biz.service.WeixinQrService;
@@ -22,7 +22,7 @@ import java.util.Random;
 @Service
 public class WeixinQrServiceImpl extends ServiceImpl<WeixinQrMapper, WeixinQr> implements WeixinQrService {
     @Autowired
-    private WqrService wqrService;
+    private WeChatWqrService weChatWqrService;
 
     @Override
     public WeixinQr loadBySnum(int snum) {
@@ -77,9 +77,9 @@ public class WeixinQrServiceImpl extends ServiceImpl<WeixinQrMapper, WeixinQr> i
     private void setQrTicket(WeixinQr wq,int type){
         String ticket;
         if(type==0){
-            ticket = wqrService.loadTicketByBaseQr(wq.getSnum());
+            ticket = weChatWqrService.loadTicketByBaseQr(wq.getSnum());
         }else{
-            ticket = wqrService.loadTicketByTempQr(wq.getSnum());
+            ticket = weChatWqrService.loadTicketByTempQr(wq.getSnum());
         }
         if (ticket == null || "".equals(ticket)) throw new RuntimeException("从微信获取二维码失败！");
         wq.setTicket(ticket);

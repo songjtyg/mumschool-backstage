@@ -1,6 +1,7 @@
 package com.sjt.cai.mumschool.web.configuration;
 
 import com.sjt.cai.mumschool.web.interceptor.AuthenticateInterceptor;
+import com.sjt.cai.mumschool.web.interceptor.WeixinAuthenticateInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -18,7 +19,8 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
     public AuthenticateInterceptor authenticateInterceptor(){
         return new AuthenticateInterceptor();
     }
-
+    @Bean
+    public WeixinAuthenticateInterceptor weixinAuthenticateInterceptor(){return new WeixinAuthenticateInterceptor();};
     /**
      * 拦截器
      *
@@ -26,12 +28,12 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authenticateInterceptor()).addPathPatterns("/**").excludePathPatterns(
-                "/api/employeeContract/details",
-                "/api/customerContract/details",
-                "/api/employee/empEmployee/page",
+        registry.addInterceptor(weixinAuthenticateInterceptor()).addPathPatterns("/**").excludePathPatterns(
                 "/api/userManagementProxy/list",
                 "/api/workingCalendar/list");
+//        registry.addInterceptor(authenticateInterceptor()).addPathPatterns("/**").excludePathPatterns(
+//                "/api/userManagementProxy/list",
+//                "/api/workingCalendar/list");
         super.addInterceptors(registry);
     }
 

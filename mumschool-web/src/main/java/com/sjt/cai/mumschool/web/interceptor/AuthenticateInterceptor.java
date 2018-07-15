@@ -1,6 +1,6 @@
 package com.sjt.cai.mumschool.web.interceptor;
 
-import com.sjt.cai.mumschool.biz.service.TUserService;
+import com.sjt.cai.mumschool.biz.service.WeixinUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class AuthenticateInterceptor extends HandlerInterceptorAdapter {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticateInterceptor.class);
 
     @Autowired
-    private TUserService tUserService;
+    private WeixinUserService weixinUserService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -44,7 +44,7 @@ public class AuthenticateInterceptor extends HandlerInterceptorAdapter {
 //                token = request.getParameter("token");
 //            }
 //            if (StringUtils.hasText(token)) {
-//                Result<UserInfoResponseDTO> result = tUserService.getUserInfoByToken(token);
+//                Result<UserInfoResponseDTO> result = weixinUserService.getUserInfoByToken(token);
 //                if (result.getCode() == 0) {
 //                    UserInfoResponseDTO data = result.getObject();
 //                    UserContext.setUser(CommonTransform.convertToEntity(data, UserInfoBO.class));

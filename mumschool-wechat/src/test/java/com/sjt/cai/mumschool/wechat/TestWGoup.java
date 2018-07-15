@@ -1,8 +1,8 @@
 package com.sjt.cai.mumschool.wechat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sjt.cai.mumschool.wechat.service.GroupService;
-import com.sjt.cai.mumschool.wechat.dto.WGroup;
+import com.sjt.cai.mumschool.wechat.service.WeChatGroupService;
+import com.sjt.cai.mumschool.wechat.dto.WeChatGroup;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -12,24 +12,24 @@ import java.io.IOException;
 //@Contextconfiguration("/beans.xml")
 public class TestWGoup {
     @Inject
-    private GroupService groupService;
+    private WeChatGroupService weChatGroupService;
 
     @Test
     public void testAdd() throws JsonProcessingException {
-        WGroup g = new WGroup();
+        WeChatGroup g = new WeChatGroup();
         g.setId(100);
         g.setName("测试组");
-        groupService.add(g);
+        weChatGroupService.add(g);
 
     }
     @Test
     public void testQueryAll() throws IOException {
-        groupService.queryAll();
+        weChatGroupService.queryAll();
 
     }
     @Test
     public void testQueryUserGroup() throws IOException {
-        groupService.queryUserGroup("xxxxxxxxxxxxxxxxxxxxxx");
+        weChatGroupService.queryUserGroup("xxxxxxxxxxxxxxxxxxxxxx");
     }
 
 }

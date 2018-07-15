@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjt.cai.mumschool.dao.WeixinUserMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.WeixinUserPO">
+		<id column="id" property="id" />
+		<result column="openid" property="openid" />
+		<result column="nickname" property="nickname" />
+		<result column="sex" property="sex" />
+		<result column="language" property="language" />
+		<result column="country" property="country" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="headimgurl" property="headimgurl" />
+		<result column="subscribe_time" property="subscribe_time" />
+		<result column="remark" property="remark" />
+		<result column="groupid" property="groupid" />
+		<result column="tagid_list" property="tagid_list" />
+		<result column="subscribe_scene" property="subscribe_scene" />
+		<result column="qr_scene" property="qr_scene" />
+		<result column="qr_scene_str" property="qr_scene_str" />
+		<result column="user_name" property="userName" />
+		<result column="login_name" property="loginName" />
+		<result column="phone" property="phone" />
+		<result column="password" property="password" />
+		<result column="status" property="status" />
+		<result column="bind" property="bind" />
+		<result column="user_type" property="userType" />
+		<result column="creater" property="creater" />
+		<result column="create_time" property="createTime" />
+		<result column="modifier" property="modifier" />
+		<result column="modify_time" property="modifyTime" />
+		<result column="active" property="active" />
+	</resultMap>
+
+</mapper>

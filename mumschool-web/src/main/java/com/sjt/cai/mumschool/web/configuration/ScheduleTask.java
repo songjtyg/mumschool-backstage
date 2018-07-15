@@ -1,7 +1,6 @@
 package com.sjt.cai.mumschool.web.configuration;
 
-import com.sjt.cai.mumschool.wechat.dto.WeixinContext;
-import com.sjt.cai.mumschool.wechat.service.impl.RefreshAccessTokenTaskServiceImpl;
+import com.sjt.cai.mumschool.wechat.service.impl.WeChatRefreshAccessTokenTaskServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -14,7 +13,7 @@ import java.io.IOException;
 @EnableScheduling // 该注解必须要加
 public class ScheduleTask {
     @Autowired
-    private RefreshAccessTokenTaskServiceImpl refreshAccessTokenTaskService;
+    private WeChatRefreshAccessTokenTaskServiceImpl refreshAccessTokenTaskService;
     public void scheduleFreshccessToken() throws IOException {
         System.err.println("定时任务执行");
         refreshAccessTokenTaskService.refreshToken();

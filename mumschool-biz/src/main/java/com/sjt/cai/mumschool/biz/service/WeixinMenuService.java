@@ -1,6 +1,6 @@
 package com.sjt.cai.mumschool.biz.service;
 
-import com.sjt.cai.mumschool.wechat.dto.WeixinMenuDto;
+import com.sjt.cai.mumschool.wechat.dto.WeChatMenuDto;
 import com.sjt.cai.mumschool.entity.po.WeixinMenuPO;
 import com.baomidou.mybatisplus.service.IService;
 
@@ -34,5 +34,5 @@ public interface WeixinMenuService extends IService<WeixinMenuPO> {
 
     WeixinMenuPO loadByKey(String key);
 
-    List<WeixinMenuDto> generateWeixinMenuDto(List<WeixinMenuPO> menus);
+    List<WeChatMenuDto> generateWeixinMenuDto(List<WeixinMenuPO> menus);
 }

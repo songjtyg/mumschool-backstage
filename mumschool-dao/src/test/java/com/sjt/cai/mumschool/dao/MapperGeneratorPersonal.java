@@ -64,8 +64,8 @@ public class MapperGeneratorPersonal {
         StrategyConfig strategy = new StrategyConfig();
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
         strategy.setTablePrefix(new String[]{""});// 此处可以修改为您的表前缀
-        strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[]{"weixin_qr"}); // 需要生成的表
+        strategy.setNaming(NamingStrategy.underline_to_camel);// 表名，列名生成策略,
+        strategy.setInclude(new String[]{"weixinUser"}); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         //strategy.setLogicDeleteFieldName("is_active");
         mpg.setStrategy(strategy);
@@ -94,26 +94,26 @@ public class MapperGeneratorPersonal {
             }
         };
         //controller
-        focList.add(new FileOutConfig("/templates/controller.java.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return dirRootPath + "/mumschool-web/" + srcRootPath + modulePath + "/web/controller" + tableInfo.getEntityName() + "Controller.java";
-            }
-        });
+//        focList.add(new FileOutConfig("/templates/controller.java.vm") {
+//            @Override
+//            public String outputFile(TableInfo tableInfo) {
+//                return dirRootPath + "/mumschool-web/" + srcRootPath + modulePath + "/web/controller" + tableInfo.getEntityName() + "Controller.java";
+//            }
+//        });
         //service
-        focList.add(new FileOutConfig("/templates/service.java.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return dirRootPath + "/mumschool-biz/" + srcRootPath + modulePath + "/biz/service/" + tableInfo.getEntityName() + "Service.java";
-            }
-        });
+//        focList.add(new FileOutConfig("/templates/service.java.vm") {
+//            @Override
+//            public String outputFile(TableInfo tableInfo) {
+//                return dirRootPath + "/mumschool-biz/" + srcRootPath + modulePath + "/biz/service/" + tableInfo.getEntityName() + "Service.java";
+//            }
+//        });
         //serviceImpl
-        focList.add(new FileOutConfig("/templates/serviceImpl.java.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return dirRootPath + "/mumschool-biz/" + srcRootPath + modulePath + "/biz/service/impl/" + tableInfo.getEntityName() + "ServiceImpl.java";
-            }
-        });
+//        focList.add(new FileOutConfig("/templates/serviceImpl.java.vm") {
+//            @Override
+//            public String outputFile(TableInfo tableInfo) {
+//                return dirRootPath + "/mumschool-biz/" + srcRootPath + modulePath + "/biz/service/impl/" + tableInfo.getEntityName() + "ServiceImpl.java";
+//            }
+//        });
         //dao
         focList.add(new FileOutConfig("/templates/mapper.java.vm") {
             @Override

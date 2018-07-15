@@ -1,22 +1,23 @@
 package com.sjt.cai.mumschool.biz.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.sjt.cai.mumschool.biz.service.TUserService;
+import com.sjt.cai.mumschool.biz.service.WeixinUserService;
 import com.sjt.cai.mumschool.biz.service.WeixinMenuService;
 import com.sjt.cai.mumschool.biz.service.WeixinMessageService;
 import com.sjt.cai.mumschool.biz.service.WeixinQrService;
-import com.sjt.cai.mumschool.wechat.constant.WeixinFinalValue;
-import com.sjt.cai.mumschool.wechat.dto.WGroup;
-import com.sjt.cai.mumschool.wechat.dto.WUser;
-import com.sjt.cai.mumschool.wechat.msg.MessageCreateKit;
-import com.sjt.cai.mumschool.wechat.msg.MessageKit;
-import com.sjt.cai.mumschool.wechat.msg.WeixinEventKit;
-import com.sjt.cai.mumschool.wechat.service.GroupService;
-import com.sjt.cai.mumschool.wechat.service.UserService;
-import com.sjt.cai.mumschool.wechat.util.DuplicateMessageKit;
-import com.sjt.cai.mumschool.entity.po.TUserPO;
+import com.sjt.cai.mumschool.wechat.constant.WeChatFinalValue;
+import com.sjt.cai.mumschool.wechat.dto.WeChatGroup;
+import com.sjt.cai.mumschool.wechat.dto.WeChatUser;
+import com.sjt.cai.mumschool.wechat.util.WeChatMessageKit;
+import com.sjt.cai.mumschool.wechat.util.WeChatEventKit;
+import com.sjt.cai.mumschool.wechat.service.WeChatGroupService;
+import com.sjt.cai.mumschool.wechat.service.WeChatUserService;
+import com.sjt.cai.mumschool.wechat.util.WeChatDuplicateMessageKit;
+import com.sjt.cai.mumschool.entity.po.WeixinUserPO;
 import com.sjt.cai.mumschool.entity.po.WeixinMenuPO;
 import com.sjt.cai.mumschool.entity.po.WeixinQr;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,92 +29,94 @@ public class WeixinMessageServiceImpl implements WeixinMessageService {
     WeixinMenuService weixinMenuService;
 
     @Autowired
-    UserService userService;
+    WeChatUserService weChatUserService;
 
     @Autowired
-    TUserService tUserService;
+    WeixinUserService weixinUserService;
 
     @Autowired
-    private GroupService wGroupService;
+    private WeChatGroupService weChatGroupService;
     @Autowired
     private WeixinQrService weixinQrService;
-    @Autowired
-    private GroupService groupService;
 
     @Override
     public  String handlerMsg(Map<String, String> msgMap) throws IOException {
-        if (DuplicateMessageKit.checkDuplicate(msgMap)) {
-            String rel = DuplicateMessageKit.getRel(msgMap);
+        if (WeChatDuplicateMessageKit.checkDuplicate(msgMap)) {
+            String rel = WeChatDuplicateMessageKit.getRel(msgMap);
             return rel;
         }else {
             String msgType = msgMap.get("MsgType");
-            if (WeixinFinalValue.MSG_EVENT_TYPE.equals(msgType.trim())) {
+            if (WeChatFinalValue.MSG_EVENT_TYPE.equals(msgType.trim())) {
                 String event = msgMap.get("Event");
                 if("CLICK".equals(event)){
                     String keyCode = msgMap.get("EventKey");
                     WeixinMenuPO wm = weixinMenuService.loadByKey(keyCode);
-                    return WeixinEventKit.handlerClickEvent(msgMap,wm);
+                    return WeChatEventKit.handlerClickEvent(msgMap,wm);
                 }else if ("subscribe".equals(event)){
-                    TUserPO tUserPO = handlerUserInfo(msgMap);
+                    WeixinUserPO weixinUserPO = handlerUserInfo(msgMap);
                     String snum = getSence(msgMap,true);
-                    String openId = WeixinEventKit.extractOpenId(msgMap);
+                    String openid = WeChatEventKit.extractOpenid(msgMap);
                     if(snum != null){
                         WeixinQr wq = weixinQrService.loadBySnum(Integer.parseInt(snum));
                         if(wq.getType() == WeixinQr.SET_GROUP_TYPE)
-                       wGroupService.moveUserToGroup(openId,Integer.parseInt(wq.getQrData()));
+                       weChatGroupService.moveUserToGroup(openid,Integer.parseInt(wq.getQrData()));
                     }
-                    if(tUserPO.getBind() == 0){
-                        String bindUrl = "http://www.konghao.org";
-                        return MessageKit.map2xml(MessageCreateKit.createTextMsg(msgMap,"<a href=\""+bindUrl+"\">请点击绑定用户获得更好的体验</a>"));
+                    if(weixinUserPO.getBind() == 0){
+                        String bindUrl = "http://mumschool-front.ngrok.xiaomiqiu.cn/#/register";
+                        return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+bindUrl+"\">请点击绑定用户获得更好的体验</a>"));
                     } else {
-                        String bindUrl = "http://www.konghao.org";
-                        return MessageKit.map2xml(MessageCreateKit.createTextMsg(msgMap,"<a href=\""+bindUrl+"\">欢迎您再次使用我们的微信平台，点击打开</a>"));
+                        String bindUrl = "http://mumschool-front.ngrok.xiaomiqiu.cn/#/login";
+                        return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+bindUrl+"\">欢迎您再次使用我们的微信平台，点击打开</a>"));
                     }
 
                 }else if ("unsubscribe".equals(event)) {
-                    String openId = WeixinEventKit.extractOpenId(msgMap);
-                    TUserPO tUserPO =  tUserService.selectOne(new EntityWrapper<TUserPO>().where("openId={0}",openId));
-                    if(tUserPO !=null) {
-                        tUserPO.setStatus(0);
-                        tUserService.updateById(tUserPO);
+                    String openid = WeChatEventKit.extractOpenid(msgMap);
+                    WeixinUserPO weixinUserPO =  weixinUserService.selectOne(new EntityWrapper<WeixinUserPO>().where("openid={0}",openid));
+                    if(weixinUserPO !=null) {
+                        String bindUrl = "http://mama.maihan.com.cn";
+                        weixinUserPO.setActive(false);
+                        weixinUserService.updateById(weixinUserPO);
+                        return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+bindUrl+"\">欢迎您以后再次使用我们的微信平台，点击打开</a>"));
                     }
                 }else if("SCAN".equals(event)){
                     return handlerScanEvent(msgMap);
+                }else if("VIEW".equals(event)){// TODO VIEW事件如何处理完善？
+                    return null;
                 }
-            } else if (WeixinFinalValue.MSG_TEXT_TYPE.equals(msgType.trim())) {
-                return MessageKit.textTypeHandler(msgMap);
-            } else if (WeixinFinalValue.MSG_IMAGE_TYPE.equals(msgType.trim())) {
-                return MessageKit.imageTypeHandler(msgMap, "nDwKcYuGUH62UCsFmetNdyl8tu7ym2S62NXF9cl9UEWqcf-cHCj497bquMK35Mxg");
+            } else if (WeChatFinalValue.MSG_TEXT_TYPE.equals(msgType.trim())) {
+                return WeChatMessageKit.textTypeHandler(msgMap);
+            } else if (WeChatFinalValue.MSG_IMAGE_TYPE.equals(msgType.trim())) {
+                return WeChatMessageKit.imageTypeHandler(msgMap, "nDwKcYuGUH62UCsFmetNdyl8tu7ym2S62NXF9cl9UEWqcf-cHCj497bquMK35Mxg");
             } else {
-                return MessageKit.hanlderCommonMsg(msgMap);
+                return WeChatMessageKit.hanlderCommonMsg(msgMap);
             }
         }
         return null;
     }
 
     private String handlerScanEvent(Map<String, String> msgMap) throws IOException {
-        TUserPO u = handlerUserInfo(msgMap);
+        WeixinUserPO u = handlerUserInfo(msgMap);
         String snum = getSence(msgMap,false);
-        String openId = msgMap.get("FromUserName");
+        String openid = msgMap.get("FromUserName");
         WeixinQr wq =  weixinQrService.loadBySnum(Integer.parseInt(snum));
         if (wq.getType()==WeixinQr.REPASSWORD_TYPE){
             //处理修改密码操作
-            return MessageKit.map2xml(MessageCreateKit.createTextMsg(msgMap,"<a href=\""+wq.getQrData()+"\">"+wq.getMsg()+"</a>"));
+            return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+wq.getQrData()+"\">"+wq.getMsg()+"</a>"));
         }else if (wq.getType() == WeixinQr.SET_GROUP_TYPE){
             //处理设置用户操作
-            groupService.moveUserToGroup(openId,Integer.parseInt(wq.getQrData()));
-            WGroup wg = wGroupService.queryUserGroup(openId);
-            return MessageKit.map2xml(MessageCreateKit.createTextMsg(msgMap,"<a href=\""+wq.getQrData()+"\">"+wg.getName()+"</a>"));
+            weChatGroupService.moveUserToGroup(openid,Integer.parseInt(wq.getQrData()));
+            WeChatGroup wg = weChatGroupService.queryUserGroup(openid);
+            return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+wq.getQrData()+"\">"+wg.getName()+"</a>"));
         }else if (wq.getType() == WeixinQr.TYPE_BIND){
             //处理绑定用户操作
         }else if(wq.getType() == WeixinQr.TEMP_LOGIN){
             //处理用户扫码登录操作
             long t = System.currentTimeMillis() - wq.getCreateDate().getTime();
             if ((t/1000)>60){
-                return MessageKit.map2xml(MessageCreateKit.createTextMsg(msgMap,""));//todo
+                return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,""));//todo
             }else {
                 wq.setStatus(1);
-                wq.setQrData(openId);
+                wq.setQrData(openid);
                 weixinQrService.updateById(wq);
             }
 
@@ -121,28 +124,29 @@ public class WeixinMessageServiceImpl implements WeixinMessageService {
         return null;
     }
 
-    private TUserPO handlerUserInfo(Map<String,String> msgMap) throws IOException {
-        String openId = WeixinEventKit.extractOpenId(msgMap);
-        TUserPO tUserPO =  tUserService.selectOne(new EntityWrapper<TUserPO>().where("openId={0}",openId));
-        if(tUserPO ==null) {
-            WUser wUser = userService.queryByOpenId(openId);
-            tUserPO = new TUserPO();
-            tUserPO.setBind(0);
-            tUserPO.setImgUrl(wUser.getHeadImageUrl());
-            tUserPO.setNickname(wUser.getNickname());
-            tUserPO.setOpenid(openId);
-            tUserPO.setSex(wUser.getSex());
-            tUserPO.setStatus(1);
-            tUserPO.setUsername(wUser.getOpenId());
-            tUserPO.setPassword(wUser.getOpenId());
-            tUserService.insert(tUserPO);
+    private WeixinUserPO handlerUserInfo(Map<String,String> msgMap) throws IOException {
+        String openid = WeChatEventKit.extractOpenid(msgMap);
+        WeixinUserPO weixinUserPO =  weixinUserService.selectOne(new EntityWrapper<WeixinUserPO>().where("openid={0}",openid));
+        if(weixinUserPO ==null) {
+            WeChatUser weChatUser = weChatUserService.queryByOpenid(openid);
+            weixinUserPO = new WeixinUserPO();
+            BeanUtils.copyProperties(weChatUser,weixinUserPO,"Tagid_list");
+
+            weixinUserPO.setUserName(weChatUser.getNickname());
+            weixinUserPO.setPhone(null);
+            weixinUserPO.setPassword("123456");
+            weixinUserPO.setBind(0);
+            weixinUserPO.setStatus(1);
+            weixinUserPO.setUserType(null);
+            weixinUserPO.setActive(true);
+            weixinUserService.insert(weixinUserPO);
         }else {
-            if (tUserPO.getStatus() == 0){
-                tUserPO.setStatus(1);
-                tUserService.updateById(tUserPO);
+            if (!weixinUserPO.getActive()){
+                weixinUserPO.setActive(true);
+                weixinUserService.updateById(weixinUserPO);
             }
         }
-        return tUserPO;
+        return weixinUserPO;
     }
     private String getSence(Map<String,String> msgMap,boolean subscribe){
         String key = msgMap.get("EventKey");

@@ -3,7 +3,7 @@ package com.sjt.cai.mumschool.biz.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.sjt.cai.mumschool.biz.service.WeixinMenuService;
-import com.sjt.cai.mumschool.wechat.dto.WeixinMenuDto;
+import com.sjt.cai.mumschool.wechat.dto.WeChatMenuDto;
 import com.sjt.cai.mumschool.dao.WeixinMenuMapper;
 import com.sjt.cai.mumschool.entity.po.WeixinMenuPO;
 import org.springframework.stereotype.Service;
@@ -45,11 +45,11 @@ public class WeixinMenuServiceImpl extends ServiceImpl<WeixinMenuMapper, WeixinM
         return selectOne(new EntityWrapper<WeixinMenuPO>().where("menu_key = {0}",key));
     }
     @Override
-    public List<WeixinMenuDto> generateWeixinMenuDto(List<WeixinMenuPO> menus) {
-        List<WeixinMenuDto> menuDtos = new ArrayList<WeixinMenuDto>();
-        WeixinMenuDto wmd = null;
+    public List<WeChatMenuDto> generateWeixinMenuDto(List<WeixinMenuPO> menus) {
+        List<WeChatMenuDto> menuDtos = new ArrayList<WeChatMenuDto>();
+        WeChatMenuDto wmd = null;
         for(WeixinMenuPO wm:menus) {
-            wmd = new WeixinMenuDto();
+            wmd = new WeChatMenuDto();
             wmd.setKey(wm.getMenuKey());
             wmd.setName(wm.getName());
             wmd.setType(wm.getType());
@@ -57,11 +57,11 @@ public class WeixinMenuServiceImpl extends ServiceImpl<WeixinMenuMapper, WeixinM
             wmd.setUrl(wm.getUrl());
             if(wm.getPid()==null||wm.getPid()==0) {
                 if(wmd.getSub_button()==null) {
-                    wmd.setSub_button(new ArrayList<WeixinMenuDto>());
+                    wmd.setSub_button(new ArrayList<WeChatMenuDto>());
                 }
                 menuDtos.add(wmd);
             } else {
-                WeixinMenuDto twmd = findById(wm.getPid(), menuDtos);
+                WeChatMenuDto twmd = findById(wm.getPid(), menuDtos);
                 if(twmd==null) throw new RuntimeException("菜单的父类对象有问题，请检查");
                 twmd.getSub_button().add(wmd);
             }
@@ -69,8 +69,8 @@ public class WeixinMenuServiceImpl extends ServiceImpl<WeixinMenuMapper, WeixinM
         return menuDtos;
     }
 
-    private WeixinMenuDto findById(int id,List<WeixinMenuDto> wmds) {
-        for(WeixinMenuDto wmd:wmds) {
+    private WeChatMenuDto findById(int id, List<WeChatMenuDto> wmds) {
+        for(WeChatMenuDto wmd:wmds) {
             if(wmd.getId()==id) {
                 return wmd;
             }
