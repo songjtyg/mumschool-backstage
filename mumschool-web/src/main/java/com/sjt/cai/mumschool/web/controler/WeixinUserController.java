@@ -23,16 +23,28 @@ public class WeixinUserController {
     @Autowired
     private WeixinQrService weixinQrService;
 
-    @PostMapping(value="login")
+    @PostMapping(value="/login")
     public Boolean login(@RequestBody LoginDto loginDto, HttpSession session){
-        WeixinUserPO u = weixinUserService.login(loginDto.getLoginName(),loginDto.getPassword());
-        if (u != null) {
+        WeixinUserPO weixinUserPO = weixinUserService.login(loginDto.getLoginWord(),loginDto.getPassword());
+        if (weixinUserPO != null) {
             session.setAttribute("logined", true);
             return true;
-        }else
+        }else {
+            session.setAttribute("logined", false);
             return false;
+        }
     }
-
+    @PostMapping(value="login")
+    public Boolean login(@RequestBody LoginDto loginDto, HttpSession session){
+        WeixinUserPO weixinUserPO = weixinUserService.login(loginDto.getLoginWord(),loginDto.getPassword());
+        if (weixinUserPO != null) {
+            session.setAttribute("logined", true);
+            return true;
+        }else {
+            session.setAttribute("logined", false);
+            return false;
+        }
+    }
     @PostMapping(value="bindNewUser")
     public String bindNewUser(String userName,String password,HttpSession session,HttpServletResponse resp) throws IOException {
         WeixinUserPO u0 = (WeixinUserPO)session.getAttribute("user");
