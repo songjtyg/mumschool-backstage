@@ -22,6 +22,10 @@ public class WeixinUserServiceImpl extends ServiceImpl<WeixinUserMapper, WeixinU
         return selectOne(new EntityWrapper<WeixinUserPO>().where("userName = {0}",userName));
     }
     @Override
+    public WeixinUserPO loadByPhone(String phone){
+        return selectOne(new EntityWrapper<WeixinUserPO>().where("phone = {0}",phone));
+    }
+    @Override
     public WeixinUserPO loadByOpenid(String openid){
         return selectOne(new EntityWrapper<WeixinUserPO>().where("openid = {0}",openid));
     }

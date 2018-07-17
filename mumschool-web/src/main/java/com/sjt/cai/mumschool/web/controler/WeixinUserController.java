@@ -1,8 +1,10 @@
 package com.sjt.cai.mumschool.web.controler;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.sjt.cai.mumschool.biz.service.WeixinUserService;
 import com.sjt.cai.mumschool.biz.service.WeixinQrService;
 import com.sjt.cai.mumschool.entity.dto.LoginDto;
+import com.sjt.cai.mumschool.entity.dto.RegisterDto;
 import com.sjt.cai.mumschool.entity.po.WeixinUserPO;
 import com.sjt.cai.mumschool.entity.po.WeixinQr;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +25,22 @@ public class WeixinUserController {
     @Autowired
     private WeixinQrService weixinQrService;
 
-    @PostMapping(value="/login")
-    public Boolean login(@RequestBody LoginDto loginDto, HttpSession session){
-        WeixinUserPO weixinUserPO = weixinUserService.login(loginDto.getLoginWord(),loginDto.getPassword());
+    @PostMapping(value="/register")
+    public Boolean register(@RequestBody RegisterDto registerDto, HttpSession session){
+        WeixinUserPO weixinUserPO = weixinUserService.loadByPhone(registerDto.getPhone());
         if (weixinUserPO != null) {
             session.setAttribute("logined", true);
-            return true;
+            return false;
         }else {
+            weixinUserPO = new WeixinUserPO();
+.s
+            weixinUserPO.setUserName();
+            weixinUserPO.setPassword();
+            weixinUserPO.setHospital();
+            weixinUserPO.setDepartment();
+            weixinUserPO.setPhone();
+
+            weixinUserService.insert(weixinUserPO);
             session.setAttribute("logined", false);
             return false;
         }

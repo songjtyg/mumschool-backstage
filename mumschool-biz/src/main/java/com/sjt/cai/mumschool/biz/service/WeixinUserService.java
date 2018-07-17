@@ -16,6 +16,8 @@ public interface WeixinUserService extends IService<WeixinUserPO> {
 
     WeixinUserPO loadByUserName(String userName);
 
+    WeixinUserPO loadByPhone(String phone);
+
     WeixinUserPO loadByOpenid(String openid);
 
     WeixinUserPO login(String userName, String password);

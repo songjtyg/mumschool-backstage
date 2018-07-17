@@ -46,11 +46,17 @@ public class WeixinUserPO extends Model<WeixinUserPO> {
 	private Integer status;
 	private Integer bind;
 	private Integer userType;
+	private String hospital;
+	private String department;
+	private Integer gender;
+	private Date birthday;
+	private Integer gestationalWeeks;
+	private String preHospital
+
 	private Long creater;
 	private Date createTime;
 	private Long modifier;
 	private Date modifyTime;
-
 	private Boolean active;
 
 	public Integer getId() {
@@ -237,6 +243,53 @@ public class WeixinUserPO extends Model<WeixinUserPO> {
 		this.phone = phone;
 	}
 
+	public String getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(String hospital) {
+		this.hospital = hospital;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public Integer getGestationalWeeks() {
+		return gestationalWeeks;
+	}
+
+	public void setGestationalWeeks(Integer gestationalWeeks) {
+		this.gestationalWeeks = gestationalWeeks;
+	}
+
+	public String getPreHospital() {
+		return preHospital;
+	}
+
+	public void setPreHospital(String preHospital) {
+		this.preHospital = preHospital;
+	}1
 	public Long getCreater() {
 		return creater;
 	}
