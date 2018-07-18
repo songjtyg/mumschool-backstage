@@ -1,21 +1,127 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : sjt-mysql
+ Source Server         : songjtMySql
  Source Server Type    : MySQL
- Source Server Version : 50721
+ Source Server Version : 50720
  Source Host           : localhost:3306
  Source Schema         : mumschool
 
  Target Server Type    : MySQL
- Target Server Version : 50721
+ Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 17/07/2018 23:41:34
+ Date: 18/07/2018 13:48:43
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for exam_answer
+-- ----------------------------
+DROP TABLE IF EXISTS `exam_answer`;
+CREATE TABLE `exam_answer`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `question_id` int(11) NULL DEFAULT NULL,
+  `choices` set('A','B','C','D') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
+  `correct` bit(1) NULL DEFAULT NULL,
+  `creater` int(11) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` int(11) NULL DEFAULT NULL,
+  `modify_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for phone_identify
+-- ----------------------------
+DROP TABLE IF EXISTS `phone_identify`;
+CREATE TABLE `phone_identify`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `identifying_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for question
+-- ----------------------------
+DROP TABLE IF EXISTS `question`;
+CREATE TABLE `question`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` tinyint(1) NULL DEFAULT NULL COMMENT '1-单选；2-多选',
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `creater` int(11) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` int(11) NULL DEFAULT NULL,
+  `modify_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for question_bank
+-- ----------------------------
+DROP TABLE IF EXISTS `question_bank`;
+CREATE TABLE `question_bank`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `duration` int(255) NULL DEFAULT NULL COMMENT '考试时间（分钟）',
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `creater` int(11) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` int(11) NULL DEFAULT NULL,
+  `modify_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for question_choice
+-- ----------------------------
+DROP TABLE IF EXISTS `question_choice`;
+CREATE TABLE `question_choice`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `question_id` int(11) NULL DEFAULT NULL,
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `correct` bit(1) NULL DEFAULT NULL,
+  `creater` int(11) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` int(11) NULL DEFAULT NULL,
+  `modify_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for relation_bank_question
+-- ----------------------------
+DROP TABLE IF EXISTS `relation_bank_question`;
+CREATE TABLE `relation_bank_question`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `question_bank_id` int(11) NULL DEFAULT NULL,
+  `question_id` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for user_exam
+-- ----------------------------
+DROP TABLE IF EXISTS `user_exam`;
+CREATE TABLE `user_exam`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NULL DEFAULT NULL,
+  `question_bank_id` int(11) NULL DEFAULT NULL,
+  `correct_num` int(11) NULL DEFAULT NULL,
+  `score` int(11) NULL DEFAULT NULL,
+  `begin_time` datetime(0) NULL DEFAULT NULL,
+  `end_time` datetime(0) NULL DEFAULT NULL,
+  `creater` int(11) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` int(11) NULL DEFAULT NULL,
+  `modify_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for weixin_menu
@@ -91,7 +197,6 @@ CREATE TABLE `weixin_user`  (
   `password` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `status` int(11) NULL DEFAULT NULL,
   `bind` int(11) NULL DEFAULT NULL,
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `user_type` int(255) NULL DEFAULT NULL COMMENT '0-员工；1-医生；2：孕妇；3：妈妈',
   `hospital` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `department` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -99,9 +204,12 @@ CREATE TABLE `weixin_user`  (
   `birthday` date NULL DEFAULT NULL,
   `gestational_weeks` int(255) NULL DEFAULT NULL,
   `pre_hospital` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `creater` bigint(11) NULL DEFAULT NULL,
+  `register_time` datetime(0) NULL DEFAULT NULL,
+  `last_login_time` datetime(0) NULL DEFAULT NULL,
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `creater` int(11) NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `modifier` int(11) NULL DEFAULT NULL,
   `modify_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   `active` bit(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -111,6 +219,6 @@ CREATE TABLE `weixin_user`  (
 -- ----------------------------
 -- Records of weixin_user
 -- ----------------------------
-INSERT INTO `weixin_user` VALUES (6, 'oez2-0fB-paUxeDTQOy1UnSfS-2I', '暖和', 1, 'zh_CN', '中国', '江苏', '苏州', 'http://thirdwx.qlogo.cn/mmopen/P3QglMOhpu6xeSBfQblQ7vq5TqU0ZYPQRgwZAE6wrILoOLP9TVY3XlBJCdrSoxqKkrJm0qrpPKoic0eS6go4GLWMvwzIvTGG5/132', '1970-01-19 01:25:59', 0, NULL, 'ADD_SCENE_SEARCH', 0, NULL, 'ss', 'sss', NULL, '123456', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-07-14 17:05:41', NULL, '2018-07-16 20:34:35', b'1');
+INSERT INTO `weixin_user` VALUES (6, 'oez2-0fB-paUxeDTQOy1UnSfS-2I', '暖和', 1, 'zh_CN', '中国', '江苏', '苏州', 'http://thirdwx.qlogo.cn/mmopen/P3QglMOhpu6xeSBfQblQ7vq5TqU0ZYPQRgwZAE6wrILoOLP9TVY3XlBJCdrSoxqKkrJm0qrpPKoic0eS6go4GLWMvwzIvTGG5/132', '1970-01-19 01:25:59', 0, NULL, 'ADD_SCENE_SEARCH', 0, NULL, 'ss', 'sss', NULL, '123456', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-07-14 17:05:41', NULL, '2018-07-16 20:34:35', b'1');
 
 SET FOREIGN_KEY_CHECKS = 1;
