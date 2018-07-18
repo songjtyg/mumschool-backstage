@@ -30,7 +30,11 @@ public class WeixinUserServiceImpl extends ServiceImpl<WeixinUserMapper, WeixinU
         return selectOne(new EntityWrapper<WeixinUserPO>().where("openid = {0}",openid));
     }
     @Override
-    public  WeixinUserPO login(String loginWord,String password){
+    public  WeixinUserPO loadByloginWord(String loginWord){
+        return selectOne(new EntityWrapper<WeixinUserPO>().where("(login_name = {0} or phone = {0})  and password = {1}"));
+    }
+    @Override
+    public  WeixinUserPO loadByloginWordAndPassword(String loginWord, String password){
         return selectOne(new EntityWrapper<WeixinUserPO>().where("(login_name = {0} or phone = {0})  and password = {1}",loginWord,password));
     }
 }

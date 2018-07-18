@@ -65,7 +65,7 @@ public class WeixinMessageServiceImpl implements WeixinMessageService {
                         String bindUrl = "http://mumschool-front.ngrok.xiaomiqiu.cn/#/register";
                         return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+bindUrl+"\">请点击绑定用户获得更好的体验</a>"));
                     } else {
-                        String bindUrl = "http://mumschool-front.ngrok.xiaomiqiu.cn/#/login";
+                        String bindUrl = "http://mumschool-front.ngrok.xiaomiqiu.cn/#/loadByloginWordAndPassword";
                         return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+bindUrl+"\">欢迎您再次使用我们的微信平台，点击打开</a>"));
                     }
 

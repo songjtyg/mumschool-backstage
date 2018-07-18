@@ -51,7 +51,9 @@ public class WeixinUserPO extends Model<WeixinUserPO> {
 	private Integer gender;
 	private Date birthday;
 	private Integer gestationalWeeks;
-	private String preHospital
+	private String preHospital;
+	private Date registerTime;
+	private Date lastLoginTime;
 
 	private Long creater;
 	private Date createTime;
@@ -289,7 +291,24 @@ public class WeixinUserPO extends Model<WeixinUserPO> {
 
 	public void setPreHospital(String preHospital) {
 		this.preHospital = preHospital;
-	}1
+	}
+
+	public Date getRegisterTime() {
+		return registerTime;
+	}
+
+	public void setRegisterTime(Date registerTime) {
+		this.registerTime = registerTime;
+	}
+
+	public Date getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(Date lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+	}
+
 	public Long getCreater() {
 		return creater;
 	}
@@ -361,6 +380,14 @@ public class WeixinUserPO extends Model<WeixinUserPO> {
 				", status=" + status +
 				", bind=" + bind +
 				", userType=" + userType +
+				", hospital='" + hospital + '\'' +
+				", department='" + department + '\'' +
+				", gender=" + gender +
+				", birthday=" + birthday +
+				", gestationalWeeks=" + gestationalWeeks +
+				", preHospital='" + preHospital + '\'' +
+				", registerTime=" + registerTime +
+				", lastLoginTime=" + lastLoginTime +
 				", creater=" + creater +
 				", createTime=" + createTime +
 				", modifier=" + modifier +
