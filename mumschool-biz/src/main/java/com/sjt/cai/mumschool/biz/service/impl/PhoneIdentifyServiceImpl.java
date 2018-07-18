@@ -5,6 +5,7 @@ import com.sjt.cai.mumschool.entity.po.PhoneIdentifyPO;
 import com.sjt.cai.mumschool.dao.PhoneIdentifyMapper;
 import com.sjt.cai.mumschool.biz.service.PhoneIdentifyService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
  * @author 宋江涛
  * @since 2018-07-18
  */
+@Service
 public class PhoneIdentifyServiceImpl extends ServiceImpl<PhoneIdentifyMapper, PhoneIdentifyPO> implements PhoneIdentifyService {
 
     @Override

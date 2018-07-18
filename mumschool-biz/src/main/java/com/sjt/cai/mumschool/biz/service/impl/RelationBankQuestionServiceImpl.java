@@ -4,6 +4,7 @@ import com.sjt.cai.mumschool.entity.po.RelationBankQuestionPO;
 import com.sjt.cai.mumschool.dao.RelationBankQuestionMapper;
 import com.sjt.cai.mumschool.biz.service.RelationBankQuestionService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -13,6 +14,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
  * @author 宋江涛
  * @since 2018-07-18
  */
+@Service
 public class RelationBankQuestionServiceImpl extends ServiceImpl<RelationBankQuestionMapper, RelationBankQuestionPO> implements RelationBankQuestionService {
 
 }

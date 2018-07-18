@@ -30,10 +30,10 @@ public class WeixinAuthenticateInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, accept, content-type, xxxx");
         response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.setHeader("Access-Control-Allow-Origin", "http://mumschool-front.ngrok.xiaomiqiu.cn");
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:90");
         response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Origin", "http://mumschool-front.ngrok.xiaomiqiu.cn");
+//        response.setHeader("Access-Control-Allow-Origin", "http://localhost:90");
+//        response.setHeader("Access-Control-Allow-Origin", "*");
         if (1==1) return true;
         WeixinUserPO tu = (WeixinUserPO)request.getSession().getAttribute("weixinUserPO");
         if (tu == null) {

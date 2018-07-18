@@ -62,6 +62,7 @@ public class WeixinUserController {
     public JsonResult login(@RequestBody LoginDto loginDto, HttpSession session){
         WeixinUserPO weixinUserPO = weixinUserService.loadByloginWordAndPassword(loginDto.getLoginWord(),loginDto.getPassword());
         if (weixinUserPO != null) {
+            System.out.println(session.getAttribute("user"));
             session.setAttribute("logined", true);
             return JsonResult.success(null,"登录成功");
         }else {

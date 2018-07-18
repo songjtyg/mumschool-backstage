@@ -4,6 +4,7 @@ import com.sjt.cai.mumschool.entity.po.QuestionPO;
 import com.sjt.cai.mumschool.dao.QuestionMapper;
 import com.sjt.cai.mumschool.biz.service.QuestionService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -13,6 +14,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
  * @author 宋江涛
  * @since 2018-07-18
  */
+@Service
 public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, QuestionPO> implements QuestionService {
 
 }
