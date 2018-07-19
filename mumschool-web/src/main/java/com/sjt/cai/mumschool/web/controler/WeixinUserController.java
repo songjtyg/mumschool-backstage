@@ -9,6 +9,8 @@ import com.sjt.cai.mumschool.entity.dto.RegisterDto;
 import com.sjt.cai.mumschool.entity.dto.ResetDto;
 import com.sjt.cai.mumschool.entity.po.WeixinQr;
 import com.sjt.cai.mumschool.entity.po.WeixinUserPO;
+import com.sjt.cai.mumschool.wechat.dto.WeChatUser;
+import com.sjt.cai.mumschool.wechat.service.WeChatUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +29,39 @@ public class WeixinUserController {
     private WeixinQrService weixinQrService;
     @Autowired
     private PhoneIdentifyService phoneIdentifyService;
+    @Autowired
+    private WeChatUserService weChatUserService;
 
+    @RequestMapping(value="/ifOpenid")
+    public Boolean ifOpenid(HttpSession httpSession){
+        System.out.println(httpSession.getId());
+        WeixinUserPO po = (WeixinUserPO)httpSession.getAttribute("user");
+        return (po != null && po.getOpenid() != null);
+    }
+    @RequestMapping(value="/setOpenid/{code}")
+    public Boolean setOpenid(@PathVariable String code,HttpSession httpSession) throws IOException {
+        //通过Code获取openid来进行授权
+        String openid = weChatUserService.queryOpenidByCode(code);
+        WeixinUserPO weixinUserPO = weixinUserService.loadByOpenid(openid);
+        if(weixinUserPO == null){
+            WeChatUser weChatUser = weChatUserService.queryByOpenid(openid);
+            weixinUserPO.setOpenid(weChatUser.getOpenid());//todo  一些系列吧？？？
+            weixinUserService.insert(weixinUserPO);
+        }else{
+            if(weixinUserPO.getStatus()==0){
+                weixinUserPO.setStatus(1);
+                weixinUserService.updateById(weixinUserPO);
+            }
+        }
+        httpSession.setAttribute("user",weixinUserPO);
+        return true;
+    }
 
     @PostMapping(value="/register")
     public JsonResult register(@RequestBody RegisterDto registerDto, HttpSession session){
+        System.out.println("----------------------------");
+        //去掉电话中的空格
+        registerDto.setPhone(registerDto.getPhone().replaceAll("\\s*", ""));
         WeixinUserPO weixinUserPO = weixinUserService.loadByPhone(registerDto.getPhone());
         if (weixinUserPO != null) {
             session.setAttribute("user", weixinUserPO);
@@ -60,15 +91,22 @@ public class WeixinUserController {
 
     @PostMapping(value="login")
     public JsonResult login(@RequestBody LoginDto loginDto, HttpSession session){
-        WeixinUserPO weixinUserPO = weixinUserService.loadByloginWordAndPassword(loginDto.getLoginWord(),loginDto.getPassword());
-        if (weixinUserPO != null) {
-            System.out.println(session.getAttribute("user"));
-            session.setAttribute("logined", true);
-            return JsonResult.success(null,"登录成功");
-        }else {
-            session.setAttribute("logined", false);
-            return JsonResult.errorsInfo("1","登录失败，请检查用户名和密码！");
+        WeixinUserPO sessionWeixinUserPO = (WeixinUserPO)session.getAttribute("user");
+        if (sessionWeixinUserPO == null){
+            return JsonResult.errorsInfo("1", "请在微信端打开");
         }
+        WeixinUserPO weixinUserPO = weixinUserService.loadByloginWordAndPassword(loginDto.getLoginWord(),loginDto.getPassword());
+        if (weixinUserPO == null) {
+            session.setAttribute("logined", false);
+            return JsonResult.errorsInfo("1","登录失败，登录名和密码错误！");
+        }
+        if (!weixinUserPO.getOpenid().equalsIgnoreCase(sessionWeixinUserPO.getOpenid())) {
+            session.setAttribute("logined", false);
+            return JsonResult.success(1, "登录用户和当前微信用户不一致");
+        }
+        session.setAttribute("logined", true);
+        return JsonResult.success(1, "登录成功");
+
     }
 
     @PostMapping(value="resetPassword")

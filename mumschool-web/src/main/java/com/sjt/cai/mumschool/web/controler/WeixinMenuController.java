@@ -35,35 +35,6 @@ public class WeixinMenuController {
     private WeixinMenuService weixinMenuService;
     @Inject
     private WeChatMenuService weChatMenuService;
-    @Autowired
-    private WeChatUserService weChatUserService;
-    @Autowired
-    private WeixinUserService weixinUserService;
-
-    @RequestMapping(value="/ifOpenid")
-    public Boolean ifOpenid(HttpSession httpSession){
-        System.out.println(httpSession.getId());
-        WeixinUserPO po = (WeixinUserPO)httpSession.getAttribute("weixinUserPO");
-        return (po != null && po.getOpenid() != null);
-    }
-    @RequestMapping(value="/setOpenid/{code}")
-    public Boolean setOpenid(@PathVariable String code,HttpSession httpSession) throws IOException {
-        //通过Code获取openid来进行授权
-        String openid = weChatUserService.queryOpenidByCode(code);
-        WeixinUserPO weixinUserPO = weixinUserService.loadByOpenid(openid);
-        if(weixinUserPO == null){
-            WeChatUser weChatUser = weChatUserService.queryByOpenid(openid);
-            weixinUserPO.setOpenid(weChatUser.getOpenid());//todo  一些系列吧？？？
-            weixinUserService.insert(weixinUserPO);
-        }else{
-            if(weixinUserPO.getStatus()==0){
-                weixinUserPO.setStatus(1);
-                weixinUserService.updateById(weixinUserPO);
-            }
-        }
-        httpSession.setAttribute("weixinUserPO",weixinUserPO);
-        return true;
-    }
 
     @GetMapping("/publishMenu")
     public void publishMenu() throws JsonProcessingException {

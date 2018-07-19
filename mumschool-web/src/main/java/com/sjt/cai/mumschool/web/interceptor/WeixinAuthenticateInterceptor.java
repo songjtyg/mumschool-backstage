@@ -36,10 +36,10 @@ public class WeixinAuthenticateInterceptor extends HandlerInterceptorAdapter {
 //        response.setHeader("Access-Control-Allow-Origin", "*");
         if (1==1) return true;
         WeixinUserPO tu = (WeixinUserPO)request.getSession().getAttribute("weixinUserPO");
-        if (tu == null) {
-            return false;
-        }else if ( 1==1 )
-            return true;
+//        if (tu == null) {
+//            return false;
+//        }else if ( 1==1 )
+//            return true;
         //todo 以下还需要不？
         if(tu==null){
             String agent = request.getHeader("User-Agent");
@@ -63,29 +63,29 @@ public class WeixinAuthenticateInterceptor extends HandlerInterceptorAdapter {
                     request.getSession().setAttribute("user",weixinUserPO);
                     return true;
                 }else{
-                    String path = request.getRequestURL().toString();
-                    String query = request.getQueryString();
-                    if (query!=null){
-                        path = path +"?"+query;
-                    }
-                    String uri = WeChatFinalValue.AUTH_URL;
-                    //path="http://www.baidu.com";
-                    uri = uri.replace("APPID", WeChatContext.getInstance().getAppId())
-                            .replace("REDIRECT_URI", URLEncoder.encode(path,"UTF-8"))
-                            .replace("SCOPE","snsapi_base")
-                            .replace("STATE","1");
-                    //response.sendRedirect(uri);
-
-                    response.setCharacterEncoding("UTF-8");
-                    response.setContentType("application/json; charset=utf-8");
-                    PrintWriter out = response.getWriter();
-                    out.print("{'A':'BB'}");
-
-                    return false;
+//                    String path = request.getRequestURL().toString();
+//                    String query = request.getQueryString();
+//                    if (query!=null){
+//                        path = path +"?"+query;
+//                    }
+//                    String uri = WeChatFinalValue.AUTH_URL;
+//                    //path="http://www.baidu.com";
+//                    uri = uri.replace("APPID", WeChatContext.getInstance().getAppId())
+//                            .replace("REDIRECT_URI", URLEncoder.encode(path,"UTF-8"))
+//                            .replace("SCOPE","snsapi_base")
+//                            .replace("STATE","1");
+//                    //response.sendRedirect(uri);
+//
+//                    response.setCharacterEncoding("UTF-8");
+//                    response.setContentType("application/json; charset=utf-8");
+//                    PrintWriter out = response.getWriter();
+//                    out.print("{'A':'BB'}");
+//                    return false;
+                    return true;
                 }
             }
         }
-        return false;
+        return true;
     }
 
     private void addHeader(HttpServletRequest request, HttpServletResponse response) {
