@@ -65,4 +65,11 @@ public class WeixinSystemControler {
             resp.getWriter().write(respCon);
 
     }
+    /*
+
+     */
+    @GetMapping(value="/index")
+    public String handlerPost()throws IOException{
+        return "index";
+    }
 }
