@@ -15,10 +15,10 @@ import java.util.List;
  * @since 2018-06-13
  */
 public interface WeixinMenuService extends IService<WeixinMenuPO> {
-    //    public void add(WeixinMenuPO wm) {
+    //    public void insert(WeixinMenuPO wm) {
     //        if(wm.getType().equals("click"))
     //            wm.setMenuKey("KEY_"+System.currentTimeMillis());
-    //        weixinMenuDao.add(wm);
+    //        weixinMenuDao.insert(wm);
     //    }
     //
     //    public void delete(int id) {

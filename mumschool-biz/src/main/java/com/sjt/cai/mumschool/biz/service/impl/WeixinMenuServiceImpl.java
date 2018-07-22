@@ -22,10 +22,10 @@ import java.util.List;
 @Service
 public class WeixinMenuServiceImpl extends ServiceImpl<WeixinMenuMapper, WeixinMenuPO> implements WeixinMenuService {
 
-//    public void add(WeixinMenuPO wm) {
+//    public void insert(WeixinMenuPO wm) {
 //        if(wm.getType().equals("click"))
 //            wm.setMenuKey("KEY_"+System.currentTimeMillis());
-//        weixinMenuDao.add(wm);
+//        weixinMenuDao.insert(wm);
 //    }
 //
 //    public void delete(int id) {

@@ -3,6 +3,8 @@ package com.sjt.cai.mumschool.biz.service;
 import com.sjt.cai.mumschool.entity.po.QuestionChoicePO;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface QuestionChoiceService extends IService<QuestionChoicePO> {
 
+    List<QuestionChoicePO> selectByQuestionId(Integer questionId);
 }

@@ -5,6 +5,7 @@ import com.sjt.cai.mumschool.biz.service.WeixinUserService;
 import com.sjt.cai.mumschool.biz.service.WeixinMenuService;
 import com.sjt.cai.mumschool.biz.service.WeixinMessageService;
 import com.sjt.cai.mumschool.biz.service.WeixinQrService;
+import com.sjt.cai.mumschool.entity.po.WeixinQrPO;
 import com.sjt.cai.mumschool.wechat.constant.WeChatFinalValue;
 import com.sjt.cai.mumschool.wechat.dto.WeChatGroup;
 import com.sjt.cai.mumschool.wechat.dto.WeChatUser;
@@ -15,8 +16,6 @@ import com.sjt.cai.mumschool.wechat.service.WeChatUserService;
 import com.sjt.cai.mumschool.wechat.util.WeChatDuplicateMessageKit;
 import com.sjt.cai.mumschool.entity.po.WeixinUserPO;
 import com.sjt.cai.mumschool.entity.po.WeixinMenuPO;
-import com.sjt.cai.mumschool.entity.po.WeixinQr;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,8 +56,8 @@ public class WeixinMessageServiceImpl implements WeixinMessageService {
                     String snum = getSence(msgMap,true);
                     String openid = WeChatEventKit.extractOpenid(msgMap);
                     if(snum != null){
-                        WeixinQr wq = weixinQrService.loadBySnum(Integer.parseInt(snum));
-                        if(wq.getType() == WeixinQr.SET_GROUP_TYPE)
+                        WeixinQrPO wq = weixinQrService.selectBySnum(Integer.parseInt(snum));
+                        if(wq.getType() == WeixinQrPO.SET_GROUP_TYPE)
                        weChatGroupService.moveUserToGroup(openid,Integer.parseInt(wq.getQrData()));
                     }
                     if(weixinUserPO.getBind() == 0){
@@ -98,18 +97,24 @@ public class WeixinMessageServiceImpl implements WeixinMessageService {
         WeixinUserPO u = handlerUserInfo(msgMap);
         String snum = getSence(msgMap,false);
         String openid = msgMap.get("FromUserName");
-        WeixinQr wq =  weixinQrService.loadBySnum(Integer.parseInt(snum));
-        if (wq.getType()==WeixinQr.REPASSWORD_TYPE){
+        WeixinQrPO wq =  weixinQrService.selectBySnum(Integer.parseInt(snum));
+        if (wq.getType()== WeixinQrPO.SIGN_IN){
+            //处理扫码签到
+            return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+wq.getQrData()+"\">"+wq.getMsg()+"</a>"));
+        }else if (wq.getType()== WeixinQrPO.EXAM){
+            //处理扫码考试
+            return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+wq.getQrData()+"\">"+wq.getMsg()+"</a>"));
+        }else if (wq.getType()== WeixinQrPO.REPASSWORD_TYPE){
             //处理修改密码操作
             return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+wq.getQrData()+"\">"+wq.getMsg()+"</a>"));
-        }else if (wq.getType() == WeixinQr.SET_GROUP_TYPE){
+        }else if (wq.getType() == WeixinQrPO.SET_GROUP_TYPE){
             //处理设置用户操作
             weChatGroupService.moveUserToGroup(openid,Integer.parseInt(wq.getQrData()));
             WeChatGroup wg = weChatGroupService.queryUserGroup(openid);
             return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+wq.getQrData()+"\">"+wg.getName()+"</a>"));
-        }else if (wq.getType() == WeixinQr.TYPE_BIND){
+        }else if (wq.getType() == WeixinQrPO.TYPE_BIND){
             //处理绑定用户操作
-        }else if(wq.getType() == WeixinQr.TEMP_LOGIN){
+        }else if(wq.getType() == WeixinQrPO.TEMP_LOGIN){
             //处理用户扫码登录操作
             long t = System.currentTimeMillis() - wq.getCreateDate().getTime();
             if ((t/1000)>60){

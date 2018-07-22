@@ -1,4 +1,4 @@
-package com.sjt.cai.mumschool.web.controler;
+package com.sjt.cai.mumschool.web.controller;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,11 +36,12 @@ public class WeixinMenuController {
     @Inject
     private WeChatMenuService weChatMenuService;
 
-    @GetMapping("/publishMenu")
-    public void publishMenu() throws JsonProcessingException {
+    @PostMapping("/publishMenu")
+    public Boolean publishMenu() throws JsonProcessingException {
         List<WeixinMenuPO> wmps = weixinMenuService.listAll();
         List<WeChatMenuDto> wmds = weixinMenuService.generateWeixinMenuDto(wmps);
         weChatMenuService.publishMenu(wmds);
+        return true;
     }
 //    @RequestMapping("/list")
 //    public String list(Model model) {
@@ -49,22 +50,22 @@ public class WeixinMenuController {
 //        return "weixinMenu/list";
 //    }
 //
-//    @RequestMapping(value="/add",method= RequestMethod.GET)
-//    public String add(Model model) {
+//    @RequestMapping(value="/insert",method= RequestMethod.GET)
+//    public String insert(Model model) {
 //        model.addAttribute("menu", new WeixinMenuPO());
-//        return "weixinMenu/add";
+//        return "weixinMenu/insert";
 //    }
 //
-//    @RequestMapping(value="/add",method=RequestMethod.POST)
-//    public String add(WeixinMenuPO menu) {
-//        weixinMenuService.add(menu);
+//    @RequestMapping(value="/insert",method=RequestMethod.POST)
+//    public String insert(WeixinMenuPO menu) {
+//        weixinMenuService.insert(menu);
 //        return "redirect:/weixinMenu/list";
 //    }
 //
 //    @RequestMapping(value="/update/{id}",method=RequestMethod.GET)
 //    public String update(@PathVariable int id, Model model) {
 //        model.addAttribute("menu", weixinMenuService.load(id));
-//        return "weixinMenu/add";
+//        return "weixinMenu/insert";
 //    }
 //
 //    @RequestMapping(value="/update/{id}",method=RequestMethod.POST)

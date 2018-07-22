@@ -18,7 +18,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.sjt.cai.mumschool.web.controler"))
+                .apis(RequestHandlerSelectors.basePackage("com.sjt.cai.mumschool.web.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

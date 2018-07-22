@@ -3,7 +3,7 @@
 <mapper namespace="com.sjt.cai.mumschool.dao.WeixinQrMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.WeixinQr">
+	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.WeixinQrPO">
 		<id column="id" property="id" />
 		<result column="name" property="name" />
 		<result column="type" property="type" />

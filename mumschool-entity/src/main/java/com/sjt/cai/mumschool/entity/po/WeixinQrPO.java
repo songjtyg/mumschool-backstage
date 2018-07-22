@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.enums.IdType;
 
 /**
  * <p>
@@ -17,18 +18,22 @@ import java.io.Serializable;
  * @since 2018-06-25
  */
 @TableName("weixin_qr")
-public class WeixinQr extends Model<WeixinQr> {
+public class WeixinQrPO extends Model<WeixinQrPO> {
 
     private static final long serialVersionUID = 1L;
 	public static final int MAX_BASE_SNUM = 100000;
 
+
 	public final static int REPASSWORD_TYPE = 1;
 	public final static int SET_GROUP_TYPE = 2;
-	public final static int TEMP_TYPE = 11;
+	public final static int SIGN_IN = 3;	//签到
+	public final static int SIGN_OUT = 4;	//签退
+	public final static int EXAM = 5;		//考试
+	public static final int TEMP_LOGIN = 11;//todo 到底是什么值？
 	public final static int TYPE_BIND = 12;
-	public static final int TEMP_LOGIN = 0;//todo 到底是什么值？
 
-	private String id;
+	@TableId(value="id", type= IdType.AUTO)
+	private Integer id;
 	private String name;
 	private Integer type;
 	private Integer status;
@@ -42,11 +47,11 @@ public class WeixinQr extends Model<WeixinQr> {
 	private String ticket;
 
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -113,7 +118,7 @@ public class WeixinQr extends Model<WeixinQr> {
 
 	@Override
 	public String toString() {
-		return "WeixinQr{" +
+		return "WeixinQrPO{" +
 			", id=" + id +
 			", name=" + name +
 			", type=" + type +

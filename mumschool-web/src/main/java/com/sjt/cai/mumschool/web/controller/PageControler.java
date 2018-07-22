@@ -1,4 +1,4 @@
-package com.sjt.cai.mumschool.web.controler;
+package com.sjt.cai.mumschool.web.controller;
 
 import com.sjt.cai.mumschool.biz.service.WeixinMessageService;
 import com.sjt.cai.mumschool.wechat.dto.WeChatContext;

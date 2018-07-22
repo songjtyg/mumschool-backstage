@@ -11,6 +11,7 @@ public class WeChatContext {
 	private String baseUrl;
 	private String token;
 	private WeChatAccessToken weChatAccessToken;
+	private WeChatTicket weChatTicket;
 	private static WeChatContext wc;
 
 	public WeChatContext(){}

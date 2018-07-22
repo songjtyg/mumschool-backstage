@@ -1,6 +1,6 @@
 package com.sjt.cai.mumschool.dao;
 
-import com.sjt.cai.mumschool.entity.po.WeixinQr;
+import com.sjt.cai.mumschool.entity.po.WeixinQrPO;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @author 宋江涛
  * @since 2018-06-25
  */
-public interface WeixinQrMapper extends BaseMapper<WeixinQr> {
+public interface WeixinQrMapper extends BaseMapper<WeixinQrPO> {
 
 }

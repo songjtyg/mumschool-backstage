@@ -1,4 +1,4 @@
-package com.sjt.cai.mumschool.web.controler;
+package com.sjt.cai.mumschool.web.controller;
 
 import com.sjt.cai.mumschool.biz.service.PhoneIdentifyService;
 import com.sjt.cai.mumschool.biz.service.WeixinQrService;
@@ -7,7 +7,7 @@ import com.sjt.cai.mumschool.common.JsonResult;
 import com.sjt.cai.mumschool.entity.dto.LoginDto;
 import com.sjt.cai.mumschool.entity.dto.RegisterDto;
 import com.sjt.cai.mumschool.entity.dto.ResetDto;
-import com.sjt.cai.mumschool.entity.po.WeixinQr;
+import com.sjt.cai.mumschool.entity.po.WeixinQrPO;
 import com.sjt.cai.mumschool.entity.po.WeixinUserPO;
 import com.sjt.cai.mumschool.wechat.dto.WeChatUser;
 import com.sjt.cai.mumschool.wechat.service.WeChatUserService;
@@ -137,7 +137,7 @@ public class WeixinUserController {
         u.setBind(1);
         u.setUserName(userName);
         u.setPassword(password);
-        weixinUserService.updateById(u);//?add
+        weixinUserService.updateById(u);//?insert
         return "redirect:/user/list";
     }
 
@@ -155,7 +155,7 @@ public class WeixinUserController {
             u.setOpenid(u.getOpenid());
             u.setUserName(userName);
             u.setPassword(password);
-            weixinUserService.updateById(u);//?add
+            weixinUserService.updateById(u);//?insert
             weixinUserService.deleteById(u0.getId());
             session.setAttribute("user", u);
         }else{
@@ -184,14 +184,14 @@ public class WeixinUserController {
     }
     @GetMapping(value="/qrlogin")
     public String qrlogin(Model model){
-        WeixinQr wq = generateLoginQr();
-        weixinQrService.add(wq);
+        WeixinQrPO wq = generateLoginQr();
+        weixinQrService.insert(wq);
         model.addAttribute("wq",wq);
         return "user/qrlogin";
     }
     @RequestMapping(value="checkqrlogin")
     public void checkqrlogin(int snum,HttpSession session,HttpServletResponse resp) throws IOException {
-        WeixinQr wq = weixinQrService.loadBySnum(snum);
+        WeixinQrPO wq = weixinQrService.selectBySnum(snum);
         resp.setContentType("text/txt");
         if(wq.getQrData()!=null && wq.getStatus() == 1){
             String openid = wq.getQrData();
@@ -202,13 +202,13 @@ public class WeixinUserController {
             resp.getWriter().println(0);
         }
     }
-    private WeixinQr generateLoginQr(){
-        WeixinQr wq = new WeixinQr();
+    private WeixinQrPO generateLoginQr(){
+        WeixinQrPO wq = new WeixinQrPO();
         wq.setName("扫码登陆");
         wq.setMsg("扫码登陆");
-        wq.setSnum(new Random().nextInt()+(WeixinQr.MAX_BASE_SNUM+1));
+        wq.setSnum(new Random().nextInt()+(WeixinQrPO.MAX_BASE_SNUM+1));
         wq.setStatus(0);
-        wq.setType(WeixinQr.TEMP_LOGIN);
+        wq.setType(WeixinQrPO.TEMP_LOGIN);
         return wq;
     }
 

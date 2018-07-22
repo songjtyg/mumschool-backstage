@@ -2,6 +2,7 @@ package com.sjt.cai.mumschool.wechat.constant;
 
 public class WeChatFinalValue {
 	public final static String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+	public final static String JSAPI_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
 	public final static String MENU_ADD = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
 	public final static String MENU_QUERY = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=ACCESS_TOKEN";
 	
@@ -33,7 +34,7 @@ public class WeChatFinalValue {
 	public final static String AUTH_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
 	public final static String AUTH_GET_OPPENID = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
 
-	public final static String QR_GET = "https://api.weixin.qq.com/cgi-bin/ticket/qrcode/create? access_token=ACCESS_TOKEN";
-
+	public final static String QR_GET = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
+	public final static String IMG_PATH = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=IMG_TICKET";
 	public static final String KF_ADD = "";
 }

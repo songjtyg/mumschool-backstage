@@ -1,7 +1,7 @@
 package com.sjt.cai.mumschool.web.component;
 
 import com.sjt.cai.mumschool.wechat.dto.WeChatContext;
-import com.sjt.cai.mumschool.wechat.service.impl.WeChatRefreshAccessTokenTaskServiceImpl;
+import com.sjt.cai.mumschool.wechat.service.impl.WeChatRefreshServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -20,7 +20,7 @@ public class MyApplicationRunner implements ApplicationRunner {
     @Autowired
     private WeixinContextProperties weixinContextProperties;
     @Autowired
-    private WeChatRefreshAccessTokenTaskServiceImpl refreshAccessTokenTaskService;
+    private WeChatRefreshServiceImpl refreshAccessTokenTaskService;
     @Override
     public void run(ApplicationArguments var1) throws Exception{
         Map<String,String> conf = weixinContextProperties.getConf();
@@ -30,7 +30,8 @@ public class MyApplicationRunner implements ApplicationRunner {
         WeChatContext.getInstance().setToken(conf.get("weixin_token"));
 
         System.out.println("系统初始化!");
-        refreshAccessTokenTaskService.refreshToken();
+        refreshAccessTokenTaskService.refreshAccessToken();
+        refreshAccessTokenTaskService.refreshJsApiTicket();
     }
 
 }
