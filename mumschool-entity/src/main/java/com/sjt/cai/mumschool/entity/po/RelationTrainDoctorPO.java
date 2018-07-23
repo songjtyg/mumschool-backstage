@@ -14,19 +14,19 @@ import com.baomidou.mybatisplus.annotations.TableName;
  * </p>
  *
  * @author 宋江涛
- * @since 2018-07-22
+ * @since 2018-07-23
  */
-@TableName("relation_bank_question")
-public class RelationBankQuestionPO extends Model<RelationBankQuestionPO> {
+@TableName("relation_train_doctor")
+public class RelationTrainDoctorPO extends Model<RelationTrainDoctorPO> {
 
     private static final long serialVersionUID = 1L;
 
 	@TableId(value="id", type= IdType.AUTO)
 	private Integer id;
-	@TableField("question_bank_id")
-	private Integer questionBankId;
-	@TableField("question_id")
-	private Integer questionId;
+	@TableField("train_id")
+	private Integer trainId;
+	@TableField("doctor_id")
+	private Integer doctorId;
 
 
 	public Integer getId() {
@@ -37,20 +37,20 @@ public class RelationBankQuestionPO extends Model<RelationBankQuestionPO> {
 		this.id = id;
 	}
 
-	public Integer getQuestionBankId() {
-		return questionBankId;
+	public Integer getTrainId() {
+		return trainId;
 	}
 
-	public void setQuestionBankId(Integer questionBankId) {
-		this.questionBankId = questionBankId;
+	public void setTrainId(Integer trainId) {
+		this.trainId = trainId;
 	}
 
-	public Integer getQuestionId() {
-		return questionId;
+	public Integer getDoctorId() {
+		return doctorId;
 	}
 
-	public void setQuestionId(Integer questionId) {
-		this.questionId = questionId;
+	public void setDoctorId(Integer doctorId) {
+		this.doctorId = doctorId;
 	}
 
 	@Override
@@ -60,10 +60,10 @@ public class RelationBankQuestionPO extends Model<RelationBankQuestionPO> {
 
 	@Override
 	public String toString() {
-		return "RelationBankQuestionPO{" +
+		return "RelationTrainDoctorPO{" +
 			", id=" + id +
-			", questionBankId=" + questionBankId +
-			", questionId=" + questionId +
+			", trainId=" + trainId +
+			", doctorId=" + doctorId +
 			"}";
 	}
 }

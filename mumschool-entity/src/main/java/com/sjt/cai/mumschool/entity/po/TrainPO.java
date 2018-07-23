@@ -15,10 +15,10 @@ import com.baomidou.mybatisplus.annotations.TableName;
  * </p>
  *
  * @author 宋江涛
- * @since 2018-07-22
+ * @since 2018-07-23
  */
-@TableName("question_bank")
-public class QuestionBankPO extends Model<QuestionBankPO> {
+@TableName("train")
+public class TrainPO extends Model<TrainPO> {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,16 +26,18 @@ public class QuestionBankPO extends Model<QuestionBankPO> {
 	private Integer id;
 	private String title;
 	private String content;
-	@TableField("single_num")
-	private Integer singleNum;
-	@TableField("multiple_num")
-	private Integer multipleNum;
-	@TableField("total_score")
-	private Integer totalScore;
-    /**
-     * 考试时间（分钟）
-     */
-	private Integer duration;
+	@TableField("province_code")
+	private String provinceCode;
+	@TableField("city_code")
+	private String cityCode;
+	private String address;
+	@TableField("begin_time")
+	private Date beginTime;
+	@TableField("end_time")
+	private Date endTime;
+	@TableField("bank_id")
+	private Integer bankId;
+	private Integer status;
 	private String remark;
 	private Integer creater;
 	@TableField("create_time")
@@ -69,36 +71,60 @@ public class QuestionBankPO extends Model<QuestionBankPO> {
 		this.content = content;
 	}
 
-	public Integer getSingleNum() {
-		return singleNum;
+	public String getProvinceCode() {
+		return provinceCode;
 	}
 
-	public void setSingleNum(Integer singleNum) {
-		this.singleNum = singleNum;
+	public void setProvinceCode(String provinceCode) {
+		this.provinceCode = provinceCode;
 	}
 
-	public Integer getMultipleNum() {
-		return multipleNum;
+	public String getCityCode() {
+		return cityCode;
 	}
 
-	public void setMultipleNum(Integer multipleNum) {
-		this.multipleNum = multipleNum;
+	public void setCityCode(String cityCode) {
+		this.cityCode = cityCode;
 	}
 
-	public Integer getTotalScore() {
-		return totalScore;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setTotalScore(Integer totalScore) {
-		this.totalScore = totalScore;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public Integer getDuration() {
-		return duration;
+	public Date getBeginTime() {
+		return beginTime;
 	}
 
-	public void setDuration(Integer duration) {
-		this.duration = duration;
+	public void setBeginTime(Date beginTime) {
+		this.beginTime = beginTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public Integer getBankId() {
+		return bankId;
+	}
+
+	public void setBankId(Integer bankId) {
+		this.bankId = bankId;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public String getRemark() {
@@ -148,14 +174,17 @@ public class QuestionBankPO extends Model<QuestionBankPO> {
 
 	@Override
 	public String toString() {
-		return "QuestionBankPO{" +
+		return "TrainPO{" +
 			", id=" + id +
 			", title=" + title +
 			", content=" + content +
-			", singleNum=" + singleNum +
-			", multipleNum=" + multipleNum +
-			", totalScore=" + totalScore +
-			", duration=" + duration +
+			", provinceCode=" + provinceCode +
+			", cityCode=" + cityCode +
+			", address=" + address +
+			", beginTime=" + beginTime +
+			", endTime=" + endTime +
+			", bankId=" + bankId +
+			", status=" + status +
 			", remark=" + remark +
 			", creater=" + creater +
 			", createTime=" + createTime +

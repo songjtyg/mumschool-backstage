@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sjt.cai.mumschool.dao.QuestionBankMapper">
+<mapper namespace="com.sjt.cai.mumschool.dao.TrainMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.QuestionBankPO">
+	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.TrainPO">
 		<id column="id" property="id" />
 		<result column="title" property="title" />
 		<result column="content" property="content" />
-		<result column="single_num" property="singleNum" />
-		<result column="multiple_num" property="multipleNum" />
-		<result column="total_score" property="totalScore" />
-		<result column="duration" property="duration" />
-		<result column="qr_verify_code" property="qrVerifyCode" />
-		<result column="qr_url" property="qrUrl" />
+		<result column="province_code" property="provinceCode" />
+		<result column="city_code" property="cityCode" />
+		<result column="address" property="address" />
+		<result column="begin_time" property="beginTime" />
+		<result column="end_time" property="endTime" />
+		<result column="bank_id" property="bankId" />
+		<result column="status" property="status" />
 		<result column="remark" property="remark" />
 		<result column="creater" property="creater" />
 		<result column="create_time" property="createTime" />

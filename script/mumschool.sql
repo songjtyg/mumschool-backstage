@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : sjt-mysql
+ Source Server         : songjtMySql
  Source Server Type    : MySQL
- Source Server Version : 50721
+ Source Server Version : 50720
  Source Host           : localhost:3306
  Source Schema         : mumschool
 
  Target Server Type    : MySQL
- Target Server Version : 50721
+ Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 22/07/2018 23:53:13
+ Date: 23/07/2018 17:55:43
 */
 
 SET NAMES utf8mb4;
@@ -81,6 +81,8 @@ CREATE TABLE `question_bank`  (
   `multiple_num` int(2) NULL DEFAULT NULL,
   `total_score` int(2) NULL DEFAULT NULL,
   `duration` int(255) NULL DEFAULT NULL COMMENT '考试时间（分钟）',
+  `qr_verify_code` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `qr_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `creater` int(11) NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
@@ -92,7 +94,7 @@ CREATE TABLE `question_bank`  (
 -- ----------------------------
 -- Records of question_bank
 -- ----------------------------
-INSERT INTO `question_bank` VALUES (1, '妈妈校园毕业考试', '这次考试非常重要，里面每道题都精挑细选，通过了有惊喜哦！！！', NULL, NULL, NULL, NULL, '', NULL, '2018-07-22 12:02:59', NULL, NULL);
+INSERT INTO `question_bank` VALUES (1, '妈妈校园毕业考试', '这次考试非常重要，里面每道题都精挑细选，通过了有惊喜哦！！！', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, '2018-07-22 12:02:59', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for question_choice
@@ -127,6 +129,41 @@ CREATE TABLE `relation_bank_question`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `question_bank_id` int(11) NULL DEFAULT NULL,
   `question_id` int(11) NULL DEFAULT NULL,
+  `seq` int(4) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for relation_train_doctor
+-- ----------------------------
+DROP TABLE IF EXISTS `relation_train_doctor`;
+CREATE TABLE `relation_train_doctor`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `train_id` int(11) NULL DEFAULT NULL,
+  `doctor_id` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for train
+-- ----------------------------
+DROP TABLE IF EXISTS `train`;
+CREATE TABLE `train`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `province_code` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `city_code` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `address` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `begin_time` datetime(0) NULL DEFAULT NULL,
+  `end_time` datetime(0) NULL DEFAULT NULL,
+  `bank_id` int(11) NULL DEFAULT NULL,
+  `status` int(255) NULL DEFAULT NULL,
+  `remark` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `creater` int(11) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` int(11) NULL DEFAULT NULL,
+  `modify_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -195,7 +232,7 @@ CREATE TABLE `weixin_qr`  (
   `ticket` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_date` date NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of weixin_qr
@@ -203,6 +240,8 @@ CREATE TABLE `weixin_qr`  (
 INSERT INTO `weixin_qr` VALUES (1, '扫码登录', 11, 0, 100406, '扫码登陆', 'http://mumschool-front.ngrok.xiaomiqiu.cn/login', 'gQH-7zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyVkJkdDVxWFplLWgxdlB1aTFyMUEAAgQ-3lJbAwS0AAAA', '2018-07-21');
 INSERT INTO `weixin_qr` VALUES (3, '扫码签到', 3, 0, 3, '欢迎参加妈妈校园大讲堂!', 'http://mumschool-front.ngrok.xiaomiqiu.cn/login', 'gQHh8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyenZBOTVQWFplLWgxMDAwMGcwMzkAAgQZ81JbAwQAAAAA', '2018-07-21');
 INSERT INTO `weixin_qr` VALUES (4, '扫码考试', 5, 0, 51, '请狠戳我进入考试系统', 'http://mumschool-front.ngrok.xiaomiqiu.cn/login', 'gQGz8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAydHVHSzRaWFplLWgxMDAwMHcwM2UAAgTz8VJbAwQAAAAA', '2018-07-21');
+INSERT INTO `weixin_qr` VALUES (7, '扫码考试', 5, 0, 100565, '请狠戳我进入考试系统', 'http://mumschool-front.ngrok.xiaomiqiu.cn/question', 'gQFS8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyRDBJMjRvWFplLWgxakctbE5yMVUAAgQ2PlVbAwS0AAAA', '2018-07-23');
+INSERT INTO `weixin_qr` VALUES (8, '扫码考试', 5, 0, 100496, '请狠戳我进入考试系统', 'http://mumschool-front.ngrok.xiaomiqiu.cn/question', 'gQGK8DwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyR1JrVDRxWFplLWgxbGIxbDFyMUsAAgSXQFVbAwS0AAAA', '2018-07-23');
 
 -- ----------------------------
 -- Table structure for weixin_user
