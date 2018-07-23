@@ -1,6 +1,6 @@
 package com.sjt.cai.mumschool.dao;
 
-import com.sjt.cai.mumschool.entity.po.QuestionBankPO;
+import com.sjt.cai.mumschool.entity.po.ExamPO;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * </p>
  *
  * @author 宋江涛
- * @since 2018-07-18
+ * @since 2018-07-23
  */
-public interface QuestionBankMapper extends BaseMapper<QuestionBankPO> {
+public interface ExamMapper extends BaseMapper<ExamPO> {
 
 }

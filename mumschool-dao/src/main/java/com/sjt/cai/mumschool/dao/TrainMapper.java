@@ -1,6 +1,6 @@
 package com.sjt.cai.mumschool.dao;
 
-import com.sjt.cai.mumschool.entity.po.UserExamPO;
+import com.sjt.cai.mumschool.entity.po.TrainPO;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * </p>
  *
  * @author 宋江涛
- * @since 2018-07-18
+ * @since 2018-07-23
  */
-public interface UserExamMapper extends BaseMapper<UserExamPO> {
+public interface TrainMapper extends BaseMapper<TrainPO> {
 
 }

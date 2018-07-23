@@ -65,7 +65,8 @@ public class MapperGeneratorPersonal {
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
         strategy.setTablePrefix(new String[]{""});// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名，列名生成策略,
-        strategy.setInclude(new String[]{"exam_answer","phone_identify","question","question_bank","question_choice","relation_bank_question","relation_train_doctor","train","user_exam"}); // 需要生成的表
+        //strategy.setInclude(new String[]{"exam"}); // 需要生成的表
+        strategy.setInclude(new String[]{"exam_answer","phone_identify","question","question_bank","question_choice","relation_bank_question","relation_train_doctor","train","exam"}); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         //strategy.setLogicDeleteFieldName("is_active");
         mpg.setStrategy(strategy);
@@ -115,12 +116,12 @@ public class MapperGeneratorPersonal {
 //            }
 //        });
 //        //dao
-//        focList.add(new FileOutConfig("/templates/mapper.java.vm") {
-//            @Override
-//            public String outputFile(TableInfo tableInfo) {
-//                return dirRootPath + "/mumschool-dao/" + srcRootPath + modulePath + "/dao/" + tableInfo.getEntityName() + "Mapper.java";
-//            }
-//        });
+        focList.add(new FileOutConfig("/templates/mapper.java.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return dirRootPath + "/mumschool-dao/" + srcRootPath + modulePath + "/dao/" + tableInfo.getEntityName() + "Mapper.java";
+            }
+        });
         //model
         focList.add(new FileOutConfig("/templates/entity.java.vm") {
             @Override
