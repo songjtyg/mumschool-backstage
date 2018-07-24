@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
  * </p>
  *
  * @author 宋江涛
- * @since 2018-07-23
+ * @since 2018-07-24
  */
 @TableName("train")
 public class TrainPO extends Model<TrainPO> {

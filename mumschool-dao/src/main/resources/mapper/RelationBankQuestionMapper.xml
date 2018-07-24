@@ -3,7 +3,7 @@
 <mapper namespace="com.sjt.cai.mumschool.dao.RelationBankQuestionMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.RelationBankQuestion">
+	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.RelationBankQuestionPO">
 		<id column="id" property="id" />
 		<result column="question_bank_id" property="questionBankId" />
 		<result column="question_id" property="questionId" />

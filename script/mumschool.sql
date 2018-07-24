@@ -170,8 +170,8 @@ CREATE TABLE `train`  (
 -- ----------------------------
 -- Table structure for user_exam
 -- ----------------------------
-DROP TABLE IF EXISTS `user_exam`;
-CREATE TABLE `user_exam`  (
+DROP TABLE IF EXISTS `exam`;
+CREATE TABLE `exam`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NULL DEFAULT NULL,
   `question_bank_id` int(11) NULL DEFAULT NULL,
