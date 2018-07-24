@@ -1,21 +1,40 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : songjtMySql
+ Source Server         : sjt-mysql
  Source Server Type    : MySQL
- Source Server Version : 50720
+ Source Server Version : 50721
  Source Host           : localhost:3306
  Source Schema         : mumschool
 
  Target Server Type    : MySQL
- Target Server Version : 50720
+ Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 23/07/2018 17:55:43
+ Date: 24/07/2018 23:25:22
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for exam
+-- ----------------------------
+DROP TABLE IF EXISTS `exam`;
+CREATE TABLE `exam`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NULL DEFAULT NULL,
+  `question_bank_id` int(11) NULL DEFAULT NULL,
+  `correct_num` int(11) NULL DEFAULT NULL,
+  `score` int(11) NULL DEFAULT NULL,
+  `begin_time` datetime(0) NULL DEFAULT NULL,
+  `end_time` datetime(0) NULL DEFAULT NULL,
+  `creater` int(11) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` int(11) NULL DEFAULT NULL,
+  `modify_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for exam_answer
@@ -24,7 +43,7 @@ DROP TABLE IF EXISTS `exam_answer`;
 CREATE TABLE `exam_answer`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `exam_id` int(11) NULL DEFAULT NULL,
-  `questin_bank_Id` int(11) NULL DEFAULT NULL,
+  `question_bank_Id` int(11) NULL DEFAULT NULL,
   `question_id` int(11) NULL DEFAULT NULL,
   `choices` set('A','B','C','D') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
   `correct` bit(1) NULL DEFAULT NULL,
@@ -160,25 +179,6 @@ CREATE TABLE `train`  (
   `bank_id` int(11) NULL DEFAULT NULL,
   `status` int(255) NULL DEFAULT NULL,
   `remark` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `creater` int(11) NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` int(11) NULL DEFAULT NULL,
-  `modify_time` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for user_exam
--- ----------------------------
-DROP TABLE IF EXISTS `user_exam`;
-CREATE TABLE `user_exam`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NULL DEFAULT NULL,
-  `question_bank_id` int(11) NULL DEFAULT NULL,
-  `correct_num` int(11) NULL DEFAULT NULL,
-  `score` int(11) NULL DEFAULT NULL,
-  `begin_time` datetime(0) NULL DEFAULT NULL,
-  `end_time` datetime(0) NULL DEFAULT NULL,
   `creater` int(11) NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` int(11) NULL DEFAULT NULL,

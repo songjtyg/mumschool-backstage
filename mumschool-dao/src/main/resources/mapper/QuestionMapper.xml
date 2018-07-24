@@ -13,5 +13,18 @@
 		<result column="modifier" property="modifier" />
 		<result column="modify_time" property="modifyTime" />
 	</resultMap>
-
+	<select id="selectNext" parameterType="NextQuestionDTO" resultType="com.sjt.cai.mumschool.entity.bo.QuestionBO">
+		select *,#{questionBankId} as questionBankId from question q,
+		 where  q.id = (
+						select question_id
+							from relation_bank_question rbq
+							where  question_bank_id = #{questionBankId}
+								and seq =(select Min(r.seq) as seq
+												from relation_bank_question r
+												where r.question_bank_id = #{questionBankId}
+												and  r.seq > (select seq from relation_bank_question
+															  where question_bank_id = #{questionBankId} and questionId = #{questionId})
+										  )
+						 )
+	</select>
 </mapper>

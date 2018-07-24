@@ -1,5 +1,7 @@
 package com.sjt.cai.mumschool.biz.service.impl;
 
+import com.sjt.cai.mumschool.entity.bo.QuestionBO;
+import com.sjt.cai.mumschool.entity.dto.NextQuestionDTO;
 import com.sjt.cai.mumschool.entity.po.QuestionPO;
 import com.sjt.cai.mumschool.dao.QuestionMapper;
 import com.sjt.cai.mumschool.biz.service.QuestionService;
@@ -17,4 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, QuestionPO> implements QuestionService {
 
+    @Override
+    public QuestionBO selectNext(NextQuestionDTO nextQuestionDTO) {
+        return baseMapper.selectNext(nextQuestionDTO);
+    }
 }

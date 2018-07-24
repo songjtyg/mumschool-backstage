@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
  * </p>
  *
  * @author 宋江涛
- * @since 2018-07-23
+ * @since 2018-07-24
  */
 @TableName("exam_answer")
 public class ExamAnswerPO extends Model<ExamAnswerPO> {
@@ -26,8 +26,8 @@ public class ExamAnswerPO extends Model<ExamAnswerPO> {
 	private Integer id;
 	@TableField("exam_id")
 	private Integer examId;
-	@TableField("questin_bank_Id")
-	private Integer questinBankId;
+	@TableField("question_bank_Id")
+	private Integer questionBankId;
 	@TableField("question_id")
 	private Integer questionId;
 	private String choices;
@@ -57,12 +57,12 @@ public class ExamAnswerPO extends Model<ExamAnswerPO> {
 		this.examId = examId;
 	}
 
-	public Integer getQuestinBankId() {
-		return questinBankId;
+	public Integer getQuestionBankId() {
+		return questionBankId;
 	}
 
-	public void setQuestinBankId(Integer questinBankId) {
-		this.questinBankId = questinBankId;
+	public void setQuestionBankId(Integer questionBankId) {
+		this.questionBankId = questionBankId;
 	}
 
 	public Integer getQuestionId() {
@@ -139,7 +139,7 @@ public class ExamAnswerPO extends Model<ExamAnswerPO> {
 		return "ExamAnswerPO{" +
 			", id=" + id +
 			", examId=" + examId +
-			", questinBankId=" + questinBankId +
+			", questionBankId=" + questionBankId +
 			", questionId=" + questionId +
 			", choices=" + choices +
 			", correct=" + correct +

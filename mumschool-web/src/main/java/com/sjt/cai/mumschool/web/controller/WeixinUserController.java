@@ -4,9 +4,9 @@ import com.sjt.cai.mumschool.biz.service.PhoneIdentifyService;
 import com.sjt.cai.mumschool.biz.service.WeixinQrService;
 import com.sjt.cai.mumschool.biz.service.WeixinUserService;
 import com.sjt.cai.mumschool.common.JsonResult;
-import com.sjt.cai.mumschool.entity.dto.LoginDto;
-import com.sjt.cai.mumschool.entity.dto.RegisterDto;
-import com.sjt.cai.mumschool.entity.dto.ResetDto;
+import com.sjt.cai.mumschool.entity.dto.LoginDTO;
+import com.sjt.cai.mumschool.entity.dto.RegisterDTO;
+import com.sjt.cai.mumschool.entity.dto.ResetDTO;
 import com.sjt.cai.mumschool.entity.po.WeixinQrPO;
 import com.sjt.cai.mumschool.entity.po.WeixinUserPO;
 import com.sjt.cai.mumschool.wechat.dto.WeChatUser;
@@ -58,11 +58,11 @@ public class WeixinUserController {
     }
 
     @PostMapping(value="/register")
-    public JsonResult register(@RequestBody RegisterDto registerDto, HttpSession session){
+    public JsonResult register(@RequestBody RegisterDTO registerDTO, HttpSession session){
         System.out.println("----------------------------");
         //去掉电话中的空格
-        registerDto.setPhone(registerDto.getPhone().replaceAll("\\s*", ""));
-        WeixinUserPO weixinUserPO = weixinUserService.loadByPhone(registerDto.getPhone());
+        registerDTO.setPhone(registerDTO.getPhone().replaceAll("\\s*", ""));
+        WeixinUserPO weixinUserPO = weixinUserService.loadByPhone(registerDTO.getPhone());
         if (weixinUserPO != null) {
             session.setAttribute("user", weixinUserPO);
             session.setAttribute("logined", true);
@@ -71,11 +71,11 @@ public class WeixinUserController {
         }else {
             weixinUserPO = (WeixinUserPO)session.getAttribute("user");
             if (weixinUserPO != null){
-                weixinUserPO.setUserName(registerDto.getUserName());
-                weixinUserPO.setPassword(registerDto.getPassword());
-                weixinUserPO.setHospital(registerDto.getHospital());
-                weixinUserPO.setDepartment(registerDto.getDepartment());
-                weixinUserPO.setPhone(registerDto.getPhone());
+                weixinUserPO.setUserName(registerDTO.getUserName());
+                weixinUserPO.setPassword(registerDTO.getPassword());
+                weixinUserPO.setHospital(registerDTO.getHospital());
+                weixinUserPO.setDepartment(registerDTO.getDepartment());
+                weixinUserPO.setPhone(registerDTO.getPhone());
 
                 weixinUserService.updateById(weixinUserPO);
                 session.setAttribute("user", weixinUserPO);
@@ -90,12 +90,12 @@ public class WeixinUserController {
     }
 
     @PostMapping(value="login")
-    public JsonResult login(@RequestBody LoginDto loginDto, HttpSession session){
+    public JsonResult login(@RequestBody LoginDTO loginDTO, HttpSession session){
         WeixinUserPO sessionWeixinUserPO = (WeixinUserPO)session.getAttribute("user");
         if (sessionWeixinUserPO == null){
             return JsonResult.errorsInfo("1", "请在微信端打开");
         }
-        WeixinUserPO weixinUserPO = weixinUserService.loadByloginWordAndPassword(loginDto.getLoginWord(),loginDto.getPassword());
+        WeixinUserPO weixinUserPO = weixinUserService.loadByloginWordAndPassword(loginDTO.getLoginWord(), loginDTO.getPassword());
         if (weixinUserPO == null) {
             session.setAttribute("logined", false);
             return JsonResult.errorsInfo("1","登录失败，登录名和密码错误！");
@@ -110,8 +110,8 @@ public class WeixinUserController {
     }
 
     @PostMapping(value="resetPassword")
-    public JsonResult resetPassword(@RequestBody ResetDto resetDto, HttpSession session){
-        WeixinUserPO weixinUserPO = weixinUserService.loadByloginWord(resetDto.getLoginWord());
+    public JsonResult resetPassword(@RequestBody ResetDTO resetDTO, HttpSession session){
+        WeixinUserPO weixinUserPO = weixinUserService.loadByloginWord(resetDTO.getLoginWord());
         if (weixinUserPO == null) {
             return JsonResult.errorsInfo("1", "无此用户，请检查登录名/手机号！");
         }
@@ -119,10 +119,10 @@ public class WeixinUserController {
         if (phone == null) {
             return JsonResult.errorsInfo("1", "用户无注册手机号，请检查登录名/手机号！");
         }
-        if (resetDto.getIdentifyingCode()!= phoneIdentifyService.selectByPhone(phone)){
+        if (resetDTO.getIdentifyingCode()!= phoneIdentifyService.selectByPhone(phone)){
             return JsonResult.errorsInfo("1", "验证码不正确或已过期，请重新发送验证码！");
         }
-        weixinUserPO.setPassword(resetDto.getPassword());
+        weixinUserPO.setPassword(resetDTO.getPassword());
         weixinUserService.updateById(weixinUserPO);
         session.setAttribute("user",weixinUserPO);
         session.setAttribute("logined", true);

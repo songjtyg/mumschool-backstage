@@ -3,7 +3,7 @@ package com.sjt.cai.mumschool.entity.dto;
 import lombok.Data;
 
 @Data
-public class ResetDto {
+public class ResetDTO {
     private String loginWord;
     private String password;
     private String repeatPassword;
