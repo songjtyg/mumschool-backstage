@@ -1,5 +1,6 @@
 package com.sjt.cai.mumschool.biz.service;
 
+import com.sjt.cai.mumschool.entity.bo.QuestionBO;
 import com.sjt.cai.mumschool.entity.po.QuestionPO;
 import com.baomidou.mybatisplus.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface QuestionService extends IService<QuestionPO> {
 
+    QuestionBO selectNext(QuestionBO questionBO);
 }
