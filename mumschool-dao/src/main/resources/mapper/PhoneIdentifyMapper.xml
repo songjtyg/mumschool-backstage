@@ -3,7 +3,7 @@
 <mapper namespace="com.sjt.cai.mumschool.dao.PhoneIdentifyMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.PhoneIdentifyPO">
+	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.PhoneIdentify">
 		<id column="id" property="id" />
 		<result column="phone" property="phone" />
 		<result column="identifying_code" property="identifyingCode" />

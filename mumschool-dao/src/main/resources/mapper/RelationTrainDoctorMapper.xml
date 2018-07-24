@@ -3,7 +3,7 @@
 <mapper namespace="com.sjt.cai.mumschool.dao.RelationTrainDoctorMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.RelationTrainDoctorPO">
+	<resultMap id="BaseResultMap" type="com.sjt.cai.mumschool.entity.po.RelationTrainDoctor">
 		<id column="id" property="id" />
 		<result column="train_id" property="trainId" />
 		<result column="doctor_id" property="doctorId" />
