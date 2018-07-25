@@ -55,7 +55,7 @@ public class ExamController {
         }
 
         WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
-        if (weixinUserPO != null) {
+        if (weixinUserPO == null) {
             return JsonResult.errorsInfo("1","session为空，请首先登陆");
         }
 

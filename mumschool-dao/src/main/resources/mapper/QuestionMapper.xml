@@ -21,7 +21,7 @@
 		</collection>
 	</resultMap>
 	<select id="selectNext" parameterType="com.sjt.cai.mumschool.entity.dto.NextQuestionDTO" resultMap="BoResultMap">
-		select *,#{questionBankId} as questionBankId from question q,
+		select *,#{questionBankId} as questionBankId from question q
 		 where  q.id = (
 						select question_id
 							from relation_bank_question rbq
@@ -30,7 +30,7 @@
 												from relation_bank_question r
 												where r.question_bank_id = #{questionBankId}
 												and  r.seq > (select seq from relation_bank_question
-															  where question_bank_id = #{questionBankId} and questionId = #{questionId})
+															  where question_bank_id = #{questionBankId} and question_id = #{questionId})
 										  )
 						)
 	</select>

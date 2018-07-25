@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : songjtMySql
+ Source Server         : sjt-mysql
  Source Server Type    : MySQL
- Source Server Version : 50720
+ Source Server Version : 50721
  Source Host           : localhost:3306
  Source Schema         : mumschool
 
  Target Server Type    : MySQL
- Target Server Version : 50720
+ Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 25/07/2018 20:01:37
+ Date: 26/07/2018 00:09:29
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,14 @@ CREATE TABLE `exam`  (
   `modifier` int(11) NULL DEFAULT NULL,
   `modify_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of exam
+-- ----------------------------
+INSERT INTO `exam` VALUES (7, 7, 1, 0, 0, '2018-07-26 00:07:12', NULL, NULL, '2018-07-26 00:07:12', NULL, NULL);
+INSERT INTO `exam` VALUES (8, 7, 1, 0, 0, '2018-07-26 00:07:46', NULL, NULL, '2018-07-26 00:07:48', NULL, NULL);
+INSERT INTO `exam` VALUES (9, 7, 1, 0, 0, '2018-07-26 00:08:42', NULL, NULL, '2018-07-26 00:08:41', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for exam_answer
@@ -191,25 +198,6 @@ CREATE TABLE `train`  (
   `bank_id` int(11) NULL DEFAULT NULL,
   `status` int(255) NULL DEFAULT NULL,
   `remark` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `creater` int(11) NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` int(11) NULL DEFAULT NULL,
-  `modify_time` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for user_exam
--- ----------------------------
-DROP TABLE IF EXISTS `user_exam`;
-CREATE TABLE `user_exam`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NULL DEFAULT NULL,
-  `question_bank_id` int(11) NULL DEFAULT NULL,
-  `correct_num` int(11) NULL DEFAULT NULL,
-  `score` int(11) NULL DEFAULT NULL,
-  `begin_time` datetime(0) NULL DEFAULT NULL,
-  `end_time` datetime(0) NULL DEFAULT NULL,
   `creater` int(11) NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` int(11) NULL DEFAULT NULL,
