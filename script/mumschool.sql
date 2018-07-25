@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : sjt-mysql
+ Source Server         : songjtMySql
  Source Server Type    : MySQL
- Source Server Version : 50721
+ Source Server Version : 50720
  Source Host           : localhost:3306
  Source Schema         : mumschool
 
  Target Server Type    : MySQL
- Target Server Version : 50721
+ Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 24/07/2018 23:25:22
+ Date: 25/07/2018 20:01:37
 */
 
 SET NAMES utf8mb4;
@@ -76,17 +76,19 @@ CREATE TABLE `question`  (
   `type` tinyint(1) NULL DEFAULT NULL COMMENT '1-单选；2-多选',
   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `score` int(2) NULL DEFAULT NULL,
+  `choices` set('A','B','C','D') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
   `creater` int(11) NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` int(11) NULL DEFAULT NULL,
   `modify_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of question
 -- ----------------------------
-INSERT INTO `question` VALUES (1, 0, '宝宝不爱吃饭该怎么治疗？不爱吃饭影响身体发育，主要是宝宝一日三餐，没有一顿能好好吃一次，现在也不喝奶了。喜欢看书，都不知道他一天能量从哪里来。', 1, NULL, '2018-07-22 16:37:10', NULL, NULL);
+INSERT INTO `question` VALUES (1, 0, '宝宝不爱吃饭该怎么治疗？不爱吃饭影响身体发育，主要是宝宝一日三餐，没有一顿能好好吃一次，现在也不喝奶了。喜欢看书，都不知道他一天能量从哪里来。', 2, '', NULL, '2018-07-22 16:37:10', NULL, NULL);
+INSERT INTO `question` VALUES (2, 0, '宝宝怕摔跤不走路怎么办？', 2, '', NULL, '2018-07-25 19:54:28', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for question_bank
@@ -113,13 +115,13 @@ CREATE TABLE `question_bank`  (
 -- ----------------------------
 -- Records of question_bank
 -- ----------------------------
-INSERT INTO `question_bank` VALUES (1, '妈妈校园毕业考试', '这次考试非常重要，里面每道题都精挑细选，通过了有惊喜哦！！！', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, '2018-07-22 12:02:59', NULL, NULL);
+INSERT INTO `question_bank` VALUES (1, '妈妈校园毕业考试', '这次考试非常重要，里面每道题都精挑细选，通过了有惊喜哦！！！', NULL, NULL, NULL, NULL, '1234567890', NULL, '', NULL, '2018-07-22 12:02:59', NULL, NULL);
 
 -- ----------------------------
--- Table structure for question_choice
+-- Table structure for question_option
 -- ----------------------------
-DROP TABLE IF EXISTS `question_choice`;
-CREATE TABLE `question_choice`  (
+DROP TABLE IF EXISTS `question_option`;
+CREATE TABLE `question_option`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `question_id` int(11) NULL DEFAULT NULL,
   `letter` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -130,15 +132,19 @@ CREATE TABLE `question_choice`  (
   `modifier` int(11) NULL DEFAULT NULL,
   `modify_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of question_choice
+-- Records of question_option
 -- ----------------------------
-INSERT INTO `question_choice` VALUES (1, 1, 'A', '补锌', b'1', NULL, '2018-07-22 16:37:46', NULL, NULL);
-INSERT INTO `question_choice` VALUES (2, 1, 'B', '补钙', NULL, NULL, '2018-07-22 16:38:00', NULL, NULL);
-INSERT INTO `question_choice` VALUES (3, 1, 'C', '补铁', NULL, NULL, '2018-07-22 16:38:11', NULL, NULL);
-INSERT INTO `question_choice` VALUES (4, 1, 'D', '不许吃零食，不喝常温奶，可以喝奶粉，及冷藏酸奶，一定要注意营养均衡。', b'1', NULL, '2018-07-22 16:38:34', NULL, NULL);
+INSERT INTO `question_option` VALUES (1, 1, 'A', '补锌', b'1', NULL, '2018-07-22 16:37:46', NULL, NULL);
+INSERT INTO `question_option` VALUES (2, 1, 'B', '补钙', b'0', NULL, '2018-07-22 16:38:00', NULL, NULL);
+INSERT INTO `question_option` VALUES (3, 1, 'C', '补铁', b'0', NULL, '2018-07-22 16:38:11', NULL, NULL);
+INSERT INTO `question_option` VALUES (4, 1, 'D', '不许吃零食，不喝常温奶，可以喝奶粉，及冷藏酸奶，一定要注意营养均衡。', b'1', NULL, '2018-07-22 16:38:34', NULL, NULL);
+INSERT INTO `question_option` VALUES (5, 2, 'A', '鼓励', b'1', NULL, '2018-07-25 19:57:38', NULL, NULL);
+INSERT INTO `question_option` VALUES (6, 2, 'B', '不管', b'0', NULL, '2018-07-25 19:58:17', NULL, NULL);
+INSERT INTO `question_option` VALUES (7, 2, 'C', '牵着手走', b'1', NULL, '2018-07-25 19:58:51', NULL, NULL);
+INSERT INTO `question_option` VALUES (8, 2, 'D', '打一顿', b'0', NULL, '2018-07-25 19:59:29', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for relation_bank_question
@@ -150,7 +156,13 @@ CREATE TABLE `relation_bank_question`  (
   `question_id` int(11) NULL DEFAULT NULL,
   `seq` int(4) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of relation_bank_question
+-- ----------------------------
+INSERT INTO `relation_bank_question` VALUES (1, 1, 1, 1);
+INSERT INTO `relation_bank_question` VALUES (2, 1, 1, 2);
 
 -- ----------------------------
 -- Table structure for relation_train_doctor
@@ -179,6 +191,25 @@ CREATE TABLE `train`  (
   `bank_id` int(11) NULL DEFAULT NULL,
   `status` int(255) NULL DEFAULT NULL,
   `remark` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `creater` int(11) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` int(11) NULL DEFAULT NULL,
+  `modify_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for user_exam
+-- ----------------------------
+DROP TABLE IF EXISTS `user_exam`;
+CREATE TABLE `user_exam`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NULL DEFAULT NULL,
+  `question_bank_id` int(11) NULL DEFAULT NULL,
+  `correct_num` int(11) NULL DEFAULT NULL,
+  `score` int(11) NULL DEFAULT NULL,
+  `begin_time` datetime(0) NULL DEFAULT NULL,
+  `end_time` datetime(0) NULL DEFAULT NULL,
   `creater` int(11) NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` int(11) NULL DEFAULT NULL,

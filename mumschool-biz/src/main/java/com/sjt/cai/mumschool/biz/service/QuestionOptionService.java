@@ -1,6 +1,6 @@
 package com.sjt.cai.mumschool.biz.service;
 
-import com.sjt.cai.mumschool.entity.po.QuestionChoicePO;
+import com.sjt.cai.mumschool.entity.po.QuestionOptionPO;
 import com.baomidou.mybatisplus.service.IService;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author 宋江涛
  * @since 2018-07-18
  */
-public interface QuestionChoiceService extends IService<QuestionChoicePO> {
+public interface QuestionOptionService extends IService<QuestionOptionPO> {
 
-    List<QuestionChoicePO> selectByQuestionId(Integer questionId);
+    List<QuestionOptionPO> selectByQuestionId(Integer questionId);
 }

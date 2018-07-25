@@ -17,20 +17,18 @@ import com.baomidou.mybatisplus.annotations.TableName;
  * @author 宋江涛
  * @since 2018-07-24
  */
-@TableName("question")
-public class QuestionPO extends Model<QuestionPO> {
+@TableName("question_option")
+public class QuestionOptionPO extends Model<QuestionOptionPO> {
 
     private static final long serialVersionUID = 1L;
 
 	@TableId(value="id", type= IdType.AUTO)
 	private Integer id;
-    /**
-     * 1-单选；2-多选
-     */
-	private Integer type;
+	@TableField("question_id")
+	private Integer questionId;
+	private String letter;
 	private String content;
-	private Integer score;
-	private String choices;
+	private Boolean correct;
 	private Integer creater;
 	@TableField("create_time")
 	private Date createTime;
@@ -47,12 +45,20 @@ public class QuestionPO extends Model<QuestionPO> {
 		this.id = id;
 	}
 
-	public Integer getType() {
-		return type;
+	public Integer getQuestionId() {
+		return questionId;
 	}
 
-	public void setType(Integer type) {
-		this.type = type;
+	public void setQuestionId(Integer questionId) {
+		this.questionId = questionId;
+	}
+
+	public String getLetter() {
+		return letter;
+	}
+
+	public void setLetter(String letter) {
+		this.letter = letter;
 	}
 
 	public String getContent() {
@@ -63,20 +69,12 @@ public class QuestionPO extends Model<QuestionPO> {
 		this.content = content;
 	}
 
-	public Integer getScore() {
-		return score;
+	public Boolean getCorrect() {
+		return correct;
 	}
 
-	public void setScore(Integer score) {
-		this.score = score;
-	}
-
-	public String getChoices() {
-		return choices;
-	}
-
-	public void setChoices(String choices) {
-		this.choices = choices;
+	public void setCorrect(Boolean correct) {
+		this.correct = correct;
 	}
 
 	public Integer getCreater() {
@@ -118,11 +116,12 @@ public class QuestionPO extends Model<QuestionPO> {
 
 	@Override
 	public String toString() {
-		return "QuestionPO{" +
+		return "QuestionOptionPO{" +
 			", id=" + id +
-			", type=" + type +
+			", questionId=" + questionId +
+			", letter=" + letter +
 			", content=" + content +
-			", score=" + score +
+			", correct=" + correct +
 			", creater=" + creater +
 			", createTime=" + createTime +
 			", modifier=" + modifier +

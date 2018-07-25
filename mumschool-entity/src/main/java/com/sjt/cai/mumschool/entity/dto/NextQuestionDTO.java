@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class NextQuestionDTO {
+    private Integer examId;
     private Integer questionBankId;
     private Integer questionId;
 }

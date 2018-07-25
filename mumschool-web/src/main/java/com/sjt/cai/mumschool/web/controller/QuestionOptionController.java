@@ -1,9 +1,9 @@
 package com.sjt.cai.mumschool.web.controller;
 
 
-import com.sjt.cai.mumschool.biz.service.QuestionChoiceService;
+import com.sjt.cai.mumschool.biz.service.QuestionOptionService;
 import com.sjt.cai.mumschool.biz.service.QuestionService;
-import com.sjt.cai.mumschool.entity.po.QuestionChoicePO;
+import com.sjt.cai.mumschool.entity.po.QuestionOptionPO;
 import com.sjt.cai.mumschool.entity.po.QuestionPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,14 +24,14 @@ import java.util.List;
  * @since 2018-07-18
  */
 @RestController
-@RequestMapping("/questionChoice")
-public class QuestionChoiceController {
+@RequestMapping("/questionOption")
+public class QuestionOptionController {
     @Autowired
-    private QuestionChoiceService questionChoiceService;
+    private QuestionOptionService questionOptionService;
 
     @GetMapping("/questionId/{questionId}")
-    public List<QuestionChoicePO> selectById(@PathVariable("questionId")Integer questionId){
-        return questionChoiceService.selectByQuestionId(questionId);
+    public List<QuestionOptionPO> selectById(@PathVariable("questionId")Integer questionId){
+        return questionOptionService.selectByQuestionId(questionId);
     }
 }
 

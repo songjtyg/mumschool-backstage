@@ -1,11 +1,16 @@
 package com.sjt.cai.mumschool.biz.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.sjt.cai.mumschool.biz.service.ExamAnswerService;
+import com.sjt.cai.mumschool.biz.service.ExamService;
 import com.sjt.cai.mumschool.entity.bo.QuestionBO;
 import com.sjt.cai.mumschool.entity.dto.NextQuestionDTO;
+import com.sjt.cai.mumschool.entity.po.ExamAnswerPO;
 import com.sjt.cai.mumschool.entity.po.QuestionPO;
 import com.sjt.cai.mumschool.dao.QuestionMapper;
 import com.sjt.cai.mumschool.biz.service.QuestionService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,8 +24,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, QuestionPO> implements QuestionService {
 
+    @Autowired
+    private ExamAnswerService examAnswerService;
+
     @Override
     public QuestionBO selectNext(NextQuestionDTO nextQuestionDTO) {
-        return baseMapper.selectNext(nextQuestionDTO);
+        QuestionBO questionBO = baseMapper.selectNext(nextQuestionDTO);
+        ExamAnswerPO examAnswerPO = examAnswerService.selectOne(
+            new EntityWrapper<ExamAnswerPO>().where("exam_id = {0} and question_id = {1}",nextQuestionDTO.getExamId(),questionBO.getId()));
+        questionBO.setExamAnswerPO(examAnswerPO);
+        return questionBO;
     }
 }

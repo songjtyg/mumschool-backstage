@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface QuestionBankService extends IService<QuestionBankPO> {
 
+    Boolean ifExistByIdAndQrVerifyCode(Integer questionBankId, String qrVerifyCode);
 }

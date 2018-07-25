@@ -8,12 +8,19 @@
 		<result column="type" property="type" />
 		<result column="content" property="content" />
 		<result column="score" property="score" />
+		<result column="choices" property="choices" />
 		<result column="creater" property="creater" />
 		<result column="create_time" property="createTime" />
 		<result column="modifier" property="modifier" />
 		<result column="modify_time" property="modifyTime" />
 	</resultMap>
-	<select id="selectNext" parameterType="NextQuestionDTO" resultType="com.sjt.cai.mumschool.entity.bo.QuestionBO">
+	<resultMap id="BoResultMap" type="com.sjt.cai.mumschool.entity.bo.QuestionOptionBO" extends="BaseResultMap">
+		<collection property="questionOptionBOs" ofType="com.sjt.cai.mumschool.entity.bo.QuestionOptionBO"
+					javaType="java.util.ArrayList" select="com.sjt.cai.mumschool.dao.QuestionOptionMapper.selectListByQuestionId"
+					column="id">
+		</collection>
+	</resultMap>
+	<select id="selectNext" parameterType="com.sjt.cai.mumschool.entity.dto.NextQuestionDTO" resultMap="BoResultMap">
 		select *,#{questionBankId} as questionBankId from question q,
 		 where  q.id = (
 						select question_id
@@ -25,6 +32,7 @@
 												and  r.seq > (select seq from relation_bank_question
 															  where question_bank_id = #{questionBankId} and questionId = #{questionId})
 										  )
-						 )
+						)
 	</select>
+
 </mapper>

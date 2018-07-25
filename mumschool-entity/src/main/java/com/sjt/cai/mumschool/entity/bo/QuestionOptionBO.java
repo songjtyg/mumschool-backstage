@@ -1,13 +1,13 @@
-package com.sjt.cai.mumschool.entity.po;
+package com.sjt.cai.mumschool.entity.bo;
+
+import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
-
-import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableName;
 
 /**
  * <p>
@@ -17,8 +17,8 @@ import com.baomidou.mybatisplus.annotations.TableName;
  * @author 宋江涛
  * @since 2018-07-24
  */
-@TableName("question_choice")
-public class QuestionChoicePO extends Model<QuestionChoicePO> {
+@TableName("question_option")
+public class QuestionOptionBO extends Model<QuestionOptionBO> {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,6 @@ public class QuestionChoicePO extends Model<QuestionChoicePO> {
 	private Integer questionId;
 	private String letter;
 	private String content;
-	private Boolean correct;
 	private Integer creater;
 	@TableField("create_time")
 	private Date createTime;
@@ -67,14 +66,6 @@ public class QuestionChoicePO extends Model<QuestionChoicePO> {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public Boolean getCorrect() {
-		return correct;
-	}
-
-	public void setCorrect(Boolean correct) {
-		this.correct = correct;
 	}
 
 	public Integer getCreater() {
@@ -116,12 +107,11 @@ public class QuestionChoicePO extends Model<QuestionChoicePO> {
 
 	@Override
 	public String toString() {
-		return "QuestionChoicePO{" +
+		return "QuestionOptionPO{" +
 			", id=" + id +
 			", questionId=" + questionId +
 			", letter=" + letter +
 			", content=" + content +
-			", correct=" + correct +
 			", creater=" + creater +
 			", createTime=" + createTime +
 			", modifier=" + modifier +

@@ -13,4 +13,5 @@ import com.sjt.cai.mumschool.entity.po.ExamPO;
  */
 public interface ExamService extends IService<ExamPO> {
 
+    Integer calculateScore(Integer examId);
 }
