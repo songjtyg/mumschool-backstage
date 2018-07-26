@@ -1,6 +1,7 @@
 package com.sjt.cai.mumschool.biz.service;
 
 import com.baomidou.mybatisplus.service.IService;
+import com.sjt.cai.mumschool.entity.bo.ExamBO;
 import com.sjt.cai.mumschool.entity.po.ExamPO;
 
 /**
@@ -14,4 +15,6 @@ import com.sjt.cai.mumschool.entity.po.ExamPO;
 public interface ExamService extends IService<ExamPO> {
 
     Integer calculateScore(Integer examId);
+
+    ExamBO selectBoById(Integer examId);
 }

@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.sjt.cai.mumschool.biz.service.ExamAnswerService;
 import com.sjt.cai.mumschool.biz.service.ExamService;
+import com.sjt.cai.mumschool.common.CommonTransform;
 import com.sjt.cai.mumschool.dao.ExamMapper;
+import com.sjt.cai.mumschool.entity.bo.ExamBO;
 import com.sjt.cai.mumschool.entity.po.ExamAnswerPO;
 import com.sjt.cai.mumschool.entity.po.ExamPO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +39,11 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, ExamPO> implements 
         examPO.setScore(totalScore);
         updateById(examPO);
         return totalScore;
+    }
+
+    @Override
+    public ExamBO selectBoById(Integer examId) {
+        ExamPO examPO = selectById(examId);
+        return CommonTransform.convertToDTO(examPO,ExamBO.class);
     }
 }

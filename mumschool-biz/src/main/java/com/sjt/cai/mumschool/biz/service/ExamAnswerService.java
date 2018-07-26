@@ -1,5 +1,6 @@
 package com.sjt.cai.mumschool.biz.service;
 
+import com.sjt.cai.mumschool.entity.bo.ExamAnswerBO;
 import com.sjt.cai.mumschool.entity.po.ExamAnswerPO;
 import com.baomidou.mybatisplus.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface ExamAnswerService extends IService<ExamAnswerPO> {
 
+    ExamAnswerBO selectOneBO(Integer examId, Integer questionId);
 }

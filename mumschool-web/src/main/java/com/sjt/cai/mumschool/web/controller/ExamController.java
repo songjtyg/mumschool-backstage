@@ -85,7 +85,6 @@ public class ExamController {
 
         NextQuestionDTO nextQuestionDTO = new NextQuestionDTO();
         nextQuestionDTO.setExamId(examAnswerPO.getExamId());
-        nextQuestionDTO.setQuestionBankId(examAnswerPO.getQuestionBankId());
         nextQuestionDTO.setQuestionId(examAnswerPO.getQuestionId());
         QuestionBO nextQuestionBO = questionService.selectNext(nextQuestionDTO);
 

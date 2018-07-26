@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.sjt.cai.mumschool.entity.po.ExamAnswerPO;
+import com.sjt.cai.mumschool.entity.po.ExamPO;
 import com.sjt.cai.mumschool.entity.po.QuestionPO;
 import lombok.Data;
 
@@ -30,7 +31,8 @@ public class QuestionBO {
 	private Integer modifier;
 	private Date modifyTime;
 	private Integer questionBankId;
-	private ExamAnswerPO examAnswerPO;
+	private ExamBO examBO;
+	private ExamAnswerBO examAnswerBO;
 	private List<QuestionOptionBO> questionOptionBOs;
 
 }
