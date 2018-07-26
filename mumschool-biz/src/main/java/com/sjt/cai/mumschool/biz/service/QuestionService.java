@@ -16,4 +16,6 @@ import com.baomidou.mybatisplus.service.IService;
 public interface QuestionService extends IService<QuestionPO> {
 
     QuestionBO selectNext(NextQuestionDTO nextQuestionDTO);
+
+    QuestionBO selectFirst(Integer examId);
 }

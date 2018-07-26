@@ -15,7 +15,7 @@
 		<result column="modify_time" property="modifyTime" />
 	</resultMap>
 
-	<select id="selectListByQuestionId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-		select * form question_option where quesition_id =#{_parameter}
+	<select id="selectListByQuestionId" parameterType="java.lang.Integer" resultType="com.sjt.cai.mumschool.entity.bo.QuestionOptionBO">
+		select * from question_option where question_id =#{_parameter}
 	</select>
 </mapper>

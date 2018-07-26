@@ -30,9 +30,22 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, QuestionPO>
     @Override
     public QuestionBO selectNext(NextQuestionDTO nextQuestionDTO) {
         QuestionBO questionBO = baseMapper.selectNext(nextQuestionDTO);
-        ExamAnswerPO examAnswerPO = examAnswerService.selectOne(
-            new EntityWrapper<ExamAnswerPO>().where("exam_id = {0} and question_id = {1}",nextQuestionDTO.getExamId(),questionBO.getId()));
-        questionBO.setExamAnswerPO(examAnswerPO);
+        if (questionBO != null) {
+            ExamAnswerPO examAnswerPO = examAnswerService.selectOne(
+                    new EntityWrapper<ExamAnswerPO>().where("exam_id = {0} and question_id = {1}", nextQuestionDTO.getExamId(), questionBO.getId()));
+            questionBO.setExamAnswerPO(examAnswerPO);
+        }
+        return questionBO;
+    }
+
+    @Override
+    public QuestionBO selectFirst(Integer examId) {
+        QuestionBO questionBO = baseMapper.selectFirst(examId);
+        if (questionBO != null) {
+            ExamAnswerPO examAnswerPO = examAnswerService.selectOne(
+                    new EntityWrapper<ExamAnswerPO>().where("exam_id = {0} and question_id = {1}", examId,questionBO.getId()));
+            questionBO.setExamAnswerPO(examAnswerPO);
+        }
         return questionBO;
     }
 }

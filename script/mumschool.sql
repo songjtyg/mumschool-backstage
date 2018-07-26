@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : sjt-mysql
+ Source Server         : songjtMySql
  Source Server Type    : MySQL
- Source Server Version : 50721
+ Source Server Version : 50720
  Source Host           : localhost:3306
  Source Schema         : mumschool
 
  Target Server Type    : MySQL
- Target Server Version : 50721
+ Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 26/07/2018 00:09:29
+ Date: 26/07/2018 20:05:36
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `exam`  (
   `modifier` int(11) NULL DEFAULT NULL,
   `modify_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam
@@ -42,6 +42,20 @@ CREATE TABLE `exam`  (
 INSERT INTO `exam` VALUES (7, 7, 1, 0, 0, '2018-07-26 00:07:12', NULL, NULL, '2018-07-26 00:07:12', NULL, NULL);
 INSERT INTO `exam` VALUES (8, 7, 1, 0, 0, '2018-07-26 00:07:46', NULL, NULL, '2018-07-26 00:07:48', NULL, NULL);
 INSERT INTO `exam` VALUES (9, 7, 1, 0, 0, '2018-07-26 00:08:42', NULL, NULL, '2018-07-26 00:08:41', NULL, NULL);
+INSERT INTO `exam` VALUES (10, 7, 1, 0, 0, '2018-07-26 08:36:27', NULL, NULL, '2018-07-26 08:36:26', NULL, NULL);
+INSERT INTO `exam` VALUES (11, 7, 1, 0, 0, '2018-07-26 08:37:57', NULL, NULL, '2018-07-26 08:39:03', NULL, NULL);
+INSERT INTO `exam` VALUES (12, 7, 1, 0, 0, '2018-07-26 09:39:55', NULL, NULL, '2018-07-26 09:39:55', NULL, NULL);
+INSERT INTO `exam` VALUES (13, 7, 1, 0, 0, '2018-07-26 09:40:20', NULL, NULL, '2018-07-26 09:40:46', NULL, NULL);
+INSERT INTO `exam` VALUES (14, 7, 1, 0, 0, '2018-07-26 09:42:08', NULL, NULL, '2018-07-26 09:42:07', NULL, NULL);
+INSERT INTO `exam` VALUES (15, 7, 1, 0, 0, '2018-07-26 09:43:02', NULL, NULL, '2018-07-26 09:43:01', NULL, NULL);
+INSERT INTO `exam` VALUES (16, 7, 1, 0, 0, '2018-07-26 09:43:14', NULL, NULL, '2018-07-26 09:43:14', NULL, NULL);
+INSERT INTO `exam` VALUES (17, 7, 1, 0, 0, '2018-07-26 09:44:09', NULL, NULL, '2018-07-26 09:44:08', NULL, NULL);
+INSERT INTO `exam` VALUES (18, 7, 1, 0, 0, '2018-07-26 09:47:59', NULL, NULL, '2018-07-26 09:47:58', NULL, NULL);
+INSERT INTO `exam` VALUES (19, 7, 1, 0, 0, '2018-07-26 09:47:59', NULL, NULL, '2018-07-26 09:47:58', NULL, NULL);
+INSERT INTO `exam` VALUES (20, 7, 1, 0, 0, '2018-07-26 09:53:07', NULL, NULL, '2018-07-26 09:53:07', NULL, NULL);
+INSERT INTO `exam` VALUES (21, 7, 1, 0, 0, '2018-07-26 19:40:19', NULL, NULL, '2018-07-26 19:40:19', NULL, NULL);
+INSERT INTO `exam` VALUES (22, 7, 1, 0, 0, '2018-07-26 19:50:03', NULL, NULL, '2018-07-26 19:50:03', NULL, NULL);
+INSERT INTO `exam` VALUES (23, 7, 1, 0, 0, '2018-07-26 19:59:19', NULL, NULL, '2018-07-26 19:59:18', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for exam_answer
@@ -83,7 +97,6 @@ CREATE TABLE `question`  (
   `type` tinyint(1) NULL DEFAULT NULL COMMENT '1-单选；2-多选',
   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `score` int(2) NULL DEFAULT NULL,
-  `choices` set('A','B','C','D') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
   `creater` int(11) NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` int(11) NULL DEFAULT NULL,
@@ -94,8 +107,8 @@ CREATE TABLE `question`  (
 -- ----------------------------
 -- Records of question
 -- ----------------------------
-INSERT INTO `question` VALUES (1, 0, '宝宝不爱吃饭该怎么治疗？不爱吃饭影响身体发育，主要是宝宝一日三餐，没有一顿能好好吃一次，现在也不喝奶了。喜欢看书，都不知道他一天能量从哪里来。', 2, '', NULL, '2018-07-22 16:37:10', NULL, NULL);
-INSERT INTO `question` VALUES (2, 0, '宝宝怕摔跤不走路怎么办？', 2, '', NULL, '2018-07-25 19:54:28', NULL, NULL);
+INSERT INTO `question` VALUES (1, 0, '宝宝不爱吃饭该怎么治疗？不爱吃饭影响身体发育，主要是宝宝一日三餐，没有一顿能好好吃一次，现在也不喝奶了。喜欢看书，都不知道他一天能量从哪里来。', 2, NULL, '2018-07-22 16:37:10', NULL, NULL);
+INSERT INTO `question` VALUES (2, 0, '宝宝怕摔跤不走路怎么办？', 2, NULL, '2018-07-25 19:54:28', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for question_bank
@@ -169,7 +182,7 @@ CREATE TABLE `relation_bank_question`  (
 -- Records of relation_bank_question
 -- ----------------------------
 INSERT INTO `relation_bank_question` VALUES (1, 1, 1, 1);
-INSERT INTO `relation_bank_question` VALUES (2, 1, 1, 2);
+INSERT INTO `relation_bank_question` VALUES (2, 1, 2, 2);
 
 -- ----------------------------
 -- Table structure for relation_train_doctor

@@ -25,13 +25,12 @@ public class QuestionBO {
 	private Integer type;
 	private String content;
 	private Integer score;
-	private String choices;
 	private Integer creater;
 	private Date createTime;
 	private Integer modifier;
 	private Date modifyTime;
 	private Integer questionBankId;
-	private List<QuestionOptionBO> questionOptionBOs;
 	private ExamAnswerPO examAnswerPO;
+	private List<QuestionOptionBO> questionOptionBOs;
 
 }

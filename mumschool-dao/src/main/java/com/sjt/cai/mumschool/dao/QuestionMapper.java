@@ -16,4 +16,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 public interface QuestionMapper extends BaseMapper<QuestionPO> {
 
     QuestionBO selectNext(NextQuestionDTO nextQuestionDTO);
+
+    QuestionBO selectFirst(Integer examId);
 }

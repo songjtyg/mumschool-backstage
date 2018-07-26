@@ -32,7 +32,7 @@ import java.util.Optional;
  * @author 宋江涛
  * @since 2018-07-18
  */
-@Controller
+@RestController
 @RequestMapping("/exam")
 public class ExamController {
 
@@ -68,11 +68,7 @@ public class ExamController {
         examPO.setEndTime(null);
         examService.insert(examPO);
 
-        NextQuestionDTO nextQuestionDTO = new NextQuestionDTO();
-        nextQuestionDTO.setExamId(examPO.getId());
-        nextQuestionDTO.setQuestionBankId(examPO.getQuestionBankId());
-        nextQuestionDTO.setQuestionId(0);
-        QuestionBO nextQuestionBO = questionService.selectNext(nextQuestionDTO);
+        QuestionBO nextQuestionBO = questionService.selectFirst(examPO.getId());
 
         return JsonResult.success(nextQuestionBO);
 

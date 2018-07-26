@@ -30,7 +30,6 @@ public class QuestionPO extends Model<QuestionPO> {
 	private Integer type;
 	private String content;
 	private Integer score;
-	private String choices;
 	private Integer creater;
 	@TableField("create_time")
 	private Date createTime;
@@ -71,13 +70,6 @@ public class QuestionPO extends Model<QuestionPO> {
 		this.score = score;
 	}
 
-	public String getChoices() {
-		return choices;
-	}
-
-	public void setChoices(String choices) {
-		this.choices = choices;
-	}
 
 	public Integer getCreater() {
 		return creater;
