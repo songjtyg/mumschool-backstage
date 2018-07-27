@@ -44,6 +44,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, ExamPO> implements 
     @Override
     public ExamBO selectBoById(Integer examId) {
         ExamPO examPO = selectById(examId);
-        return CommonTransform.convertToDTO(examPO,ExamBO.class);
+
+        return examPO == null? null : CommonTransform.convertToDTO(examPO,ExamBO.class);
     }
 }

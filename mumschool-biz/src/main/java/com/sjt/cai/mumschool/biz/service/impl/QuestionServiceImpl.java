@@ -37,10 +37,16 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, QuestionPO>
     public QuestionBO selectNext(NextQuestionDTO nextQuestionDTO) {
         QuestionBO questionBO = baseMapper.selectNext(nextQuestionDTO);
         if (questionBO != null) {
-            ExamAnswerBO examAnswerBO = examAnswerService.selectOneBO(nextQuestionDTO.getExamId(), questionBO.getId());
-            questionBO.setExamAnswerBO(examAnswerBO);
             ExamBO examBO = examService.selectBoById(nextQuestionDTO.getExamId());
             questionBO.setExamBO(examBO);
+            ExamAnswerBO examAnswerBO = examAnswerService.selectOneBO(nextQuestionDTO.getExamId(), questionBO.getId());
+            if (examAnswerBO == null){
+                examAnswerBO = new ExamAnswerBO();
+                examAnswerBO.setExamId(examBO.getId());
+                examAnswerBO.setQuestionBankId(questionBO.getQuestionBankId());
+                examAnswerBO.setQuestionId(questionBO.getId());
+            }
+            questionBO.setExamAnswerBO(examAnswerBO);
         }
         return questionBO;
     }
@@ -49,10 +55,16 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, QuestionPO>
     public QuestionBO selectFirst(Integer examId) {
         QuestionBO questionBO = baseMapper.selectFirst(examId);
         if (questionBO != null) {
-            ExamAnswerBO examAnswerBO = examAnswerService.selectOneBO(examId, questionBO.getId());
-            questionBO.setExamAnswerBO(examAnswerBO);
             ExamBO examBO = examService.selectBoById(examId);
             questionBO.setExamBO(examBO);
+            ExamAnswerBO examAnswerBO = examAnswerService.selectOneBO(examId, questionBO.getId());
+            if (examAnswerBO == null){
+                examAnswerBO = new ExamAnswerBO();
+                examAnswerBO.setExamId(examId);
+                examAnswerBO.setQuestionBankId(questionBO.getQuestionBankId());
+                examAnswerBO.setQuestionId(questionBO.getId());
+            }
+            questionBO.setExamAnswerBO(examAnswerBO);
         }
         return questionBO;
     }

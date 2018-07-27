@@ -20,7 +20,9 @@
 		</collection>
 	</resultMap>
 	<select id="selectFirst" parameterType="java.lang.Integer" resultMap="BoResultMap">
-		select * from question q where q.id =
+		select *,
+				(select question_bank_id from exam where id = #{examId}) as question_bank_id
+		from question q where q.id =
 			(select rbq.question_id from relation_bank_question rbq, exam em
 			 where rbq.question_bank_id = em.question_bank_id and em.id =#{examId} and
 				rbq.seq =

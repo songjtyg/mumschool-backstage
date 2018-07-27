@@ -6,4 +6,5 @@ import lombok.Data;
 public class NextQuestionDTO {
     private Integer examId;
     private Integer questionId;
+    private Integer questionBankId;
 }

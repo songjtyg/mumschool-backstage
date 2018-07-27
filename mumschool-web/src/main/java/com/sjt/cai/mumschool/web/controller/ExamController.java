@@ -2,27 +2,23 @@ package com.sjt.cai.mumschool.web.controller;
 
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.sjt.cai.mumschool.biz.service.ExamAnswerService;
-import com.sjt.cai.mumschool.biz.service.ExamService;
-import com.sjt.cai.mumschool.biz.service.QuestionBankService;
-import com.sjt.cai.mumschool.biz.service.QuestionService;
+import com.sjt.cai.mumschool.biz.service.*;
+import com.sjt.cai.mumschool.common.CommonTransform;
 import com.sjt.cai.mumschool.common.JsonResult;
+import com.sjt.cai.mumschool.entity.bo.ExamAnswerBO;
 import com.sjt.cai.mumschool.entity.bo.QuestionBO;
 import com.sjt.cai.mumschool.entity.dto.ExamBeginDTO;
 import com.sjt.cai.mumschool.entity.dto.NextQuestionDTO;
-import com.sjt.cai.mumschool.entity.po.ExamAnswerPO;
-import com.sjt.cai.mumschool.entity.po.ExamPO;
-import com.sjt.cai.mumschool.entity.po.QuestionPO;
-import com.sjt.cai.mumschool.entity.po.WeixinUserPO;
+import com.sjt.cai.mumschool.entity.po.*;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -48,6 +44,9 @@ public class ExamController {
     @Autowired
     private QuestionBankService questionBankService;
 
+    @Autowired
+    private QuestionOptionService questionOptionService;
+
     @PostMapping("/begin")
     public JsonResult<QuestionBO> begin(@RequestBody ExamBeginDTO examBeginDTO, HttpSession session) {
         if (!questionBankService.ifExistByIdAndQrVerifyCode(examBeginDTO.getQuestionBankId(),examBeginDTO.getQrVerifyCode())){
@@ -56,7 +55,9 @@ public class ExamController {
 
         WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
         if (weixinUserPO == null) {
-            return JsonResult.errorsInfo("1","session为空，请首先登陆");
+//            return JsonResult.errorsInfo("1","session为空，请首先登陆");
+            weixinUserPO = new WeixinUserPO();
+            weixinUserPO.setId(1);
         }
 
         ExamPO examPO = new ExamPO();
@@ -74,18 +75,35 @@ public class ExamController {
 
     }
     @PostMapping("/next")
-    public JsonResult<QuestionBO> next(@RequestBody ExamAnswerPO examAnswerPO, HttpSession session) {
+    public JsonResult<QuestionBO> next(@RequestBody ExamAnswerBO examAnswerBO, HttpSession session) {
         WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
         if (weixinUserPO != null){
-            return JsonResult.errorsInfo("1","session为空，请首先登陆");
+//            return JsonResult.errorsInfo("1","session为空，请首先登陆");
+            weixinUserPO = new WeixinUserPO();
+            weixinUserPO.setId(1);
         }
 
+        ExamAnswerPO examAnswerPO = new ExamAnswerPO();
+        BeanUtils.copyProperties(examAnswerBO,examAnswerPO,"choices");
 
+        List<String> factChoices = examAnswerBO.getChoices();
+        Collections.sort(factChoices);
+        examAnswerPO.setChoices(StringUtils.join(factChoices,""));
+
+        List<QuestionOptionPO> qos = questionOptionService.selectList(new EntityWrapper<QuestionOptionPO>().where("question_id = {0}",examAnswerBO.getQuestionId()));
+        List<String> qss = qos.stream().filter(i->i.getCorrect()).map((i)-> i.getLetter()).collect(Collectors.toList());
+        Collections.sort(qss);
+
+        if (examAnswerPO.getChoices().equalsIgnoreCase(StringUtils.join(qss,"")))
+            examAnswerPO.setCorrect(true);
+        else
+            examAnswerPO.setCorrect(false);
         examAnswerService.insertOrUpdate(examAnswerPO);
 
         NextQuestionDTO nextQuestionDTO = new NextQuestionDTO();
-        nextQuestionDTO.setExamId(examAnswerPO.getExamId());
-        nextQuestionDTO.setQuestionId(examAnswerPO.getQuestionId());
+        nextQuestionDTO.setExamId(examAnswerBO.getExamId());
+        nextQuestionDTO.setQuestionBankId(examAnswerBO.getQuestionBankId());
+        nextQuestionDTO.setQuestionId(examAnswerBO.getQuestionId());
         QuestionBO nextQuestionBO = questionService.selectNext(nextQuestionDTO);
 
         return JsonResult.success(nextQuestionBO);
@@ -95,7 +113,9 @@ public class ExamController {
     public JsonResult<Integer> finish(@RequestParam Integer examId, HttpSession session) {
         WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
         if (weixinUserPO != null){
-            return JsonResult.errorsInfo("1","session为空，请首先登陆");
+//            return JsonResult.errorsInfo("1","session为空，请首先登陆");
+            weixinUserPO = new WeixinUserPO();
+            weixinUserPO.setId(1);
         }
 
         return JsonResult.success(examService.calculateScore(examId));

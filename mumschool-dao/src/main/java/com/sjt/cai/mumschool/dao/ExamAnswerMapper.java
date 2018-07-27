@@ -1,7 +1,9 @@
 package com.sjt.cai.mumschool.dao;
 
+import com.sjt.cai.mumschool.entity.bo.ExamAnswerBO;
 import com.sjt.cai.mumschool.entity.po.ExamAnswerPO;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface ExamAnswerMapper extends BaseMapper<ExamAnswerPO> {
 
+    ExamAnswerBO selectOneBO(@Param("examId") Integer examId, @Param("questionId") Integer questionId);
 }
