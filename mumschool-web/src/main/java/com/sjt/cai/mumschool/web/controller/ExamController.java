@@ -88,13 +88,13 @@ public class ExamController {
 
         List<String> factChoices = examAnswerBO.getChoices();
         Collections.sort(factChoices);
-        examAnswerPO.setChoices(StringUtils.join(factChoices,""));
+        examAnswerPO.setChoices(StringUtils.join(factChoices,","));
 
         List<QuestionOptionPO> qos = questionOptionService.selectList(new EntityWrapper<QuestionOptionPO>().where("question_id = {0}",examAnswerBO.getQuestionId()));
         List<String> qss = qos.stream().filter(i->i.getCorrect()).map((i)-> i.getLetter()).collect(Collectors.toList());
         Collections.sort(qss);
 
-        if (examAnswerPO.getChoices().equalsIgnoreCase(StringUtils.join(qss,"")))
+        if (examAnswerPO.getChoices().equalsIgnoreCase(StringUtils.join(qss,",")))
             examAnswerPO.setCorrect(true);
         else
             examAnswerPO.setCorrect(false);
@@ -110,7 +110,7 @@ public class ExamController {
     }
 
     @GetMapping("/finish")
-    public JsonResult<Integer> finish(@RequestParam Integer examId, HttpSession session) {
+    public JsonResult<Integer> finish(@RequestParam("examId") Integer examId, HttpSession session) {
         WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
         if (weixinUserPO != null){
 //            return JsonResult.errorsInfo("1","session为空，请首先登陆");

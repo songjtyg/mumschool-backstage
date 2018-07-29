@@ -1,6 +1,6 @@
 package com.sjt.cai.mumschool.web.controller;
 
-import com.sjt.cai.mumschool.biz.service.PhoneIdentifyService;
+import com.sjt.cai.mumschool.biz.service.ShortMessageService;
 import com.sjt.cai.mumschool.biz.service.WeixinQrService;
 import com.sjt.cai.mumschool.biz.service.WeixinUserService;
 import com.sjt.cai.mumschool.common.JsonResult;
@@ -11,6 +11,7 @@ import com.sjt.cai.mumschool.entity.po.WeixinQrPO;
 import com.sjt.cai.mumschool.entity.po.WeixinUserPO;
 import com.sjt.cai.mumschool.wechat.dto.WeChatUser;
 import com.sjt.cai.mumschool.wechat.service.WeChatUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class WeixinUserController {
     @Autowired
     private WeixinQrService weixinQrService;
     @Autowired
-    private PhoneIdentifyService phoneIdentifyService;
+    private ShortMessageService shortMessageService;
     @Autowired
     private WeChatUserService weChatUserService;
 
@@ -38,75 +39,97 @@ public class WeixinUserController {
         WeixinUserPO po = (WeixinUserPO)httpSession.getAttribute("user");
         return (po != null && po.getOpenid() != null);
     }
+
     @RequestMapping(value="/setOpenid/{code}")
     public Boolean setOpenid(@PathVariable String code,HttpSession httpSession) throws IOException {
         //通过Code获取openid来进行授权
         String openid = weChatUserService.queryOpenidByCode(code);
         WeixinUserPO weixinUserPO = weixinUserService.loadByOpenid(openid);
-        if(weixinUserPO == null){
-            WeChatUser weChatUser = weChatUserService.queryByOpenid(openid);
-            weixinUserPO.setOpenid(weChatUser.getOpenid());//todo  一些系列吧？？？
-            weixinUserService.insert(weixinUserPO);
-        }else{
+        if (weixinUserPO != null){
             if(weixinUserPO.getStatus()==0){
                 weixinUserPO.setStatus(1);
                 weixinUserService.updateById(weixinUserPO);
             }
+        }else{
+            WeChatUser weChatUser = weChatUserService.queryByOpenid(openid);
+            weixinUserPO = new WeixinUserPO();
+            weixinUserPO.setOpenid(weChatUser.getOpenid());
+            weixinUserPO.setBind(1);
+            weixinUserPO.setHeadimgurl(weChatUser.getHeadimgurl());
+            weixinUserPO.setSex(weChatUser.getSex());
+            weixinUserPO.setNickname(weChatUser.getNickname());
+            weixinUserPO.setOpenid(weChatUser.getOpenid());
+            weixinUserPO.setStatus(1);
+            weixinUserPO.setActive(true);
+            weixinUserService.insert(weixinUserPO);
         }
         httpSession.setAttribute("user",weixinUserPO);
+        httpSession.setAttribute("logined",true);
         return true;
     }
 
     @PostMapping(value="/register")
     public JsonResult register(@RequestBody RegisterDTO registerDTO, HttpSession session){
-        System.out.println("----------------------------");
         //去掉电话中的空格
         registerDTO.setPhone(registerDTO.getPhone().replaceAll("\\s*", ""));
-        WeixinUserPO weixinUserPO = weixinUserService.loadByPhone(registerDTO.getPhone());
-        if (weixinUserPO != null) {
-            session.setAttribute("user", weixinUserPO);
-            session.setAttribute("logined", true);
-
-            return JsonResult.errorsInfo("1","手机号已经注册");
-        }else {
-            weixinUserPO = (WeixinUserPO)session.getAttribute("user");
-            if (weixinUserPO != null){
-                weixinUserPO.setUserName(registerDTO.getUserName());
-                weixinUserPO.setPassword(registerDTO.getPassword());
-                weixinUserPO.setHospital(registerDTO.getHospital());
-                weixinUserPO.setDepartment(registerDTO.getDepartment());
-                weixinUserPO.setPhone(registerDTO.getPhone());
-
-                weixinUserService.updateById(weixinUserPO);
-                session.setAttribute("user", weixinUserPO);
-                session.setAttribute("logined", true);
-                return JsonResult.success(null,"注册成功");
-            }else{
-                session.setAttribute("user", null);
-                session.setAttribute("logined", false);
-                return JsonResult.errorsInfo("1","请使用微信客户端自首页进入注册！");
-            }
+        WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
+        if (weixinUserPO == null || weixinUserPO.getOpenid() == null){
+           session.setAttribute("logined", false);
+           return JsonResult.errorsInfo("1","请使用微信客户端自首页进入注册！");
         }
+        if (StringUtils.isEmpty(registerDTO.getPhone())){
+            session.setAttribute("logined", false);
+            return JsonResult.errorsInfo("1","手机号不能为空！");
+        }
+        if (StringUtils.isEmpty(registerDTO.getVerifyCode())){
+            session.setAttribute("logined", false);
+            return JsonResult.errorsInfo("1","验证码不能为空！");
+        }
+        if (!shortMessageService.ifValidVerifyCode(registerDTO.getPhone(),registerDTO.getVerifyCode())){
+            session.setAttribute("logined", false);
+            return JsonResult.errorsInfo("1","验证码已失效！");
+        }
+
+        weixinUserPO.setUserName(registerDTO.getUserName());
+        weixinUserPO.setPassword(registerDTO.getPassword());
+        weixinUserPO.setPhone(registerDTO.getPhone());
+        weixinUserPO.setUserType(registerDTO.getUserType());
+
+        if (weixinUserPO.getUserType() == 0) {
+
+        } else if (weixinUserPO.getUserType() == 1) {
+            weixinUserPO.setHospital(registerDTO.getHospital());
+            weixinUserPO.setDepartment(registerDTO.getDepartment());
+        } else if (weixinUserPO.getUserType() == 2) {
+            weixinUserPO.setGestationalWeeks(registerDTO.getGestationalWeeks());
+            weixinUserPO.setPreHospital(registerDTO.getPreHospital());
+        } else if (weixinUserPO.getUserType() == 3) {
+            weixinUserPO.setGender(registerDTO.getGender());
+            weixinUserPO.setBirthday(registerDTO.getBirthday());
+        }
+        weixinUserService.updateById(weixinUserPO);
+        session.setAttribute("user", weixinUserPO);
+        session.setAttribute("logined", true);
+        return JsonResult.success(null, "注册成功");
     }
 
     @PostMapping(value="login")
     public JsonResult login(@RequestBody LoginDTO loginDTO, HttpSession session){
         WeixinUserPO sessionWeixinUserPO = (WeixinUserPO)session.getAttribute("user");
-        if (sessionWeixinUserPO == null){
+        if (sessionWeixinUserPO == null || sessionWeixinUserPO.getOpenid() == null){
             return JsonResult.errorsInfo("1", "请在微信端打开");
         }
         WeixinUserPO weixinUserPO = weixinUserService.loadByloginWordAndPassword(loginDTO.getLoginWord(), loginDTO.getPassword());
         if (weixinUserPO == null) {
             session.setAttribute("logined", false);
-            return JsonResult.errorsInfo("1","登录失败，登录名和密码错误！");
+            return JsonResult.errorsInfo("2","登录名或密码错误！");
         }
         if (!weixinUserPO.getOpenid().equalsIgnoreCase(sessionWeixinUserPO.getOpenid())) {
             session.setAttribute("logined", false);
-            return JsonResult.success(1, "登录用户和当前微信用户不一致");
+            return JsonResult.success(3, "登录用户和当前微信用户不一致");
         }
         session.setAttribute("logined", true);
-        return JsonResult.success(1, "登录成功");
-
+        return JsonResult.success(0, "登录成功");
     }
 
     @PostMapping(value="resetPassword")
@@ -119,7 +142,7 @@ public class WeixinUserController {
         if (phone == null) {
             return JsonResult.errorsInfo("1", "用户无注册手机号，请检查登录名/手机号！");
         }
-        if (resetDTO.getIdentifyingCode()!= phoneIdentifyService.selectByPhone(phone)){
+        if (shortMessageService.ifValidVerifyCode(phone,resetDTO.getVerifyCode())){
             return JsonResult.errorsInfo("1", "验证码不正确或已过期，请重新发送验证码！");
         }
         weixinUserPO.setPassword(resetDTO.getPassword());

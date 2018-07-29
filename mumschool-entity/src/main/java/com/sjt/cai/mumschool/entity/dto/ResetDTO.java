@@ -7,5 +7,5 @@ public class ResetDTO {
     private String loginWord;
     private String password;
     private String repeatPassword;
-    private String identifyingCode;
+    private String verifyCode;
 }

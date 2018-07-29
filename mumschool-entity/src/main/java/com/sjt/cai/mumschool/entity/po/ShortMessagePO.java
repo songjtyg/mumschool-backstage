@@ -15,18 +15,22 @@ import com.baomidou.mybatisplus.annotations.TableName;
  * </p>
  *
  * @author 宋江涛
- * @since 2018-07-24
+ * @since 2018-07-29
  */
-@TableName("phone_identify")
-public class PhoneIdentifyPO extends Model<PhoneIdentifyPO> {
+@TableName("short_message")
+public class ShortMessagePO extends Model<ShortMessagePO> {
 
     private static final long serialVersionUID = 1L;
 
 	@TableId(value="id", type= IdType.AUTO)
 	private Integer id;
 	private String phone;
-	@TableField("identifying_code")
-	private String identifyingCode;
+    /**
+     * 1-验证码；
+     */
+	@TableField("sms_type")
+	private Integer smsType;
+	private String content;
 	@TableField("create_time")
 	private Date createTime;
 
@@ -47,12 +51,20 @@ public class PhoneIdentifyPO extends Model<PhoneIdentifyPO> {
 		this.phone = phone;
 	}
 
-	public String getIdentifyingCode() {
-		return identifyingCode;
+	public Integer getSmsType() {
+		return smsType;
 	}
 
-	public void setIdentifyingCode(String identifyingCode) {
-		this.identifyingCode = identifyingCode;
+	public void setSmsType(Integer smsType) {
+		this.smsType = smsType;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public Date getCreateTime() {
@@ -70,10 +82,11 @@ public class PhoneIdentifyPO extends Model<PhoneIdentifyPO> {
 
 	@Override
 	public String toString() {
-		return "PhoneIdentifyPO{" +
+		return "ShortMessagePO{" +
 			", id=" + id +
 			", phone=" + phone +
-			", identifyingCode=" + identifyingCode +
+			", smsType=" + smsType +
+			", content=" + content +
 			", createTime=" + createTime +
 			"}";
 	}

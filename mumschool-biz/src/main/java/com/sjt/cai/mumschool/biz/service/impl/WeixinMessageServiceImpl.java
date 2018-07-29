@@ -73,7 +73,7 @@ public class WeixinMessageServiceImpl implements WeixinMessageService {
                     WeixinUserPO weixinUserPO =  weixinUserService.selectOne(new EntityWrapper<WeixinUserPO>().where("openid={0}",openid));
                     if(weixinUserPO !=null) {
                         String bindUrl = "http://mama.maihan.com.cn";
-                        weixinUserPO.setActive(false);
+                        weixinUserPO.setStatus(0);
                         weixinUserService.updateById(weixinUserPO);
                         return WeChatMessageKit.map2xml(WeChatMessageKit.createTextMsg(msgMap,"<a href=\""+bindUrl+"\">欢迎您以后再次使用我们的微信平台，点击打开</a>"));
                     }

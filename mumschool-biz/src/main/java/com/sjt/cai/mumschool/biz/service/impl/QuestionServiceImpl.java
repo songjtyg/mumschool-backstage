@@ -45,6 +45,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, QuestionPO>
                 examAnswerBO.setExamId(examBO.getId());
                 examAnswerBO.setQuestionBankId(questionBO.getQuestionBankId());
                 examAnswerBO.setQuestionId(questionBO.getId());
+                examAnswerBO.setScore(questionBO.getScore());
             }
             questionBO.setExamAnswerBO(examAnswerBO);
         }
@@ -63,6 +64,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, QuestionPO>
                 examAnswerBO.setExamId(examId);
                 examAnswerBO.setQuestionBankId(questionBO.getQuestionBankId());
                 examAnswerBO.setQuestionId(questionBO.getId());
+                examAnswerBO.setScore(questionBO.getScore());
             }
             questionBO.setExamAnswerBO(examAnswerBO);
         }
