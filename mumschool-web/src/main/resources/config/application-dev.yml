@@ -9,3 +9,6 @@ weixin:
     appsecret: 7e86d755f36a00f295fcb056f54c8283
     base_url: http://mumschool.ngrok.xiaomiqiu.cn/mumschool/sys/handler
     weixin_token: mummyCathedra
+other:
+    Access-Control-Allow-Origin-url: http://mumschool-front.ngrok.xiaomiqiu.cn
+    #Access-Control-Allow-Origin-url: http://localhost:90

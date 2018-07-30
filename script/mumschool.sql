@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : sjt-mysql
+ Source Server         : songjtMySql
  Source Server Type    : MySQL
- Source Server Version : 50721
+ Source Server Version : 50720
  Source Host           : localhost:3306
  Source Schema         : mumschool
 
  Target Server Type    : MySQL
- Target Server Version : 50721
+ Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 29/07/2018 23:15:14
+ Date: 30/07/2018 16:33:55
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `exam`  (
   `modifier` int(11) NULL DEFAULT NULL,
   `modify_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 96 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 99 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam
@@ -128,6 +128,9 @@ INSERT INTO `exam` VALUES (92, 7, 1, 0, 4, '2018-07-29 18:06:48', NULL, NULL, '2
 INSERT INTO `exam` VALUES (93, 7, 1, 0, 2, '2018-07-29 18:09:22', NULL, NULL, '2018-07-29 18:09:22', NULL, NULL);
 INSERT INTO `exam` VALUES (94, 7, 1, 0, 0, '2018-07-29 18:10:17', NULL, NULL, '2018-07-29 18:10:17', NULL, NULL);
 INSERT INTO `exam` VALUES (95, 7, 1, 0, 6, '2018-07-29 18:10:41', NULL, NULL, '2018-07-29 18:10:41', NULL, NULL);
+INSERT INTO `exam` VALUES (96, 7, 1, 0, 0, '2018-07-30 11:07:31', NULL, NULL, '2018-07-30 11:07:30', NULL, NULL);
+INSERT INTO `exam` VALUES (97, 1, 1, 0, 6, '2018-07-30 14:22:14', NULL, NULL, '2018-07-30 14:22:14', NULL, NULL);
+INSERT INTO `exam` VALUES (98, 7, 1, 0, 4, '2018-07-30 14:37:01', NULL, NULL, '2018-07-30 14:37:00', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for exam_answer
@@ -146,7 +149,7 @@ CREATE TABLE `exam_answer`  (
   `modifier` int(11) NULL DEFAULT NULL,
   `modify_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 109 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 115 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_answer
@@ -252,6 +255,12 @@ INSERT INTO `exam_answer` VALUES (105, 94, 1, 3, 'D', b'0', 2, NULL, '2018-07-29
 INSERT INTO `exam_answer` VALUES (106, 95, 1, 1, 'A', b'1', 2, NULL, '2018-07-29 18:10:44', NULL, NULL);
 INSERT INTO `exam_answer` VALUES (107, 95, 1, 2, 'A,B', b'1', 2, NULL, '2018-07-29 18:10:48', NULL, NULL);
 INSERT INTO `exam_answer` VALUES (108, 95, 1, 3, 'C,D', b'1', 2, NULL, '2018-07-29 18:10:52', NULL, NULL);
+INSERT INTO `exam_answer` VALUES (109, 97, 1, 1, 'A', b'1', 2, NULL, '2018-07-30 14:23:00', NULL, NULL);
+INSERT INTO `exam_answer` VALUES (110, 97, 1, 2, 'A,B', b'1', 2, NULL, '2018-07-30 14:23:03', NULL, NULL);
+INSERT INTO `exam_answer` VALUES (111, 97, 1, 3, 'C,D', b'1', 2, NULL, '2018-07-30 14:23:08', NULL, NULL);
+INSERT INTO `exam_answer` VALUES (112, 98, 1, 1, 'A', b'1', 2, NULL, '2018-07-30 14:37:05', NULL, NULL);
+INSERT INTO `exam_answer` VALUES (113, 98, 1, 2, 'A,B', b'1', 2, NULL, '2018-07-30 14:37:08', NULL, NULL);
+INSERT INTO `exam_answer` VALUES (114, 98, 1, 3, 'B,C', b'0', 2, NULL, '2018-07-30 14:37:10', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for question
@@ -377,7 +386,7 @@ CREATE TABLE `short_message`  (
   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of short_message
@@ -405,6 +414,19 @@ INSERT INTO `short_message` VALUES (20, '18625206397', 1, '5826', '2018-07-29 17
 INSERT INTO `short_message` VALUES (21, '18625206397', 1, '5126', '2018-07-29 17:47:07');
 INSERT INTO `short_message` VALUES (22, '18625206397', 1, '9622', '2018-07-29 22:07:31');
 INSERT INTO `short_message` VALUES (23, '18625206397', 1, '8223', '2018-07-29 22:28:59');
+INSERT INTO `short_message` VALUES (24, '18625206397', 1, '2077', '2018-07-30 09:25:47');
+INSERT INTO `short_message` VALUES (25, '18625206397', 1, '2426', '2018-07-30 10:34:50');
+INSERT INTO `short_message` VALUES (26, '18625206397', 1, '6762', '2018-07-30 10:36:27');
+INSERT INTO `short_message` VALUES (27, '18625206397', 1, '3538', '2018-07-30 10:43:27');
+INSERT INTO `short_message` VALUES (28, '18625206397', 1, '9013', '2018-07-30 10:52:33');
+INSERT INTO `short_message` VALUES (29, '18625206397', 1, '6896', '2018-07-30 11:04:46');
+INSERT INTO `short_message` VALUES (30, '18625206397', 1, '2885', '2018-07-30 11:05:49');
+INSERT INTO `short_message` VALUES (31, '18625206397', 1, '7677', '2018-07-30 11:26:10');
+INSERT INTO `short_message` VALUES (32, '18625206397', 1, '3019', '2018-07-30 12:16:26');
+INSERT INTO `short_message` VALUES (33, '18625206397', 1, '5197', '2018-07-30 13:08:48');
+INSERT INTO `short_message` VALUES (34, '18625206397', 1, '5457', '2018-07-30 13:09:34');
+INSERT INTO `short_message` VALUES (35, '18625206397', 1, '5319', '2018-07-30 13:10:21');
+INSERT INTO `short_message` VALUES (36, '18625206397', 1, '8383', '2018-07-30 13:40:07');
 
 -- ----------------------------
 -- Table structure for train
@@ -529,11 +551,13 @@ CREATE TABLE `weixin_user`  (
   `active` bit(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `id_UNIQUE`(`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of weixin_user
 -- ----------------------------
-INSERT INTO `weixin_user` VALUES (7, 'oez2-0fB-paUxeDTQOy1UnSfS-2I', '暖和', 1, 'zh_CN', '中国', '江苏', '苏州', 'http://thirdwx.qlogo.cn/mmopen/P3QglMOhpu6xeSBfQblQ7vq5TqU0ZYPQRgwZAE6wrILoOLP9TVY3XlBJCdrSoxqKkrJm0qrpPKoic0eS6go4GLWMvwzIvTGG5/132', '1970-01-19 01:36:05', 0, NULL, 'ADD_SCENE_QR_CODE', 0, NULL, '11', NULL, '18625206397', '111111', 1, 0, 2, 'tt', 'tt', 0, NULL, 6, '11', NULL, NULL, NULL, NULL, '2018-07-21 17:32:00', NULL, '2018-07-21 17:32:00', b'1');
+INSERT INTO `weixin_user` VALUES (7, 'oez2-0fB-paUxeDTQOy1UnSfS-2I', '暖和', 1, 'zh_CN', '中国', '江苏', '苏州', 'http://thirdwx.qlogo.cn/mmopen/P3QglMOhpu6xeSBfQblQ7vq5TqU0ZYPQRgwZAE6wrILoOLP9TVY3XlBJCdrSoxqKkrJm0qrpPKoic0eS6go4GLWMvwzIvTGG5/132', '1970-01-19 01:36:05', 0, NULL, 'ADD_SCENE_QR_CODE', 0, NULL, '0', NULL, '18625206397', '0', 1, 0, 1, '0', '0', 0, NULL, 6, '11', NULL, NULL, NULL, NULL, '2018-07-21 17:32:00', NULL, '2018-07-21 17:32:00', b'1');
+INSERT INTO `weixin_user` VALUES (8, 'oez2-0WQa-Ib93oL1bviBNS_HR-w', '人参', 1, NULL, NULL, NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/P3QglMOhpu7HO9sYwA0VZgoKKicqk6DsL0y9MpfNcvwkTt1aDnjh10Fic7RLG5CAJDK8WF017cRCAWnuTr0icwJAAfPbibWqc8Ln/132', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-07-30 12:19:34', NULL, '2018-07-30 12:19:34', b'1');
+INSERT INTO `weixin_user` VALUES (9, 'oez2-0W-6lLq73gsRwQ8ihxtnrCI', 'Shirly', 2, NULL, NULL, NULL, NULL, 'http://thirdwx.qlogo.cn/mmopen/KxMpGZibiadRshPj5mpfpjQ9VMY3Ifianem4dQrUz9cnJibHckwHy0jUr8EKpCD9c4eINYKdkHK1iapEBtLmPaApBl5uFR3bUfARD/132', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-07-30 15:17:52', NULL, '2018-07-30 15:17:52', b'1');
 
 SET FOREIGN_KEY_CHECKS = 1;

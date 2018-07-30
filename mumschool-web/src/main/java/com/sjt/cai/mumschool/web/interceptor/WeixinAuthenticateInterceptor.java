@@ -1,5 +1,6 @@
 package com.sjt.cai.mumschool.web.interceptor;
 
+import com.oracle.webservices.internal.api.message.PropertySet;
 import com.sjt.cai.mumschool.biz.service.WeixinUserService;
 import com.sjt.cai.mumschool.wechat.constant.WeChatFinalValue;
 import com.sjt.cai.mumschool.wechat.dto.WeChatUser;
@@ -9,6 +10,7 @@ import com.sjt.cai.mumschool.entity.po.WeixinUserPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -22,6 +24,9 @@ public class WeixinAuthenticateInterceptor extends HandlerInterceptorAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticateInterceptor.class);
 
+    @Value("${other.Access-Control-Allow-Origin-url}")
+    private String ACCESS_CONTROL_ALLOW_ORIGIN_URL;
+
     @Autowired
     private WeChatUserService weChatUserService;
     @Autowired
@@ -31,8 +36,7 @@ public class WeixinAuthenticateInterceptor extends HandlerInterceptorAdapter {
         response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, accept, content-type, xxxx");
         response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Origin", "http://mumschool-front.ngrok.xiaomiqiu.cn");
-//        response.setHeader("Access-Control-Allow-Origin", "http://localhost:90");
+        response.setHeader("Access-Control-Allow-Origin", ACCESS_CONTROL_ALLOW_ORIGIN_URL);
 //        response.setHeader("Access-Control-Allow-Origin", "*");
         if (1==1) return true;
         WeixinUserPO tu = (WeixinUserPO)request.getSession().getAttribute("weixinUserPO");
