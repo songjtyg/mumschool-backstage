@@ -134,9 +134,13 @@ public class WeixinUserController {
 
     @PostMapping(value="resetPassword")
     public JsonResult resetPassword(@RequestBody ResetDTO resetDTO, HttpSession session){
-        WeixinUserPO weixinUserPO = weixinUserService.loadByloginWord(resetDTO.getLoginWord());
-        if (weixinUserPO == null) {
-            return JsonResult.errorsInfo("1", "无此用户，请检查登录名/手机号！");
+//        WeixinUserPO weixinUserPO = weixinUserService.loadByloginWord(resetDTO.getLoginWord());
+//        if (weixinUserPO == null) {
+//            return JsonResult.errorsInfo("1", "无此用户，请检查登录名/手机号！");
+//        }
+        WeixinUserPO weixinUserPO = (WeixinUserPO)session.getAttribute("user");
+        if (weixinUserPO == null || weixinUserPO.getOpenid() == null){
+            return JsonResult.errorsInfo("1", "请在微信端打开");
         }
         String phone = weixinUserPO.getPhone();
         if (phone == null) {
