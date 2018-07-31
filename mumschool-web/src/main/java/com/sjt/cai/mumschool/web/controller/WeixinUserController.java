@@ -54,7 +54,6 @@ public class WeixinUserController {
             WeChatUser weChatUser = weChatUserService.queryByOpenid(openid);
             weixinUserPO = new WeixinUserPO();
             weixinUserPO.setOpenid(weChatUser.getOpenid());
-            weixinUserPO.setBind(1);
             weixinUserPO.setHeadimgurl(weChatUser.getHeadimgurl());
             weixinUserPO.setSex(weChatUser.getSex());
             weixinUserPO.setNickname(weChatUser.getNickname());
@@ -94,7 +93,7 @@ public class WeixinUserController {
         weixinUserPO.setPassword(registerDTO.getPassword());
         weixinUserPO.setPhone(registerDTO.getPhone());
         weixinUserPO.setUserType(registerDTO.getUserType());
-
+        weixinUserPO.setBind(1);
         if (weixinUserPO.getUserType() == 0) {
 
         } else if (weixinUserPO.getUserType() == 1) {
@@ -146,7 +145,7 @@ public class WeixinUserController {
         if (phone == null) {
             return JsonResult.errorsInfo("1", "用户无注册手机号，请检查登录名/手机号！");
         }
-        if (shortMessageService.ifValidVerifyCode(phone,resetDTO.getVerifyCode())){
+        if (!shortMessageService.ifValidVerifyCode(phone,resetDTO.getVerifyCode())){
             return JsonResult.errorsInfo("1", "验证码不正确或已过期，请重新发送验证码！");
         }
         weixinUserPO.setPassword(resetDTO.getPassword());
