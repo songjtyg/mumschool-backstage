@@ -155,6 +155,15 @@ public class WeixinUserController {
         return JsonResult.success(null,"修改密码成功");
     }
 
+    @GetMapping(value="/getCurrent")
+    public JsonResult<WeixinUserPO> getCurrentUser(HttpSession session){
+        WeixinUserPO weixinUserPO = (WeixinUserPO)session.getAttribute("user");
+        if (weixinUserPO == null || weixinUserPO.getOpenid() == null){
+            return JsonResult.errorsInfo("1", "当前用户未登录，请在微信端打开");
+        }else
+            return JsonResult.success(weixinUserPO);
+    }
+
     @PostMapping(value="bindNewUser")
     public String bindNewUser(String userName,String password,HttpSession session,HttpServletResponse resp) throws IOException {
         WeixinUserPO u0 = (WeixinUserPO)session.getAttribute("user");
