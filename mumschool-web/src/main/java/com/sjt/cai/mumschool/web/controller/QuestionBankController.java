@@ -34,17 +34,12 @@ public class QuestionBankController {
         return JsonResult.success(questionBankService.selectById(id).getContent());
     }
 
-    @GetMapping(value = "/verifyAndSelect")
-    public JsonResult<QuestionBankPO>  verifyAndSelect(@RequestBody QuestionBankVerifyDTO questionBankVerifyDTO ){
+    @GetMapping(value = "/verifyQr")
+    public JsonResult<Boolean>  verifyQr(@RequestBody QuestionBankVerifyDTO questionBankVerifyDTO ){
         if (!questionBankService.ifExistByIdAndQrVerifyCode(questionBankVerifyDTO.getQuestionBankId(),questionBankVerifyDTO.getQrVerifyCode())){
             return JsonResult.errorsInfo("1","二维码有误，请检查！");
         }
-
-        QuestionBankPO po = questionBankService.selectById(questionBankVerifyDTO.getQuestionBankId());
-        if (po == null){
-            return JsonResult.errorsInfo("2","拉取题库失败，请检查！");
-        }
-        return JsonResult.success(po);
+        return JsonResult.success(true);
     }
 
 

@@ -3,21 +3,25 @@ package com.sjt.cai.mumschool.web.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.sjt.cai.mumschool.biz.service.*;
-import com.sjt.cai.mumschool.common.CommonTransform;
 import com.sjt.cai.mumschool.common.JsonResult;
 import com.sjt.cai.mumschool.entity.bo.ExamAnswerBO;
 import com.sjt.cai.mumschool.entity.bo.QuestionBO;
-import com.sjt.cai.mumschool.entity.dto.ExamBeginDTO;
+import com.sjt.cai.mumschool.entity.bo.QuestionBankBO;
+import com.sjt.cai.mumschool.entity.dto.BankExamQuestionAnswerBO;
 import com.sjt.cai.mumschool.entity.dto.NextQuestionDTO;
-import com.sjt.cai.mumschool.entity.po.*;
+import com.sjt.cai.mumschool.entity.po.ExamAnswerPO;
+import com.sjt.cai.mumschool.entity.po.ExamPO;
+import com.sjt.cai.mumschool.entity.po.QuestionOptionPO;
+import com.sjt.cai.mumschool.entity.po.WeixinUserPO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -48,15 +52,14 @@ public class ExamController {
     private QuestionOptionService questionOptionService;
 
     @GetMapping("/begin")
-    public JsonResult<QuestionBO> begin(@RequestParam("questionBankId") Integer questionBankId, HttpSession session) {
-
-
+    public JsonResult<BankExamQuestionAnswerBO> begin(@RequestParam("questionBankId") Integer questionBankId, HttpSession session) {
         WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
         if (weixinUserPO == null) {
 //            return JsonResult.errorsInfo("1","session为空，请首先登陆");
             weixinUserPO = new WeixinUserPO();
             weixinUserPO.setId(1);
         }
+        QuestionBankBO questionBankBO = questionBankService.selectBoById(questionBankId);
 
         ExamPO examPO = new ExamPO();
         examPO.setQuestionBankId(questionBankId);
@@ -67,12 +70,11 @@ public class ExamController {
         examPO.setEndTime(null);
         examService.insert(examPO);
 
-        return JsonResult.success(questionService.selectFirst(examPO.getId()));
-
-    }
-    @GetMapping("/first/")
-    public JsonResult<QuestionBO> first(@RequestParam("examId") Integer examId, HttpSession session){
-        return JsonResult.success(questionService.selectFirst(examId));
+        QuestionBO questionBO = questionService.selectFirst(examPO.getId());
+        BankExamQuestionAnswerBO bankExamQuestionAnswerBO = new BankExamQuestionAnswerBO();
+        bankExamQuestionAnswerBO.setQuestionBankBO(questionBankBO);
+        bankExamQuestionAnswerBO.setQuestionBO(questionBO);
+        return JsonResult.success(bankExamQuestionAnswerBO);
     }
 
     @PostMapping("/next")

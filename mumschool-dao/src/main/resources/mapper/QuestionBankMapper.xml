@@ -19,5 +19,4 @@
 		<result column="modifier" property="modifier" />
 		<result column="modify_time" property="modifyTime" />
 	</resultMap>
-
 </mapper>

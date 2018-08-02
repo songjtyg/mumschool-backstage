@@ -1,5 +1,6 @@
 package com.sjt.cai.mumschool.biz.service;
 
+import com.sjt.cai.mumschool.entity.bo.QuestionBankBO;
 import com.sjt.cai.mumschool.entity.po.QuestionBankPO;
 import com.baomidou.mybatisplus.service.IService;
 
@@ -14,4 +15,6 @@ import com.baomidou.mybatisplus.service.IService;
 public interface QuestionBankService extends IService<QuestionBankPO> {
 
     Boolean ifExistByIdAndQrVerifyCode(Integer questionBankId, String qrVerifyCode);
+
+    QuestionBankBO selectBoById(Integer questionBankId);
 }
