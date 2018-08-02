@@ -22,6 +22,7 @@ public class QuestionBO {
 	private Integer modifier;
 	private Date modifyTime;
 	private Integer questionBankId;
+	private Integer seq;
 	private ExamBO examBO;
 	private ExamAnswerBO examAnswerBO;
 	private List<QuestionOptionBO> questionOptionBOs;

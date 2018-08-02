@@ -7,4 +7,5 @@ public class NextQuestionDTO {
     private Integer examId;
     private Integer questionId;
     private Integer questionBankId;
+    private Integer seq;
 }

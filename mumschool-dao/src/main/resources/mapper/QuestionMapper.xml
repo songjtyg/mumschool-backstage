@@ -20,32 +20,16 @@
 		</collection>
 	</resultMap>
 	<select id="selectFirst" parameterType="java.lang.Integer" resultMap="BoResultMap">
-		select *,
-				(select question_bank_id from exam where id = #{examId}) as question_bank_id
-		from question q where q.id =
-			(select rbq.question_id from relation_bank_question rbq, exam em
-			 where rbq.question_bank_id = em.question_bank_id and em.id =#{examId} and
-				rbq.seq =
-				(
-				select min(r.seq)
-					from relation_bank_question r,exam e
-					where r.question_bank_id = e.question_bank_id and e.id = #{examId}
-				)
-			)
+		SELECT q.*,r.question_bank_id,r.seq
+		FROM relation_bank_question AS r,exam e
+			left join question q on r.question_id = q.id
+		WHERE e.id = #{examId} and r.`question_bank_id` = e.`question_bank_id` ORDER BY r.`question_bank_id`, r.`seq` LIMIT 0,1;
 	</select>
 	<select id="selectNext" parameterType="com.sjt.cai.mumschool.entity.dto.NextQuestionDTO" resultMap="BoResultMap">
-		select *,#{questionBankId} as questionBankId from question q
-		 where  q.id = (
-						select question_id
-							from relation_bank_question rbq
-							where  question_bank_id = #{questionBankId}
-								and seq =(select Min(r.seq) as seq
-												from relation_bank_question r
-												where r.question_bank_id = #{questionBankId}
-												and  r.seq > (select seq from relation_bank_question
-															  where question_bank_id = #{questionBankId} and question_id = #{questionId})
-										  )
-						)
+		SELECT q.*,r.question_bank_id,r.seq
+		FROM relation_bank_question AS r
+			left join question q on r.question_id = q.id
+		WHERE r.`question_bank_id` = #{questionBankId} and r.`seq` > #{seq} ORDER BY r.`question_bank_id`, r.`seq` LIMIT 0,1;
 	</select>
 
 </mapper>
