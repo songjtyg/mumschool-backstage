@@ -2,15 +2,17 @@ package com.sjt.cai.mumschool.web.controller;
 
 
 import com.sjt.cai.mumschool.biz.service.QuestionBankService;
+import com.sjt.cai.mumschool.common.JsonResult;
+import com.sjt.cai.mumschool.entity.bo.QuestionBO;
+import com.sjt.cai.mumschool.entity.dto.QuestionBankVerifyDTO;
 import com.sjt.cai.mumschool.entity.po.QuestionBankPO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>
@@ -27,10 +29,24 @@ public class QuestionBankController {
     @Autowired
     private QuestionBankService questionBankService;
 
-    @GetMapping(value = "/{id}")
-    public QuestionBankPO selectById(@PathVariable("id") Integer id){
-        return questionBankService.selectById(id);
+    @GetMapping(value = "/{id}/content")
+    public JsonResult<String>  selectContentById(@PathVariable("id") Integer id){
+        return JsonResult.success(questionBankService.selectById(id).getContent());
     }
+
+    @GetMapping(value = "/verifyAndSelect")
+    public JsonResult<QuestionBankPO>  verifyAndSelect(@RequestBody QuestionBankVerifyDTO questionBankVerifyDTO ){
+        if (!questionBankService.ifExistByIdAndQrVerifyCode(questionBankVerifyDTO.getQuestionBankId(),questionBankVerifyDTO.getQrVerifyCode())){
+            return JsonResult.errorsInfo("1","二维码有误，请检查！");
+        }
+
+        QuestionBankPO po = questionBankService.selectById(questionBankVerifyDTO.getQuestionBankId());
+        if (po == null){
+            return JsonResult.errorsInfo("2","拉取题库失败，请检查！");
+        }
+        return JsonResult.success(po);
+    }
+
 
 }
 

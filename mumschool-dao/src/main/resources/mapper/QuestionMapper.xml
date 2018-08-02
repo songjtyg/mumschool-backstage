@@ -21,9 +21,10 @@
 	</resultMap>
 	<select id="selectFirst" parameterType="java.lang.Integer" resultMap="BoResultMap">
 		SELECT q.*,r.question_bank_id,r.seq
-		FROM relation_bank_question AS r,exam e
-			left join question q on r.question_id = q.id
-		WHERE e.id = #{examId} and r.`question_bank_id` = e.`question_bank_id` ORDER BY r.`question_bank_id`, r.`seq` LIMIT 0,1;
+		FROM relation_bank_question  r
+		  left join question q on r.question_id = q.id
+			inner join exam e  on e.id = #{examId} and r.`question_bank_id` = e.`question_bank_id`
+		ORDER BY r.`question_bank_id`, r.`seq` LIMIT 0,1;
 	</select>
 	<select id="selectNext" parameterType="com.sjt.cai.mumschool.entity.dto.NextQuestionDTO" resultMap="BoResultMap">
 		SELECT q.*,r.question_bank_id,r.seq

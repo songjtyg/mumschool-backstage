@@ -47,11 +47,9 @@ public class ExamController {
     @Autowired
     private QuestionOptionService questionOptionService;
 
-    @PostMapping("/begin")
-    public JsonResult<QuestionBO> begin(@RequestBody ExamBeginDTO examBeginDTO, HttpSession session) {
-        if (!questionBankService.ifExistByIdAndQrVerifyCode(examBeginDTO.getQuestionBankId(),examBeginDTO.getQrVerifyCode())){
-            return JsonResult.errorsInfo("0","图形码验证码错误！");
-        }
+    @GetMapping("/begin")
+    public JsonResult<QuestionBO> begin(@RequestParam("questionBankId") Integer questionBankId, HttpSession session) {
+
 
         WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
         if (weixinUserPO == null) {
@@ -61,7 +59,7 @@ public class ExamController {
         }
 
         ExamPO examPO = new ExamPO();
-        examPO.setQuestionBankId(examBeginDTO.getQuestionBankId());
+        examPO.setQuestionBankId(questionBankId);
         examPO.setUserId(weixinUserPO.getId());
         examPO.setCorrectNum(0);
         examPO.setScore(0);
@@ -69,11 +67,14 @@ public class ExamController {
         examPO.setEndTime(null);
         examService.insert(examPO);
 
-        QuestionBO nextQuestionBO = questionService.selectFirst(examPO.getId());
-
-        return JsonResult.success(nextQuestionBO);
+        return JsonResult.success(questionService.selectFirst(examPO.getId()));
 
     }
+    @GetMapping("/first/")
+    public JsonResult<QuestionBO> first(@RequestParam("examId") Integer examId, HttpSession session){
+        return JsonResult.success(questionService.selectFirst(examId));
+    }
+
     @PostMapping("/next")
     public JsonResult<QuestionBO> next(@RequestBody ExamAnswerBO examAnswerBO, HttpSession session) {
         WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
