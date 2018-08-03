@@ -8,7 +8,9 @@ import com.sjt.cai.mumschool.entity.bo.ExamAnswerBO;
 import com.sjt.cai.mumschool.entity.bo.QuestionBO;
 import com.sjt.cai.mumschool.entity.bo.QuestionBankBO;
 import com.sjt.cai.mumschool.entity.dto.BankExamQuestionAnswerBO;
+import com.sjt.cai.mumschool.entity.dto.ExamAnswerAndNextDTO;
 import com.sjt.cai.mumschool.entity.dto.NextQuestionDTO;
+import com.sjt.cai.mumschool.entity.dto.QuestionBankVerifyDTO;
 import com.sjt.cai.mumschool.entity.po.ExamAnswerPO;
 import com.sjt.cai.mumschool.entity.po.ExamPO;
 import com.sjt.cai.mumschool.entity.po.QuestionOptionPO;
@@ -51,26 +53,32 @@ public class ExamController {
     @Autowired
     private QuestionOptionService questionOptionService;
 
-    @GetMapping("/begin")
-    public JsonResult<BankExamQuestionAnswerBO> begin(@RequestParam("questionBankId") Integer questionBankId, HttpSession session) {
+    @PostMapping("/begin")
+    public JsonResult<BankExamQuestionAnswerBO> begin(@RequestBody QuestionBankVerifyDTO questionBankVerifyDTO, HttpSession session) {
+        //判断二维码是否有效
+        if (!questionBankService.ifExistByIdAndQrVerifyCode(questionBankVerifyDTO.getQuestionBankId(),questionBankVerifyDTO.getQrVerifyCode())){
+            return JsonResult.errorsInfo("1","二维码有误，请检查！");
+        }
         WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
         if (weixinUserPO == null) {
 //            return JsonResult.errorsInfo("1","session为空，请首先登陆");
             weixinUserPO = new WeixinUserPO();
             weixinUserPO.setId(1);
         }
-        QuestionBankBO questionBankBO = questionBankService.selectBoById(questionBankId);
-
+        //获取题库
+        QuestionBankBO questionBankBO = questionBankService.selectBOById(questionBankVerifyDTO.getQuestionBankId());
+        //生成本次考试
         ExamPO examPO = new ExamPO();
-        examPO.setQuestionBankId(questionBankId);
+        examPO.setQuestionBankId(questionBankVerifyDTO.getQuestionBankId());
         examPO.setUserId(weixinUserPO.getId());
         examPO.setCorrectNum(0);
         examPO.setScore(0);
         examPO.setBeginTime(new Date());
         examPO.setEndTime(null);
         examService.insert(examPO);
-
+        //获取第一题
         QuestionBO questionBO = questionService.selectFirst(examPO.getId());
+        //拼装返回值
         BankExamQuestionAnswerBO bankExamQuestionAnswerBO = new BankExamQuestionAnswerBO();
         bankExamQuestionAnswerBO.setQuestionBankBO(questionBankBO);
         bankExamQuestionAnswerBO.setQuestionBO(questionBO);
@@ -78,22 +86,22 @@ public class ExamController {
     }
 
     @PostMapping("/next")
-    public JsonResult<QuestionBO> next(@RequestBody ExamAnswerBO examAnswerBO, HttpSession session) {
+    public JsonResult<QuestionBO> next(@RequestBody ExamAnswerAndNextDTO examAnswerAndNextDTO, HttpSession session) {
         WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
         if (weixinUserPO != null){
 //            return JsonResult.errorsInfo("1","session为空，请首先登陆");
             weixinUserPO = new WeixinUserPO();
             weixinUserPO.setId(1);
         }
-
+        //计算答案是否正确
         ExamAnswerPO examAnswerPO = new ExamAnswerPO();
-        BeanUtils.copyProperties(examAnswerBO,examAnswerPO,"choices");
+        BeanUtils.copyProperties(examAnswerAndNextDTO,examAnswerPO,"choices","questionSeq");
 
-        List<String> factChoices = examAnswerBO.getChoices();
+        List<String> factChoices = examAnswerAndNextDTO.getChoices();
         Collections.sort(factChoices);
         examAnswerPO.setChoices(StringUtils.join(factChoices,","));
 
-        List<QuestionOptionPO> qos = questionOptionService.selectList(new EntityWrapper<QuestionOptionPO>().where("question_id = {0}",examAnswerBO.getQuestionId()));
+        List<QuestionOptionPO> qos = questionOptionService.selectList(new EntityWrapper<QuestionOptionPO>().where("question_id = {0}",examAnswerAndNextDTO.getQuestionId()));
         List<String> qss = qos.stream().filter(i->i.getCorrect()).map((i)-> i.getLetter()).collect(Collectors.toList());
         Collections.sort(qss);
 
@@ -101,12 +109,14 @@ public class ExamController {
             examAnswerPO.setCorrect(true);
         else
             examAnswerPO.setCorrect(false);
+        //保存答案
         examAnswerService.insertOrUpdate(examAnswerPO);
-
+        //获取下一道题
         NextQuestionDTO nextQuestionDTO = new NextQuestionDTO();
-        nextQuestionDTO.setExamId(examAnswerBO.getExamId());
-        nextQuestionDTO.setQuestionBankId(examAnswerBO.getQuestionBankId());
-        nextQuestionDTO.setQuestionId(examAnswerBO.getQuestionId());
+        nextQuestionDTO.setExamId(examAnswerAndNextDTO.getExamId());
+        nextQuestionDTO.setQuestionBankId(examAnswerAndNextDTO.getQuestionBankId());
+        nextQuestionDTO.setQuestionId(examAnswerAndNextDTO.getQuestionId());
+        nextQuestionDTO.setSeq(examAnswerAndNextDTO.getQuestionSeq());
         QuestionBO nextQuestionBO = questionService.selectNext(nextQuestionDTO);
 
         return JsonResult.success(nextQuestionBO);

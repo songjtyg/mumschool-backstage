@@ -7,6 +7,7 @@ import com.sjt.cai.mumschool.entity.po.ExamAnswerPO;
 import com.sjt.cai.mumschool.dao.ExamAnswerMapper;
 import com.sjt.cai.mumschool.biz.service.ExamAnswerService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +22,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExamAnswerServiceImpl extends ServiceImpl<ExamAnswerMapper, ExamAnswerPO> implements ExamAnswerService {
 
-    @Override
-    public ExamAnswerBO selectOneBO(Integer examId, Integer questionId) {
 
-        return baseMapper.selectOneBO(examId, questionId);
+    @Override
+    public ExamAnswerBO selectBOByExamAndQuestion(Integer examId, Integer questionId) {
+        ExamAnswerPO po = baseMapper.selectOneByExamAndQuestion(examId, questionId);
+        ExamAnswerBO bo = new ExamAnswerBO();
+        if (po != null) {
+            BeanUtils.copyProperties(po, bo, "choices");
+            if (StringUtils.isEmpty(po.getChoices())) {
+                bo.setChoices(java.util.Arrays.asList(po.getChoices().split(",")));
+            }
+        }
+        return bo;
 
     }
 }

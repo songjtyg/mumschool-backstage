@@ -34,14 +34,5 @@ public class QuestionBankController {
         return JsonResult.success(questionBankService.selectById(id).getContent());
     }
 
-    @GetMapping(value = "/verifyQr")
-    public JsonResult<Boolean>  verifyQr(@RequestBody QuestionBankVerifyDTO questionBankVerifyDTO ){
-        if (!questionBankService.ifExistByIdAndQrVerifyCode(questionBankVerifyDTO.getQuestionBankId(),questionBankVerifyDTO.getQrVerifyCode())){
-            return JsonResult.errorsInfo("1","二维码有误，请检查！");
-        }
-        return JsonResult.success(true);
-    }
-
-
 }
 

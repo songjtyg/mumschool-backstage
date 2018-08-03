@@ -16,7 +16,7 @@
 		<result column="modifier" property="modifier" />
 		<result column="modify_time" property="modifyTime" />
 	</resultMap>
-	<select id="selectOneBO" resultType="com.sjt.cai.mumschool.entity.bo.ExamAnswerBO">
+	<select id="selectOneByExamAndQuestion" resultMap="BaseResultMap">
 		select * from exam_answer where exam_id = #{examId} and question_id = #{questionId}
 
 	</select>

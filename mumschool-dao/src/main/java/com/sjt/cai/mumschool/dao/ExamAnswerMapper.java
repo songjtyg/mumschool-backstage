@@ -15,5 +15,5 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface ExamAnswerMapper extends BaseMapper<ExamAnswerPO> {
 
-    ExamAnswerBO selectOneBO(@Param("examId") Integer examId, @Param("questionId") Integer questionId);
+    ExamAnswerPO selectOneByExamAndQuestion(@Param("examId") Integer examId, @Param("questionId") Integer questionId);
 }

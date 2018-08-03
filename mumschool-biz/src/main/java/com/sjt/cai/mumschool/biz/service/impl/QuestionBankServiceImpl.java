@@ -25,7 +25,7 @@ public class QuestionBankServiceImpl extends ServiceImpl<QuestionBankMapper, Que
     }
 
     @Override
-    public QuestionBankBO selectBoById(Integer questionBankId) {
+    public QuestionBankBO selectBOById(Integer questionBankId) {
         QuestionBankPO questionBankPO = selectById(questionBankId);
         QuestionBankBO questionBankBO = new QuestionBankBO();
         BeanUtils.copyProperties(questionBankPO,questionBankBO);

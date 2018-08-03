@@ -14,5 +14,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface ExamAnswerService extends IService<ExamAnswerPO> {
 
-    ExamAnswerBO selectOneBO(Integer examId, Integer questionId);
+    ExamAnswerBO selectBOByExamAndQuestion(Integer examId, Integer questionId);
 }

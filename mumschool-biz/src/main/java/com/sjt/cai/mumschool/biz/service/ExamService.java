@@ -16,5 +16,5 @@ public interface ExamService extends IService<ExamPO> {
 
     Integer calculateScore(Integer examId);
 
-    ExamBO selectBoById(Integer examId);
+    ExamBO selectBOById(Integer examId);
 }

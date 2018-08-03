@@ -33,5 +33,4 @@ public class QuestionBankBO {
      * 考试时间（分钟）
      */
 	private Integer duration;
-	private String qrVerifyCode;
 }

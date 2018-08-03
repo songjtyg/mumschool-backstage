@@ -13,6 +13,8 @@ import com.sjt.cai.mumschool.entity.po.QuestionPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 /**
  * <p>
  *  服务实现类
@@ -34,25 +36,23 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, QuestionPO>
     public QuestionBO selectNext(NextQuestionDTO nextQuestionDTO) {
         QuestionBO questionBO = baseMapper.selectNext(nextQuestionDTO);
         Integer examId = nextQuestionDTO.getExamId();
-        return setAnswer4Question(questionBO,examId);
+        return set4Question(questionBO,examId);
     }
 
     @Override
     public QuestionBO selectFirst(Integer examId) {
         QuestionBO questionBO = baseMapper.selectFirst(examId);
-        return setAnswer4Question(questionBO,examId);
+        return set4Question(questionBO,examId);
     }
-    private QuestionBO setAnswer4Question(QuestionBO questionBO,Integer examId){
+    private QuestionBO set4Question(QuestionBO questionBO, Integer examId){
         if (questionBO != null) {
-            ExamBO examBO = examService.selectBoById(examId);
+            ExamBO examBO = examService.selectBOById(examId);
             questionBO.setExamBO(examBO);
-            ExamAnswerBO examAnswerBO = examAnswerService.selectOneBO(examId, questionBO.getId());
+
+            ExamAnswerBO examAnswerBO = examAnswerService.selectBOByExamAndQuestion(examId, questionBO.getId());
             if (examAnswerBO == null){
                 examAnswerBO = new ExamAnswerBO();
-                examAnswerBO.setExamId(examId);
-                examAnswerBO.setQuestionBankId(questionBO.getQuestionBankId());
-                examAnswerBO.setQuestionId(questionBO.getId());
-                examAnswerBO.setScore(questionBO.getScore());
+                examAnswerBO.setChoices(new ArrayList<>());
             }
             questionBO.setExamAnswerBO(examAnswerBO);
         }

@@ -16,5 +16,5 @@ public interface QuestionBankService extends IService<QuestionBankPO> {
 
     Boolean ifExistByIdAndQrVerifyCode(Integer questionBankId, String qrVerifyCode);
 
-    QuestionBankBO selectBoById(Integer questionBankId);
+    QuestionBankBO selectBOById(Integer questionBankId);
 }
