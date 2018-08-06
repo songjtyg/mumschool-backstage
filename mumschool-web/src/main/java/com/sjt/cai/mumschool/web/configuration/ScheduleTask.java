@@ -17,5 +17,6 @@ public class ScheduleTask {
     public void scheduleFreshccessToken() throws IOException {
         System.err.println("定时任务执行");
         refreshAccessTokenTaskService.refreshAccessToken();
+        refreshAccessTokenTaskService.refreshJsApiTicket();
     }
 }

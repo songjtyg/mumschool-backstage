@@ -1,13 +1,13 @@
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/mumschool?characterEncoding=utf8&useSSL=true
-    userName: root
-    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/mumschool?characterEncoding=utf8&useSSL=true&verifyServerCertificate=false
+    userName: mumschool_developer
+    password: MumSch@@1
 weixin:
   conf:
-    appId: wxd10f48afa0e32070
-    appsecret: 1b9729aac5245443bc9ee8a5437f3cf2
-    base_url: http://mumschool.ngrok.xiaomiqiu.cn/mumschool/sys/handler
+    appId: wx8ac62c85db9b17f1
+    appsecret: a02fa78c745aac5a4716e7db3da968bd
+    base_url: http://www.mamxy.com/mumschool/sys/handler
     weixin_token: mummyCathedra
 other:
-    Access-Control-Allow-Origin-url: http://mumschool-front.ngrok.xiaomiqiu.cn
+    Access-Control-Allow-Origin-url: http://www.mamxy.com

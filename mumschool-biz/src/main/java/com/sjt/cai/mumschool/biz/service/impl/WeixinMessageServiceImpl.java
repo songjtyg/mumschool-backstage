@@ -50,7 +50,8 @@ public class WeixinMessageServiceImpl implements WeixinMessageService {
                 if("CLICK".equals(event)){
                     String keyCode = msgMap.get("EventKey");
                     WeixinMenuPO wm = weixinMenuService.loadByKey(keyCode);
-                    return WeChatEventKit.handlerClickEvent(msgMap,wm);
+                    if (wm.getResponseType() == 1)
+                        return WeChatEventKit.handlerClickEvent(msgMap,wm.getContent());
                 }else if ("subscribe".equals(event)){
                     WeixinUserPO weixinUserPO = handlerUserInfo(msgMap);
                     String snum = getSence(msgMap,true);

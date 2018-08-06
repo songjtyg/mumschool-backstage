@@ -59,7 +59,10 @@ public class WeixinSystemControler {
         SignPackage signPackage = new SignPackage();
         signPackage.setAppId(WeChatContext.getInstance().getAppId());
         signPackage.setNonceStr(UUID.randomUUID().toString().substring(25));
-        signPackage.setTimestamp(new Timestamp(System.currentTimeMillis()).toString());
+        //signPackage.setTimestamp(new Timestamp(System.currentTimeMillis()).toString());
+        long timeStampSec = System.currentTimeMillis()/1000;
+        String timestamp = String.format("%010d", timeStampSec);
+        signPackage.setTimestamp(timestamp);
 
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("jsapi_ticket=");
@@ -74,6 +77,7 @@ public class WeixinSystemControler {
         String signature = WeChatSecurityKit.sha1(checkStr);
 
         signPackage.setSignature(signature);
+        System.out.print(signature);
         return signPackage;
     }
     /**

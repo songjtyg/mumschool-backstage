@@ -37,7 +37,7 @@ public class QuartzConfigration {
     public CronTriggerFactoryBean cronJobTrigger(MethodInvokingJobDetailFactoryBean jobDetail) {
         CronTriggerFactoryBean tigger = new CronTriggerFactoryBean();
         tigger.setJobDetail(jobDetail.getObject());
-        tigger.setCronExpression("0 */20 * * * ?");// 表示每隔10分钟执行一次
+        tigger.setCronExpression("0 */50 * * * ?");// 表示每隔10分钟执行一次
         //tigger.set
         tigger.setName("myTigger");// trigger的name
         return tigger;

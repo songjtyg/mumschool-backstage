@@ -1,12 +1,9 @@
 package com.sjt.cai.mumschool.web.interceptor;
 
-import com.oracle.webservices.internal.api.message.PropertySet;
 import com.sjt.cai.mumschool.biz.service.WeixinUserService;
-import com.sjt.cai.mumschool.wechat.constant.WeChatFinalValue;
-import com.sjt.cai.mumschool.wechat.dto.WeChatUser;
-import com.sjt.cai.mumschool.wechat.dto.WeChatContext;
-import com.sjt.cai.mumschool.wechat.service.WeChatUserService;
 import com.sjt.cai.mumschool.entity.po.WeixinUserPO;
+import com.sjt.cai.mumschool.wechat.dto.WeChatUser;
+import com.sjt.cai.mumschool.wechat.service.WeChatUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +14,13 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
-import java.net.URLEncoder;
 
 public class WeixinAuthenticateInterceptor extends HandlerInterceptorAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticateInterceptor.class);
+
+    // 需要拦截的静态页的URL
+    private static final String[] EXCLUDED_URL = {"/first", "/login", "/scanToExam"};
 
     @Value("${other.Access-Control-Allow-Origin-url}")
     private String ACCESS_CONTROL_ALLOW_ORIGIN_URL;
@@ -33,6 +31,17 @@ public class WeixinAuthenticateInterceptor extends HandlerInterceptorAdapter {
     private WeixinUserService weixinUserService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+//        boolean flag = false;
+//        String requestedUrl = request.getRequestURI().toString();
+//        // 检查请求的URL是否在过滤列表里
+//        for (String url : EXCLUDED_URL) {
+//            if (requestedUrl.contains(url)) {
+//                flag = true;
+//                request.getRequestDispatcher("/").forward(request, response);
+//                return false;
+//            }
+//        }
+
         response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, accept, content-type, xxxx");
         response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
         response.setHeader("Access-Control-Allow-Credentials", "true");

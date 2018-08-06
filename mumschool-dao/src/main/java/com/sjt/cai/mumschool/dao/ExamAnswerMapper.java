@@ -1,8 +1,7 @@
 package com.sjt.cai.mumschool.dao;
 
-import com.sjt.cai.mumschool.entity.bo.ExamAnswerBO;
-import com.sjt.cai.mumschool.entity.po.ExamAnswerPO;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.sjt.cai.mumschool.entity.po.ExamAnswerPO;
 import org.apache.ibatis.annotations.Param;
 
 /**
