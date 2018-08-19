@@ -53,6 +53,9 @@ public class ExamController {
     @Autowired
     private QuestionOptionService questionOptionService;
 
+    @Autowired
+    private WeixinUserService weixinUserService;
+
     @PostMapping("/begin")
     public JsonResult<BankExamQuestionAnswerBO> begin(@RequestBody QuestionBankVerifyDTO questionBankVerifyDTO, HttpSession session) {
         //判断二维码是否有效
@@ -61,9 +64,16 @@ public class ExamController {
         }
         WeixinUserPO weixinUserPO = (WeixinUserPO) session.getAttribute("user");
         if (weixinUserPO == null) {
-//            return JsonResult.errorsInfo("1","session为空，请首先登陆");
+            //如果是妈妈测试
             weixinUserPO = new WeixinUserPO();
-            weixinUserPO.setId(1);
+            weixinUserPO.setOpenid(null);
+            weixinUserPO.setSex(0);
+            weixinUserPO.setActive(true);
+            weixinUserPO.setUserType(3);
+            weixinUserPO.setBind(0);
+            weixinUserPO.setCreateTime(new Date());
+
+            weixinUserService.
         }
         //获取题库
         QuestionBankBO questionBankBO = questionBankService.selectBOById(questionBankVerifyDTO.getQuestionBankId());
